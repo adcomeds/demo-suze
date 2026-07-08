@@ -8,7 +8,7 @@ import {
   loadSections,
 } from './aem.js';
 import { decorateRichtext } from './editor-support-rte.js';
-import { decorateButtons, decorateMain } from './scripts.js';
+import { decorateButtons, decorateExternalImages, decorateMain } from './scripts.js';
 
 let promiseChanges$ = Promise.resolve();
 
@@ -57,6 +57,7 @@ async function applyChanges(event) {
       if (newBlock) {
         newBlock.style.display = 'none';
         block.insertAdjacentElement('afterend', newBlock);
+        decorateExternalImages(newBlock);
         decorateButtons(newBlock);
         decorateIcons(newBlock);
         decorateBlock(newBlock);
@@ -75,6 +76,7 @@ async function applyChanges(event) {
           const [newSection] = newElements;
           newSection.style.display = 'none';
           element.insertAdjacentElement('afterend', newSection);
+          decorateExternalImages(newSection);
           decorateButtons(newSection);
           decorateIcons(newSection);
           decorateRichtext(newSection);
@@ -85,6 +87,7 @@ async function applyChanges(event) {
           newSection.style.display = null;
         } else {
           element.replaceWith(...newElements);
+          decorateExternalImages(parentElement);
           decorateButtons(parentElement);
           decorateIcons(parentElement);
           decorateRichtext(parentElement);
