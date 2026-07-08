@@ -10,7 +10,6 @@
  *   - a yellow media panel with the poster and a centered circular play button that
  *     swaps in the embedded YouTube video on click
  *   - an orange "insert" text box overlapping the panel, with the intro + black pill CTA
- *   - a "Read the text version" link beneath the panel
  */
 export default function decorate(block) {
   const rows = [...block.children];
@@ -130,17 +129,6 @@ export default function decorate(block) {
 
   content.append(media, insert);
 
-  // "Read the text version" link (optional; only if authored, otherwise omit).
-  // Reuse the CTA anchor's description target if present.
-  const readVersion = document.createElement('button');
-  readVersion.type = 'button';
-  readVersion.className = 'hero-cover-player-read-text';
-  readVersion.textContent = 'Read the text version';
-  const description = insert.querySelector('.hero-cover-player-description');
-  readVersion.addEventListener('click', () => {
-    if (description) description.scrollIntoView({ behavior: 'smooth', block: 'center' });
-  });
-
   // ---- Replace the authored rows with the composed structure --------------
   // Remove the now-consumed video row and the original text/image rows.
   rows.forEach((r) => {
@@ -149,5 +137,4 @@ export default function decorate(block) {
   });
 
   block.appendChild(content);
-  block.appendChild(readVersion);
 }

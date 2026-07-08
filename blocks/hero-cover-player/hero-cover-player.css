@@ -216,24 +216,6 @@
   font-size: 15px;
 }
 
-/* read the text version */
-.hero-cover-player-read-text {
-  display: block;
-  margin: 12px auto 0;
-  max-width: 1018px;
-  padding: 0;
-  border: 0;
-  background: transparent;
-  color: var(--brand-black);
-  font-family: var(--body-font-family);
-  font-size: 12px;
-  font-weight: 500;
-  text-transform: uppercase;
-  text-decoration: underline;
-  text-align: left;
-  cursor: pointer;
-}
-
 @media (width >= 900px) {
   .hero-cover-player {
     padding-bottom: 160px;
