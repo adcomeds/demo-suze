@@ -4,18 +4,33 @@ import { moveInstrumentation } from '../../scripts/scripts.js';
 /**
  * Cards Tasting Notes — Suze "What does it taste like" product section.
  *
- * Authored as a container block whose children are one of three explicit
- * component types (see _cards-tasting-notes.json):
- *   - Bottle       -> Heading (frieze title) + Bottle Image
- *   - Tasting Note -> Icon + Label + Value   (repeatable)
- *   - Outro        -> Intro Text + Button Link
+ * The block is authored as a list of "Card" items (image + rich text). Cards
+ * are not typed in the published markup, so each row is classified by the
+ * shape of its text cell:
+ *   - heading (h1-h6) -> the bottle card: image is the tall product bottle,
+ *                        the heading becomes the animated white-outline frieze
+ *   - <strong>/<b>    -> a tasting note: yellow icon tile + bold label + value
+ *   - link only       -> the outro: intro paragraph + black "BUY NOW" pill
  *
- * Component types are not encoded in the published markup, so each row is
- * classified by the shape of its cells:
- *   - a row whose image is in cell 0 with >=3 cells -> Tasting Note (icon, label, value)
- *   - any other row containing an image             -> Bottle (heading, image)
- *   - a row with no image                           -> Outro (intro, button)
+ * Rows may be missing on some pages (e.g. tonic has fewer notes); each branch
+ * guards gracefully.
  */
+
+/**
+ * Classify a card row by content shape (comments do not survive the xwalk
+ * publish round-trip, so we key off the DOM, not markers):
+ *   - hero  : text cell has a heading -> bottle image + frieze heading
+ *   - note  : text cell has a <strong> label -> icon + label + value
+ *   - outro : text cell has a link, no heading/strong -> intro + BUY NOW
+ */
+function classifyRow(row) {
+  const cells = [...row.children];
+  const textCell = cells[1] || cells[0];
+  if (textCell && textCell.querySelector('h1, h2, h3, h4, h5, h6')) return 'hero';
+  if (textCell && textCell.querySelector('strong, b')) return 'note';
+  if (textCell && textCell.querySelector('a')) return 'outro';
+  return 'note';
+}
 
 /** Build the animated marquee frieze band from a heading text. */
 function buildFrieze(text) {
@@ -57,57 +72,51 @@ function buildFrieze(text) {
   return band;
 }
 
-/** Classify an authored row into 'bottle' | 'note' | 'outro' by content shape. */
-function classifyRow(row) {
-  const cells = [...row.children];
-  const hasImage = !!row.querySelector('picture, img');
-  if (!hasImage) return 'outro';
-  const imageInFirstCell = cells[0] && cells[0].querySelector('picture, img');
-  if (imageInFirstCell && cells.length >= 3) return 'note';
-  return 'bottle';
-}
-
 export default function decorate(block) {
   const rows = [...block.children];
 
+  // buckets
   let headingText = '';
   let bottleCell = null;
-  let bottleRow = null;
   const noteRows = [];
-  let outroRow = null;
+  let outroCell = null;
 
   rows.forEach((row) => {
-    const type = classifyRow(row);
     const cells = [...row.children];
-    if (type === 'bottle') {
-      bottleRow = row;
-      bottleCell = cells.find((c) => c.querySelector('picture, img')) || null;
-      const headingCell = cells.find((c) => !c.querySelector('picture, img'));
-      if (headingCell) headingText = headingCell.textContent.trim();
-    } else if (type === 'note') {
-      noteRows.push(row);
+    const type = classifyRow(row);
+    if (type === 'hero') {
+      // bottle image + frieze heading
+      const [firstCell] = cells;
+      const h = (cells[1] || row).querySelector('h1, h2, h3, h4, h5, h6');
+      headingText = (h ? h.textContent : row.textContent).trim();
+      if (firstCell && firstCell.querySelector('picture, img')) bottleCell = firstCell;
+    } else if (type === 'outro') {
+      // intro paragraph + BUY NOW live in the text cell
+      outroCell = cells[1] || cells[0] || row;
     } else {
-      outroRow = row;
+      noteRows.push(row);
     }
   });
 
+  // ---- build the new structure ----
   const frag = document.createDocumentFragment();
 
   // 1. frieze band (heading)
-  if (headingText) frag.appendChild(buildFrieze(headingText));
+  if (headingText) {
+    frag.appendChild(buildFrieze(headingText));
+  }
 
   // 2. content wrapper: bottle image (with optional badge) + notes column
   const content = document.createElement('div');
   content.className = 'cards-tasting-notes-content';
 
   // bottle
-  if (bottleCell && bottleCell.querySelector('picture, img')) {
+  if (bottleCell) {
     const imgBox = document.createElement('div');
     imgBox.className = 'cards-tasting-notes-img-box';
-    if (bottleRow) moveInstrumentation(bottleRow, imgBox);
     while (bottleCell.firstChild) imgBox.append(bottleCell.firstChild);
-    // The tonic bottle image already embeds the "0%" ring badge, so we only tag
-    // the variant for any variant-specific styling.
+    // The tonic bottle image (suze_tonic_logo) already embeds the "0%" ring
+    // badge, so we only tag the variant for any variant-specific styling.
     const bottleImg = imgBox.querySelector('img');
     if (bottleImg && /tonic/i.test(bottleImg.src + (bottleImg.alt || ''))) {
       imgBox.classList.add('cards-tasting-notes-img-box--tonic');
@@ -119,7 +128,6 @@ export default function decorate(block) {
   const dataBox = document.createElement('div');
   dataBox.className = 'cards-tasting-notes-data-box';
 
-  // notes list (item rows: icon, label, value)
   if (noteRows.length) {
     const ul = document.createElement('ul');
     ul.className = 'cards-tasting-notes-list';
@@ -127,54 +135,25 @@ export default function decorate(block) {
       const li = document.createElement('li');
       li.className = 'cards-tasting-notes-row';
       moveInstrumentation(row, li);
-
-      const cells = [...row.children];
-      const [iconCell, labelCell, valueCell] = cells;
-
-      if (iconCell) {
-        iconCell.className = 'cards-tasting-notes-icon';
-        li.append(iconCell);
-      }
-
-      const item = document.createElement('div');
-      item.className = 'cards-tasting-notes-item';
-      const labelText = labelCell ? labelCell.textContent.trim() : '';
-      if (labelText) {
-        const strong = document.createElement('strong');
-        strong.textContent = labelText;
-        item.append(strong);
-      }
-      if (valueCell) {
-        if (valueCell.firstElementChild) {
-          while (valueCell.firstChild) item.append(valueCell.firstChild);
-        } else if (valueCell.textContent.trim()) {
-          const p = document.createElement('p');
-          p.textContent = valueCell.textContent.trim();
-          item.append(p);
-        }
-      }
-      li.append(item);
+      while (row.firstElementChild) li.append(row.firstElementChild);
+      // 2-cell note row: cell 1 = icon, cell 2 = label + value
+      const kids = [...li.children];
+      if (kids[0]) kids[0].className = 'cards-tasting-notes-icon';
+      if (kids[1]) kids[1].className = 'cards-tasting-notes-item';
       ul.append(li);
     });
     dataBox.appendChild(ul);
   }
 
   // outro (intro paragraph + BUY NOW button)
-  if (outroRow) {
+  if (outroCell) {
     const outro = document.createElement('div');
     outro.className = 'cards-tasting-notes-outro';
-    moveInstrumentation(outroRow, outro);
-    const cells = [...outroRow.children];
-    const introCell = cells[0];
-    const ctaCell = cells[1];
-    if (introCell) while (introCell.firstChild) outro.append(introCell.firstChild);
-    const ctaLink = ctaCell ? ctaCell.querySelector('a') : null;
-    if (ctaLink) {
+    while (outroCell.firstChild) outro.append(outroCell.firstChild);
+    const ctaLink = outro.querySelector('p > a');
+    if (ctaLink && !ctaLink.classList.contains('button')) {
       ctaLink.classList.add('button');
-      const p = document.createElement('p');
-      p.className = 'button-container';
-      p.append(ctaLink);
-      outro.append(p);
+      ctaLink.closest('p').classList.add('button-container');
     }
     dataBox.appendChild(outro);
   }

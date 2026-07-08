@@ -128,51 +128,6 @@
           }
         },
         {
-          "title": "Bottle",
-          "id": "tasting-note-bottle",
-          "plugins": {
-            "xwalk": {
-              "page": {
-                "resourceType": "core/franklin/components/block/v1/block/item",
-                "template": {
-                  "name": "Bottle",
-                  "model": "tasting-note-bottle"
-                }
-              }
-            }
-          }
-        },
-        {
-          "title": "Tasting Note",
-          "id": "tasting-note",
-          "plugins": {
-            "xwalk": {
-              "page": {
-                "resourceType": "core/franklin/components/block/v1/block/item",
-                "template": {
-                  "name": "Tasting Note",
-                  "model": "tasting-note"
-                }
-              }
-            }
-          }
-        },
-        {
-          "title": "Outro",
-          "id": "tasting-note-outro",
-          "plugins": {
-            "xwalk": {
-              "page": {
-                "resourceType": "core/franklin/components/block/v1/block/item",
-                "template": {
-                  "name": "Outro",
-                  "model": "tasting-note-outro"
-                }
-              }
-            }
-          }
-        },
-        {
           "title": "Cards Timeline",
           "id": "cards-timeline",
           "plugins": {
