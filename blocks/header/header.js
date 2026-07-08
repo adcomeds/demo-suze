@@ -109,6 +109,63 @@ function toggleMenu(nav, navSections, forceExpanded = null) {
 }
 
 /**
+ * Adds a single black "pill" highlight to the desktop nav that slides to the
+ * hovered/focused item (turning its text white) and rests on the active page
+ * otherwise. On the index page (no active item) it stays hidden until hovered.
+ * @param {Element} navSections The .nav-sections element
+ */
+function decorateNavHighlight(navSections) {
+  const navList = navSections.querySelector('.default-content-wrapper > ul');
+  if (!navList) return;
+
+  const highlight = document.createElement('span');
+  highlight.className = 'nav-highlight';
+  highlight.setAttribute('aria-hidden', 'true');
+  navList.prepend(highlight);
+
+  const items = [...navList.children].filter((el) => el.tagName === 'LI');
+  const activeItem = () => items.find((li) => li.querySelector('a[aria-current="page"]'));
+
+  const moveTo = (li, animate = true) => {
+    if (!li || !isDesktop.matches) {
+      navList.classList.remove('nav-highlight-visible');
+      items.forEach((el) => el.classList.remove('nav-lit'));
+      return;
+    }
+    if (!animate) highlight.style.transition = 'none';
+    const ulRect = navList.getBoundingClientRect();
+    const liRect = li.getBoundingClientRect();
+    highlight.style.left = `${liRect.left - ulRect.left}px`;
+    highlight.style.top = `${liRect.top - ulRect.top}px`;
+    highlight.style.width = `${liRect.width}px`;
+    highlight.style.height = `${liRect.height}px`;
+    navList.classList.add('nav-highlight-visible');
+    items.forEach((el) => el.classList.toggle('nav-lit', el === li));
+    if (!animate) requestAnimationFrame(() => { highlight.style.transition = ''; });
+  };
+
+  const reset = () => moveTo(activeItem());
+
+  items.forEach((li) => {
+    li.addEventListener('mouseenter', () => moveTo(li));
+    li.addEventListener('focusin', () => moveTo(li));
+  });
+  navList.addEventListener('mouseleave', reset);
+
+  // reposition (no animation) on the current item — used for layout changes
+  const reposition = () => {
+    const lit = items.find((el) => el.classList.contains('nav-lit')) || activeItem();
+    moveTo(lit, false);
+  };
+
+  // The nav bar lays out asynchronously (fonts, fixed positioning), so measure
+  // once it is stable and again whenever its size changes.
+  const observer = new ResizeObserver(reposition);
+  observer.observe(navList);
+  isDesktop.addEventListener('change', reposition);
+}
+
+/**
  * loads and decorates the header, mainly the nav
  * @param {Element} block The header block element
  */
@@ -158,6 +215,8 @@ export default async function decorate(block) {
         link.setAttribute('aria-current', 'page');
       }
     });
+
+    decorateNavHighlight(navSections);
   }
 
   // hamburger for mobile
