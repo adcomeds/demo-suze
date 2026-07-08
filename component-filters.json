@@ -27,7 +27,9 @@
   {
     "id": "cards-tasting-notes",
     "components": [
-      "tasting-note"
+      "tasting-note-bottle",
+      "tasting-note",
+      "tasting-note-outro"
     ]
   },
   {

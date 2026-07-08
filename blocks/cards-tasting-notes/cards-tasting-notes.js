@@ -4,19 +4,17 @@ import { moveInstrumentation } from '../../scripts/scripts.js';
 /**
  * Cards Tasting Notes — Suze "What does it taste like" product section.
  *
- * Authored as a container block with block-level fields plus repeatable
- * "Tasting Note" items (see _cards-tasting-notes.json):
- *   Block-level (each renders as a single-cell leading row, in model order):
- *     - heading      -> animated white-outline frieze marquee across the top
- *     - image (+alt) -> the tall product bottle image (center-left)
- *     - intro        -> intro paragraph in the outro
- *     - cta (+text)  -> black "BUY NOW" pill in the outro
- *   Item rows (3 cells each): icon image, label, value
- *     -> yellow rounded icon tile + bold label + value text
+ * Authored as a container block whose children are one of three explicit
+ * component types (see _cards-tasting-notes.json):
+ *   - Bottle       -> Heading (frieze title) + Bottle Image
+ *   - Tasting Note -> Icon + Label + Value   (repeatable)
+ *   - Outro        -> Intro Text + Button Link
  *
- * Block-level rows are identified by their content (single cell: a picture is
- * the bottle, a link is the CTA, remaining text rows are heading then intro),
- * so empty/omitted fields degrade gracefully. Multi-cell rows are notes.
+ * Component types are not encoded in the published markup, so each row is
+ * classified by the shape of its cells:
+ *   - a row whose image is in cell 0 with >=3 cells -> Tasting Note (icon, label, value)
+ *   - any other row containing an image             -> Bottle (heading, image)
+ *   - a row with no image                           -> Outro (intro, button)
  */
 
 /** Build the animated marquee frieze band from a heading text. */
@@ -59,31 +57,39 @@ function buildFrieze(text) {
   return band;
 }
 
+/** Classify an authored row into 'bottle' | 'note' | 'outro' by content shape. */
+function classifyRow(row) {
+  const cells = [...row.children];
+  const hasImage = !!row.querySelector('picture, img');
+  if (!hasImage) return 'outro';
+  const imageInFirstCell = cells[0] && cells[0].querySelector('picture, img');
+  if (imageInFirstCell && cells.length >= 3) return 'note';
+  return 'bottle';
+}
+
 export default function decorate(block) {
   const rows = [...block.children];
 
-  // Split rows: multi-cell rows are tasting-note items; single-cell rows are
-  // block-level fields, classified by their content.
+  let headingText = '';
   let bottleCell = null;
-  let ctaCell = null;
-  const textCells = []; // single-cell text rows in order: [heading, intro]
+  let bottleRow = null;
   const noteRows = [];
+  let outroRow = null;
 
   rows.forEach((row) => {
+    const type = classifyRow(row);
     const cells = [...row.children];
-    if (cells.length >= 2) {
+    if (type === 'bottle') {
+      bottleRow = row;
+      bottleCell = cells.find((c) => c.querySelector('picture, img')) || null;
+      const headingCell = cells.find((c) => !c.querySelector('picture, img'));
+      if (headingCell) headingText = headingCell.textContent.trim();
+    } else if (type === 'note') {
       noteRows.push(row);
-      return;
+    } else {
+      outroRow = row;
     }
-    const cell = cells[0] || row;
-    if (cell.querySelector('picture, img')) bottleCell = cell;
-    else if (cell.querySelector('a')) ctaCell = cell;
-    else textCells.push(cell);
   });
-
-  const headingCell = textCells[0] || null;
-  const introCell = textCells[1] || null;
-  const headingText = headingCell ? headingCell.textContent.trim() : '';
 
   const frag = document.createDocumentFragment();
 
@@ -98,6 +104,7 @@ export default function decorate(block) {
   if (bottleCell && bottleCell.querySelector('picture, img')) {
     const imgBox = document.createElement('div');
     imgBox.className = 'cards-tasting-notes-img-box';
+    if (bottleRow) moveInstrumentation(bottleRow, imgBox);
     while (bottleCell.firstChild) imgBox.append(bottleCell.firstChild);
     // The tonic bottle image already embeds the "0%" ring badge, so we only tag
     // the variant for any variant-specific styling.
@@ -153,9 +160,13 @@ export default function decorate(block) {
   }
 
   // outro (intro paragraph + BUY NOW button)
-  if ((introCell && introCell.textContent.trim()) || ctaCell) {
+  if (outroRow) {
     const outro = document.createElement('div');
     outro.className = 'cards-tasting-notes-outro';
+    moveInstrumentation(outroRow, outro);
+    const cells = [...outroRow.children];
+    const introCell = cells[0];
+    const ctaCell = cells[1];
     if (introCell) while (introCell.firstChild) outro.append(introCell.firstChild);
     const ctaLink = ctaCell ? ctaCell.querySelector('a') : null;
     if (ctaLink) {
