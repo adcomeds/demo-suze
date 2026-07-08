@@ -21,7 +21,7 @@
   {
     "id": "cards-flip",
     "components": [
-      "flip-card"
+      "card"
     ]
   },
   {

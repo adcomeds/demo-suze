@@ -2,31 +2,57 @@ import { createOptimizedPicture } from '../../scripts/aem.js';
 import { moveInstrumentation } from '../../scripts/scripts.js';
 
 /**
- * Build a recipe container from the authored <table>.
- * Rows alternate: a "label" row (big numbers e.g. "1 part") and a
- * "description" row (ingredient names e.g. "Suze"). Cells map to left/right
- * columns. A single cell (colspan) becomes a full-width left value.
+ * Cards Flip — "How to drink it?" flip cards.
+ *
+ * Each card is authored as an image + a rich-text field holding, in order:
+ *   - a heading (front title)
+ *   - a paragraph (front description)
+ *   - a heading (back title)
+ *   - the recipe (short ingredient/quantity lines)
+ *   - one or more method sentences
+ *   - a product link
+ *
+ * The rich text does not survive publishing consistently: headings may be
+ * wrapped in <p> (Universal Editor) or unwrapped (published), and the recipe
+ * may be a <table>, nested <div>s, or flattened <p>s. So we normalise first and
+ * classify by content shape rather than relying on exact markup.
  */
-function buildRecipe(table) {
+
+/** Normalise the body cell and return its headings + leaf paragraphs. */
+function collectContent(bodyCell) {
+  // unwrap headings that the rich text wrapped in a <p> (kept as-is in UE)
+  bodyCell.querySelectorAll('p > h1, p > h2, p > h3, p > h4, p > h5, p > h6').forEach((h) => {
+    h.parentElement.replaceWith(h);
+  });
+  const headings = [...bodyCell.querySelectorAll('h1, h2, h3, h4, h5, h6')];
+  // leaf paragraphs only — ignores the wrapper <div>/<p> around a nested recipe
+  const leafParas = [...bodyCell.querySelectorAll('p')].filter(
+    (p) => !p.querySelector('p, div, table, h1, h2, h3, h4, h5, h6'),
+  );
+  return { headings, leafParas };
+}
+
+/** A recipe line is a short label/ingredient; a method line is a full sentence. */
+function isMethod(text) {
+  return /[.!?]$/.test(text) && text.split(/\s+/).length > 2;
+}
+
+/** Build the 2-column recipe grid from short ingredient/quantity lines. */
+function buildRecipe(items) {
   const container = document.createElement('div');
   container.className = 'flip-card-recipe';
-
-  const rows = [...table.querySelectorAll('tr')];
-  rows.forEach((tr, i) => {
-    const cells = [...tr.children];
+  for (let i = 0; i < items.length; i += 2) {
     const row = document.createElement('div');
     row.className = 'flip-card-recipe-row';
-    // even rows (0,2,...) are quantity labels (big), odd rows are descriptions
-    const isLabel = i % 2 === 0;
-    const cellClass = isLabel ? 'flip-card-recipe-label' : 'flip-card-recipe-desc';
-    cells.forEach((cell, ci) => {
+    [items[i], items[i + 1]].forEach((val, ci) => {
+      if (val === undefined) return;
       const p = document.createElement('p');
-      p.className = cellClass + (ci === 1 ? ' right' : '');
-      p.textContent = cell.textContent.trim();
+      p.className = `flip-card-recipe-desc${ci === 1 ? ' right' : ''}`;
+      p.textContent = val;
       row.append(p);
     });
     container.append(row);
-  });
+  }
   return container;
 }
 
@@ -38,22 +64,30 @@ export default function decorate(block) {
     moveInstrumentation(row, li);
 
     const cells = [...row.children];
-    const imageCell = cells.find((c) => c.querySelector('picture'));
+    const imageCell = cells.find((c) => c.querySelector('picture, img'));
     const bodyCell = cells.find((c) => c !== imageCell) || cells[cells.length - 1];
 
-    // Gather body pieces
-    const nodes = bodyCell ? [...bodyCell.children] : [];
-    const headings = nodes.filter((n) => /^H[1-6]$/.test(n.tagName));
+    const { headings, leafParas } = bodyCell
+      ? collectContent(bodyCell)
+      : { headings: [], leafParas: [] };
     const frontTitle = headings[0] || null;
     const backTitle = headings[1] || null;
-    const table = nodes.find((n) => n.tagName === 'TABLE');
-    const paras = nodes.filter((n) => n.tagName === 'P');
-    // last <p> containing an <a> is the product link
-    const linkPara = [...paras].reverse().find((p) => p.querySelector('a'));
+
+    // product link = last leaf paragraph containing an <a>
+    const linkPara = [...leafParas].reverse().find((p) => p.querySelector('a'));
     const productLink = linkPara ? linkPara.querySelector('a') : null;
-    // description = first paragraph; method paragraphs = the rest
-    const description = paras.find((p) => p !== linkPara);
-    const methodParas = paras.filter((p) => p !== linkPara && p !== description);
+
+    // description = first content paragraph; then recipe lines + method sentences
+    const contentParas = leafParas.filter((p) => p !== linkPara);
+    const [description, ...rest] = contentParas;
+    const recipeItems = [];
+    const methodParas = [];
+    rest.forEach((p) => {
+      const text = p.textContent.trim();
+      if (!text) return;
+      if (isMethod(text)) methodParas.push(p);
+      else recipeItems.push(text);
+    });
 
     // ----- build faces -----
     const inner = document.createElement('div');
@@ -88,14 +122,14 @@ export default function decorate(block) {
     flipBtn.textContent = 'Flip the card';
     front.append(flipBtn);
 
-    // BACK: back title, recipe, method, product link + flip back
+    // BACK: back title, recipe grid, method, product link + flip back
     if (backTitle) {
       const bt = document.createElement('p');
       bt.className = 'flip-card-back-title';
       bt.textContent = backTitle.textContent.trim();
       back.append(bt);
     }
-    if (table) back.append(buildRecipe(table));
+    if (recipeItems.length) back.append(buildRecipe(recipeItems));
     methodParas.forEach((p) => {
       p.classList.add('flip-card-detail');
       back.append(p);
@@ -116,8 +150,8 @@ export default function decorate(block) {
     inner.append(front, back);
     li.append(inner);
 
-    // Suze Tonic Zero (no recipe table) shows the 0% badge
-    if (!table) li.classList.add('flip-card-zero');
+    // Suze Tonic Zero (no recipe) shows the 0% badge
+    if (!recipeItems.length) li.classList.add('flip-card-zero');
 
     ul.append(li);
   });
