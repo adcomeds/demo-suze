@@ -131,6 +131,7 @@
     flex: 0 0 calc(50% - 35px);
     width: calc(50% - 35px);
     min-width: 0;
+    box-sizing: border-box;
   }
 
   .cards-timeline .cards-timeline-item-image img {
