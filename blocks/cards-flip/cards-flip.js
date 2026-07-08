@@ -32,25 +32,45 @@ function collectContent(bodyCell) {
   return { headings, leafParas };
 }
 
-/** A recipe line is a short label/ingredient; a method line is a full sentence. */
+/**
+ * A method line is a full sentence (ends in punctuation, or more than two
+ * words); recipe lines are short quantity/ingredient labels (one or two words).
+ */
 function isMethod(text) {
-  return /[.!?]$/.test(text) && text.split(/\s+/).length > 2;
+  return /[.!?]$/.test(text) || text.split(/\s+/).length > 2;
 }
 
-/** Build the 2-column recipe grid from short ingredient/quantity lines. */
+/**
+ * Build the recipe grid from alternating quantity/ingredient lines
+ * ([qty, ingredient, qty, ingredient, ...]). Each pair becomes a cell with the
+ * quantity shown large above the ingredient name; cells are laid out two per row.
+ */
 function buildRecipe(items) {
   const container = document.createElement('div');
   container.className = 'flip-card-recipe';
+
+  const cells = [];
   for (let i = 0; i < items.length; i += 2) {
+    const cell = document.createElement('div');
+    cell.className = 'flip-card-recipe-cell';
+    const qty = document.createElement('p');
+    qty.className = 'flip-card-recipe-label';
+    qty.textContent = items[i];
+    cell.append(qty);
+    if (items[i + 1] !== undefined) {
+      const ingredient = document.createElement('p');
+      ingredient.className = 'flip-card-recipe-desc';
+      ingredient.textContent = items[i + 1];
+      cell.append(ingredient);
+    }
+    cells.push(cell);
+  }
+
+  for (let i = 0; i < cells.length; i += 2) {
     const row = document.createElement('div');
     row.className = 'flip-card-recipe-row';
-    [items[i], items[i + 1]].forEach((val, ci) => {
-      if (val === undefined) return;
-      const p = document.createElement('p');
-      p.className = `flip-card-recipe-desc${ci === 1 ? ' right' : ''}`;
-      p.textContent = val;
-      row.append(p);
-    });
+    row.append(cells[i]);
+    if (cells[i + 1]) row.append(cells[i + 1]);
     container.append(row);
   }
   return container;
