@@ -71,6 +71,42 @@ function buildAutoBlocks() {
 }
 
 /**
+ * AEM DAM assets selected via the asset selector are delivered as absolute links
+ * to the delivery host (e.g. https://delivery-*.adobeaemcloud.com/adobe/assets/
+ * urn:aaid:aem:.../as/name.avif) instead of as <picture> elements. Convert those
+ * autolinked image URLs into <picture><img> so blocks (which look for a
+ * <picture>) can render them. Instrumentation is moved so Universal Editor keeps
+ * working.
+ * @param {Element} main The container element
+ */
+export function decorateExternalImages(main) {
+  main.querySelectorAll('a[href]').forEach((a) => {
+    const href = a.getAttribute('href');
+    let url;
+    try {
+      url = new URL(a.href);
+    } catch {
+      return;
+    }
+    const isAemAsset = url.hostname.endsWith('.adobeaemcloud.com')
+      && url.pathname.includes('/adobe/assets/');
+    const isImage = /\.(avif|gif|jpe?g|png|webp)$/i.test(url.pathname);
+    // only convert autolinked URLs (link text === href), not intentional links
+    const isAutolink = a.textContent.trim() === href.trim();
+    if (!isAemAsset || !isImage || !isAutolink) return;
+
+    const img = document.createElement('img');
+    img.setAttribute('loading', 'lazy');
+    img.setAttribute('src', a.href);
+    img.setAttribute('alt', a.getAttribute('title') || '');
+    const picture = document.createElement('picture');
+    picture.append(img);
+    moveInstrumentation(a, img);
+    a.replaceWith(picture);
+  });
+}
+
+/**
  * Decorates formatted links to style them as buttons.
  * @param {HTMLElement} main The main container element
  */
@@ -117,6 +153,7 @@ export function decorateButtons(main) {
 export function decorateMain(main) {
   decorateIcons(main);
   buildAutoBlocks(main);
+  decorateExternalImages(main);
   decorateSections(main);
   decorateBlocks(main);
   decorateButtons(main);
