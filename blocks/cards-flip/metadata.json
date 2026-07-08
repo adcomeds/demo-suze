@@ -1,0 +1,37 @@
+{
+  "variantName": "cards-flip",
+  "baseBlock": "cards",
+  "version": "1.0.0",
+  "created": "2026-07-07T15:35:00.000Z",
+  "sourceContext": {
+    "originUrl": "https://www.suze.com/",
+    "originPage": "Suze homepage",
+    "blockPosition": "middle"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "accent",
+    "density": "spacious",
+    "purpose": "recipe-cards",
+    "imagePattern": "large"
+  },
+  "contentPattern": {
+    "structure": "card = image + title + description + recipe/method + product link (flip front/back)",
+    "buttonCount": 2,
+    "imageCount": 1
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "cocktail/recipe card sets where each card has a front summary and a back with ingredients and method",
+      "product 'how to enjoy' flip-card layouts"
+    ],
+    "notSuitableFor": [
+      "simple image + text card grids (use vanilla cards)",
+      "single lead media (use hero)"
+    ]
+  },
+  "usage": {
+    "pagesUsing": ["/index", "/product/suze-loriginale"],
+    "reuseCount": 2,
+    "lastUsed": "2026-07-07T15:46:00.000Z"
+  }
+}

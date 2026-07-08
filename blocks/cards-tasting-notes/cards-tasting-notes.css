@@ -1,0 +1,346 @@
+/* cards-tasting-notes — Suze "What does it taste like" product section.
+   On brand orange: animated white-outline frieze marquee heading, decorative
+   yellow maze panels flanking both edges, a tall product bottle center-left,
+   a vertical list of tasting-note rows (yellow icon tile + label/value) and an
+   intro paragraph + black BUY NOW pill. Tonic variant adds a 0% badge.
+
+   Source (.productSection @1440): frieze 143px/58px white+outline; content flex
+   gap 20 max 888 centered; bottle img-box 434; data-box 434 margin-top 280 gap 30;
+   note row: icon 70x70 r20 #ffdf00 (img 30x30) + item margin-left 16, title 18/800
+   mt5, content 18/500; motif 773x500 top 260 (left -472 / right 1147); pad-b 160. */
+
+/* the wrapper goes full-bleed so the frieze + maze panels can span the whole
+   viewport width while overflow:hidden clips them cleanly at the edges */
+.cards-tasting-notes-wrapper {
+  position: relative;
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  overflow: hidden;
+}
+
+/* centered content column inside the full-bleed wrapper */
+.cards-tasting-notes {
+  position: relative;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 0 24px 60px;
+}
+
+/* ---------- Maze panels (decorative, behind content) ---------- */
+
+.cards-tasting-notes::before,
+.cards-tasting-notes::after {
+  content: "";
+  position: absolute;
+  top: 260px;
+  width: 480px;
+  height: 311px;
+  background: url("/icons/motif.svg") no-repeat;
+  background-size: contain;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* left panel: left edge clipped off the viewport's left */
+.cards-tasting-notes::before {
+  left: calc(50% - 50vw - 24px - 180px);
+}
+
+/* right panel: right edge clipped off the viewport's right */
+.cards-tasting-notes::after {
+  right: calc(50% - 50vw - 24px - 180px);
+  transform: scaleX(-1);
+}
+
+/* ---------- Frieze band (full-bleed animated marquee) ---------- */
+
+.cards-tasting-notes-band {
+  position: relative;
+  z-index: 2;
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  height: 90px;
+  overflow: hidden;
+}
+
+.cards-tasting-notes-track {
+  display: flex;
+  width: max-content;
+  height: 100%;
+  animation: cards-tasting-notes-scroll 8s linear infinite;
+}
+
+.cards-tasting-notes-track.paused {
+  animation-play-state: paused;
+}
+
+.cards-tasting-notes-set {
+  display: flex;
+  flex: 0 0 auto;
+}
+
+.cards-tasting-notes-text {
+  display: block;
+  padding-right: 0.3em;
+  color: #fff;
+  font-family: var(--heading-font-family);
+  font-weight: 800;
+  font-size: 64px;
+  line-height: 90px;
+  white-space: nowrap;
+
+  /* white fill with black outline */
+  -webkit-text-fill-color: #fff;
+  -webkit-text-stroke: 1px var(--brand-black);
+}
+
+@keyframes cards-tasting-notes-scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+/* pause / play control */
+.cards-tasting-notes-pause {
+  position: absolute;
+  left: 24px;
+  top: 100%;
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 4px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--brand-black);
+  font-family: var(--body-font-family);
+  font-weight: 800;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.cards-tasting-notes-pause-icon {
+  position: relative;
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--brand-black);
+  border-radius: 50%;
+}
+
+.cards-tasting-notes-pause-icon::before,
+.cards-tasting-notes-pause-icon::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 2px;
+  height: 7px;
+  background: var(--brand-black);
+  transform: translateY(-50%);
+}
+
+.cards-tasting-notes-pause-icon::before { left: 5px; }
+.cards-tasting-notes-pause-icon::after { right: 5px; }
+
+.cards-tasting-notes-pause.is-paused .cards-tasting-notes-pause-icon::before {
+  left: 6px;
+  width: 0;
+  height: 0;
+  border-top: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+  border-left: 6px solid var(--brand-black);
+  background: transparent;
+}
+
+.cards-tasting-notes-pause.is-paused .cards-tasting-notes-pause-icon::after {
+  display: none;
+}
+
+/* ---------- Content: bottle + data box ---------- */
+
+.cards-tasting-notes-content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+  margin-top: 40px;
+}
+
+.cards-tasting-notes-img-box {
+  position: relative;
+  width: 100%;
+  max-width: 300px;
+  order: 0;
+}
+
+.cards-tasting-notes-img-box p {
+  margin: 0;
+  line-height: 0;
+}
+
+.cards-tasting-notes-img-box img {
+  display: block;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+/* data box: note list + outro */
+.cards-tasting-notes-data-box {
+  width: 100%;
+  max-width: 434px;
+  order: 1;
+}
+
+.cards-tasting-notes-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.cards-tasting-notes-row {
+  display: flex;
+  align-items: flex-start;
+}
+
+/* yellow rounded icon tile */
+.cards-tasting-notes-icon {
+  flex: 0 0 70px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 70px;
+  height: 70px;
+  border-radius: 20px;
+  background-color: var(--brand-yellow);
+  line-height: 0;
+}
+
+.cards-tasting-notes-icon p {
+  margin: 0;
+  line-height: 0;
+}
+
+.cards-tasting-notes-icon img {
+  width: 30px;
+  height: 30px;
+  object-fit: contain;
+}
+
+/* text column: bold label over the value */
+.cards-tasting-notes-item {
+  flex: 1 1 auto;
+  display: flex;
+  flex-direction: column;
+  margin-left: 16px;
+}
+
+.cards-tasting-notes-item p {
+  margin: 0;
+  color: var(--brand-black);
+  font-size: 18px;
+  font-weight: 500;
+  line-height: normal;
+}
+
+/* the "Color :" / "Nose :" / "Palate" label */
+.cards-tasting-notes-item strong,
+.cards-tasting-notes-item b {
+  display: block;
+  margin-top: 5px;
+  font-size: 18px;
+  font-weight: 800;
+}
+
+/* outro: intro paragraph + BUY NOW pill */
+.cards-tasting-notes-outro {
+  margin-top: 30px;
+}
+
+.cards-tasting-notes-outro p {
+  margin: 0;
+  color: var(--brand-black);
+  font-size: 18px;
+  font-weight: 500;
+  line-height: normal;
+}
+
+.cards-tasting-notes-outro p.button-container {
+  margin-top: 20px;
+}
+
+.cards-tasting-notes-outro a.button {
+  font-size: 15px;
+}
+
+/* ---------- Desktop ---------- */
+
+@media (width >= 900px) {
+  .cards-tasting-notes {
+    padding-bottom: 160px;
+  }
+
+  /* maze panels flank both edges, partially clipped off screen */
+  .cards-tasting-notes::before,
+  .cards-tasting-notes::after {
+    top: 260px;
+    width: 773px;
+    height: 500px;
+  }
+
+  .cards-tasting-notes::before {
+    left: calc(50% - 50vw - 180px);
+  }
+
+  .cards-tasting-notes::after {
+    right: calc(50% - 50vw - 180px);
+  }
+
+  /* frieze */
+  .cards-tasting-notes-band {
+    height: 143px;
+  }
+
+  .cards-tasting-notes-text {
+    font-size: 110px;
+    line-height: 143px;
+  }
+
+  /* content: centered row, bottle center-left + data box to the right */
+  .cards-tasting-notes-content {
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 20px;
+    max-width: 888px;
+    margin: 0 auto;
+    padding-top: 20px;
+  }
+
+  .cards-tasting-notes-img-box {
+    position: relative;
+    width: 434px;
+    max-width: 434px;
+    flex: 0 0 434px;
+    order: unset;
+  }
+
+  .cards-tasting-notes-img-box img {
+    width: 434px;
+    max-height: 805px;
+    height: auto;
+  }
+
+  .cards-tasting-notes-data-box {
+    width: 434px;
+    flex: 0 0 434px;
+    max-width: 434px;
+    margin-top: 280px;
+    order: unset;
+  }
+}

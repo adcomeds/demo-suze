@@ -1,0 +1,15 @@
+{
+  "status": "success",
+  "url": "https://www.suze.com/product/suze-loriginale/",
+  "path": "product/suze-loriginale",
+  "timestamp": "2026-07-07T16:49:49.422Z",
+  "title": "Suze Original: Our Classic and Iconic French Aperitif | Suze",
+  "template": "product-page",
+  "blocks": [
+    "hero-video-cover",
+    "cards-tasting-notes",
+    "cards-flip",
+    "columns-frieze",
+    "hero-cover-player"
+  ]
+}

@@ -11,46 +11,36 @@
  */
 
 :root {
-  /* colors */
-  --background-color: white;
+  /* colors — Suze brand */
+  --brand-orange: #fe6b1e;
+  --brand-yellow: #ffdf00;
+  --brand-black: #000;
+  --background-color: var(--brand-orange);
   --light-color: #f8f8f8;
-  --dark-color: #505050;
-  --text-color: #131313;
-  --link-color: #3b63fb;
-  --link-hover-color: #1d3ecf;
+  --dark-color: #000;
+  --text-color: #000;
+  --link-color: #000;
+  --link-hover-color: #000;
 
   /* fonts */
-  --body-font-family: roboto, roboto-fallback, sans-serif;
-  --heading-font-family: roboto-condensed, roboto-condensed-fallback, sans-serif;
+  --body-font-family: obviously, arial, sans-serif;
+  --heading-font-family: obviously, arial, sans-serif;
 
   /* body sizes */
-  --body-font-size-m: 22px;
-  --body-font-size-s: 19px;
-  --body-font-size-xs: 17px;
+  --body-font-size-m: 18px;
+  --body-font-size-s: 16px;
+  --body-font-size-xs: 14px;
 
-  /* heading sizes */
-  --heading-font-size-xxl: 55px;
-  --heading-font-size-xl: 44px;
-  --heading-font-size-l: 34px;
-  --heading-font-size-m: 27px;
-  --heading-font-size-s: 24px;
-  --heading-font-size-xs: 22px;
+  /* heading sizes (mobile-first) */
+  --heading-font-size-xxl: 40px;
+  --heading-font-size-xl: 34px;
+  --heading-font-size-l: 26px;
+  --heading-font-size-m: 22px;
+  --heading-font-size-s: 20px;
+  --heading-font-size-xs: 18px;
 
   /* nav height */
-  --nav-height: 64px;
-}
-
-/* fallback fonts */
-@font-face {
-  font-family: roboto-condensed-fallback;
-  size-adjust: 88.82%;
-  src: local('Arial');
-}
-
-@font-face {
-  font-family: roboto-fallback;
-  size-adjust: 99.529%;
-  src: local('Arial');
+  --nav-height: 80px;
 }
 
 @media (width >= 900px) {
@@ -60,11 +50,11 @@
     --body-font-size-s: 16px;
     --body-font-size-xs: 14px;
 
-    /* heading sizes */
-    --heading-font-size-xxl: 45px;
-    --heading-font-size-xl: 36px;
-    --heading-font-size-l: 28px;
-    --heading-font-size-m: 22px;
+    /* heading sizes — source: h1/h2/frieze = 58px @1440 */
+    --heading-font-size-xxl: 58px;
+    --heading-font-size-xl: 58px;
+    --heading-font-size-l: 32px;
+    --heading-font-size-m: 24px;
     --heading-font-size-s: 20px;
     --heading-font-size-xs: 18px;
   }
@@ -107,8 +97,9 @@ h6 {
   margin-top: 0.8em;
   margin-bottom: 0.25em;
   font-family: var(--heading-font-family);
-  font-weight: 600;
-  line-height: 1.25;
+  font-weight: 800;
+  line-height: 1;
+  color: var(--brand-black);
   scroll-margin: 40px;
 }
 
@@ -178,17 +169,29 @@ button.button {
   justify-content: center;
   max-width: 100%;
   margin: 0;
-  border: 2px solid transparent;
-  border-radius: 2.4em;
-  padding: 0.5em 1.2em;
+  border: 2px solid var(--brand-black);
+  border-radius: 60px;
+  padding: 15px 30px 18px;
+  background-color: var(--brand-black);
+  color: #fff;
   font: inherit;
-  font-weight: 500;
-  line-height: 1.25;
+  font-size: 15px;
+  font-weight: 800;
+  line-height: 1;
+  text-transform: uppercase;
   text-decoration: none;
   cursor: pointer;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
+  transition: opacity 0.2s ease;
+}
+
+a.button:hover,
+button.button:hover {
+  opacity: 0.8;
+  color: #fff;
+  text-decoration: none;
 }
 
 a.button[aria-disabled="true"],
@@ -295,15 +298,15 @@ main img {
   width: 100%;
 }
 
-/* sections */
+/* sections — Suze is full-bleed orange, no per-section margins */
 main > .section {
-  margin: 40px 0;
+  margin: 0;
 }
 
 main > .section > div {
-  max-width: 1200px;
+  max-width: 1440px;
   margin: auto;
-  padding: 0 24px;
+  padding: 0 16px;
 }
 
 main > .section:first-of-type {
@@ -312,14 +315,11 @@ main > .section:first-of-type {
 
 @media (width >= 900px) {
   main > .section > div {
-    padding: 0 32px;
+    padding: 0 30px;
   }
 }
 
-/* section metadata */
-main .section.light,
-main .section.highlight {
-  background-color: var(--light-color);
-  margin: 0;
-  padding: 40px 0;
+/* section metadata — "orange" sections keep the brand background */
+main .section.orange {
+  background-color: var(--brand-orange);
 }

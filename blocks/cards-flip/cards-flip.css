@@ -1,0 +1,269 @@
+/* Block: cards-flip — "How to drink it?" flip cards (source: suze.com computed styles) */
+
+/* the "How to drink it?" heading is default content authored above the block;
+   global h2 already renders it 58px/800 black. Give the block breathing room. */
+.cards-flip {
+  padding-bottom: 60px;
+}
+
+.cards-flip > ul {
+  list-style: none;
+  margin: 0;
+  padding: 20px 0 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  align-items: center;
+}
+
+/* card shell */
+.cards-flip > ul > li {
+  width: 100%;
+  max-width: 474px;
+  perspective: 2000px;
+  background: none;
+  border: 0;
+}
+
+/* 3D flip inner */
+.cards-flip .flip-card-inner {
+  position: relative;
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 472px;
+  border-radius: 20px;
+  padding: 18px;
+  background-color: #fff;
+  box-shadow: -4px 4px 4px 0 rgb(0 0 0 / 15%), -4px 4px 30px 0 rgb(0 0 0 / 25%);
+  transform-style: preserve-3d;
+  transition: transform 0.8s;
+}
+
+/* yellow cards (2nd and 3rd) + any zero card (Suze Tonic Zero is always yellow) */
+.cards-flip > ul > li:nth-child(2) .flip-card-inner,
+.cards-flip > ul > li:nth-child(3) .flip-card-inner,
+.cards-flip > ul > li.flip-card-zero .flip-card-inner {
+  background-color: var(--brand-yellow);
+}
+
+.cards-flip > ul > li.is-flipped .flip-card-inner {
+  transform: rotateY(180deg);
+}
+
+/* faces */
+.cards-flip .flip-card-front,
+.cards-flip .flip-card-back {
+  display: flex;
+  flex-direction: column;
+  min-height: 436px; /* inner min-height (472) minus 2 * 18px padding */
+  backface-visibility: hidden;
+}
+
+.cards-flip .flip-card-back {
+  position: absolute;
+  inset: 18px;
+  transform: rotateY(180deg);
+}
+
+/* front image */
+.cards-flip .flip-card-image img {
+  width: 100%;
+  height: 300px;
+  border-radius: 10px;
+  object-fit: cover;
+  display: block;
+}
+
+/* titles */
+.cards-flip .flip-card-title,
+.cards-flip .flip-card-back-title {
+  margin: 12px 0 0;
+  font-family: var(--heading-font-family);
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 36px;
+  color: var(--brand-black);
+}
+
+.cards-flip .flip-card-back-title {
+  margin-top: 0;
+}
+
+/* front description */
+.cards-flip .flip-card-desc {
+  margin: 15px 0 20px;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 27px;
+  color: var(--brand-black);
+}
+
+/* pill buttons (front flip + back product link) */
+.cards-flip .flip-card-flip.button,
+.cards-flip .flip-card-product.button {
+  align-self: flex-start;
+  margin: 0;
+  border: 0;
+  border-radius: 60px;
+  padding: 15px 30px 18px;
+  background-color: var(--brand-black);
+  color: #fff;
+  font-family: var(--body-font-family);
+  font-size: 15px;
+  font-weight: 800;
+  line-height: 1;
+  text-transform: uppercase;
+  text-decoration: none;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+/* front flip button pushed to the bottom of the card */
+.cards-flip .flip-card-flip.button {
+  margin-top: auto;
+}
+
+.cards-flip .flip-card-flip.button:hover,
+.cards-flip .flip-card-product.button:hover {
+  opacity: 0.8;
+  color: #fff;
+}
+
+/* ---- back face ---- */
+.cards-flip .flip-card-recipe {
+  display: flex;
+  flex-direction: column;
+  margin-top: 8px;
+  padding-bottom: 20px;
+  border-bottom: 2px solid var(--brand-yellow);
+}
+
+/* on yellow cards the divider is orange for contrast */
+.cards-flip > ul > li:nth-child(2) .flip-card-recipe,
+.cards-flip > ul > li:nth-child(3) .flip-card-recipe {
+  border-bottom-color: var(--brand-orange);
+}
+
+.cards-flip .flip-card-recipe-row {
+  display: flex;
+  gap: 20px;
+}
+
+.cards-flip .flip-card-recipe-row > p {
+  flex: 1;
+  margin: 0;
+}
+
+.cards-flip .flip-card-recipe-label {
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--brand-black);
+}
+
+.cards-flip .flip-card-recipe-desc {
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.3;
+  color: var(--brand-black);
+}
+
+/* method / detail paragraphs on the back */
+.cards-flip .flip-card-detail {
+  margin: 15px 0 0;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.3;
+  color: var(--brand-black);
+}
+
+/* back button row: product link left, "flip back" right */
+.cards-flip .flip-card-buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: auto;
+  padding-top: 15px;
+}
+
+.cards-flip .flip-card-flip-back {
+  border: 0;
+  padding: 1px 6px;
+  background: none;
+  color: var(--brand-black);
+  font-family: var(--body-font-family);
+  font-size: 13px;
+  font-weight: 800;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.cards-flip .flip-card-flip-back:hover {
+  text-decoration: underline;
+}
+
+/* ---- 0% badge on the Suze Tonic Zero card ---- */
+.cards-flip .flip-card-zero .flip-card-front {
+  position: relative;
+}
+
+.cards-flip .flip-card-zero .flip-card-front::before {
+  content: "0%";
+  position: absolute;
+  top: 42px;
+  left: -18px;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 118px;
+  height: 118px;
+  border: 3px solid var(--brand-black);
+  border-radius: 50%;
+  background-color: var(--brand-yellow);
+  box-shadow: inset 0 0 0 4px var(--brand-yellow), inset 0 0 0 6px var(--brand-black);
+  color: var(--brand-black);
+  font-family: var(--heading-font-family);
+  font-size: 42px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+/* ---- staggered two-column layout on desktop ---- */
+@media (width >= 900px) {
+  .cards-flip > ul {
+    display: grid;
+    grid-template-columns: 474px 474px;
+    gap: 70px;
+    justify-content: center;
+    align-items: start;
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: 20px 0 30px;
+  }
+
+  .cards-flip > ul > li {
+    width: 474px;
+    max-width: 474px;
+  }
+
+  /* left column: white card, dropped down (source offset ~166px) */
+  .cards-flip > ul > li:nth-child(1) {
+    grid-column: 1;
+    grid-row: 1;
+    align-self: start;
+    margin-top: 166px;
+  }
+
+  /* right column, top: Suze Tonic */
+  .cards-flip > ul > li:nth-child(2) {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  /* right column, bottom: Suze Tonic Zero */
+  .cards-flip > ul > li:nth-child(3) {
+    grid-column: 2;
+    grid-row: 2;
+  }
+}

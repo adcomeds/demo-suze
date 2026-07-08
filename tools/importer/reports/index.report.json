@@ -1,0 +1,14 @@
+{
+  "status": "success",
+  "url": "https://www.suze.com/",
+  "path": "index",
+  "timestamp": "2026-07-07T17:01:01.110Z",
+  "title": "Suze: The Classic French Aperitif since 1889 - Official Global Site",
+  "template": "homepage",
+  "blocks": [
+    "hero",
+    "columns-frieze",
+    "cards-flip",
+    "hero-cover-player"
+  ]
+}

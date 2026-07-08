@@ -1,0 +1,15 @@
+{
+  "type": "xwalk",
+  "sites": {
+    "demo-suze": {
+      "previewOrg": "adcomeds",
+      "previewSite": "demo-suze",
+      "baseUrl": "https://www.suze.com/",
+      "libraryUrl": "https://main--sta-xwalk-boilerplate--aemysites.aem.page/tools/sidekick/library.json",
+      "aemSitePath": "/content/suze",
+      "aemAssetsFolderPath": "/content/dam/suze",
+      "aemSiteName": "suze",
+      "aemSiteTitle": "Suze"
+    }
+  }
+}

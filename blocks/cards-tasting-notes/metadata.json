@@ -1,0 +1,38 @@
+{
+  "variantName": "cards-tasting-notes",
+  "baseBlock": "cards",
+  "version": "1.0.0",
+  "created": "2026-07-07T15:46:00.000Z",
+  "sourceContext": {
+    "originUrl": "https://www.suze.com/product/suze-loriginale/",
+    "originPage": "Suze L'Originale product page",
+    "blockPosition": "middle"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "accent",
+    "density": "compact",
+    "purpose": "tasting-notes",
+    "imagePattern": "icon"
+  },
+  "contentPattern": {
+    "structure": "card = icon + richtext (label + value); rendered as an icon-left list of tasting-note rows",
+    "buttonCount": 0,
+    "imageCount": 1,
+    "iconPattern": true
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "product tasting-notes / specification lists where each row has an icon, a label and a value",
+      "icon-left attribute lists (color / nose / palate, features with icons)"
+    ],
+    "notSuitableFor": [
+      "image + text card grids (use vanilla cards)",
+      "cocktail/recipe flip cards (use cards-flip)"
+    ]
+  },
+  "usage": {
+    "pagesUsing": ["/product/suze-loriginale"],
+    "reuseCount": 1,
+    "lastUsed": "2026-07-07T15:46:00.000Z"
+  }
+}

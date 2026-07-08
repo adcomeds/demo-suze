@@ -1,0 +1,38 @@
+{
+  "variantName": "hero-video-cover",
+  "baseBlock": "hero",
+  "version": "1.0.0",
+  "created": "2026-07-07T15:46:00.000Z",
+  "sourceContext": {
+    "originUrl": "https://www.suze.com/product/suze-loriginale/",
+    "originPage": "Suze L'Originale product page",
+    "blockPosition": "top"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "dark",
+    "density": "spacious",
+    "purpose": "video-hero",
+    "imagePattern": "large"
+  },
+  "contentPattern": {
+    "structure": "background video + h1 title + subtitle paragraph (overlaid bottom-left)",
+    "buttonCount": 0,
+    "imageCount": 0,
+    "videoCount": 1
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "product or landing hero sections that use a full-bleed autoplay/loop/muted background video",
+      "lead sections with an overlaid title and short subtitle over motion media"
+    ],
+    "notSuitableFor": [
+      "static lead image with heading (use hero)",
+      "click-to-play poster/video cover players (use hero-cover-player)"
+    ]
+  },
+  "usage": {
+    "pagesUsing": ["/product/suze-loriginale"],
+    "reuseCount": 1,
+    "lastUsed": "2026-07-07T15:46:00.000Z"
+  }
+}

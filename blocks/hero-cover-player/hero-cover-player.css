@@ -1,0 +1,271 @@
+/* hero-cover-player — "Suze story" cover-player on brand orange */
+
+.hero-cover-player-container .hero-cover-player-wrapper {
+  max-width: unset;
+  padding: 0;
+}
+
+.hero-cover-player {
+  position: relative;
+  padding-bottom: 60px;
+}
+
+/* visually-hidden heading kept for a11y */
+.hero-cover-player-sr-heading {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* ---------- Frieze band (full-bleed animated marquee) ---------- */
+
+.hero-cover-player-band {
+  position: relative;
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  height: 90px;
+  overflow: hidden;
+}
+
+.hero-cover-player-track {
+  display: flex;
+  width: max-content;
+  height: 100%;
+  animation: hero-cover-player-scroll 8s linear infinite;
+}
+
+.hero-cover-player-track.paused {
+  animation-play-state: paused;
+}
+
+.hero-cover-player-set {
+  display: flex;
+  flex: 0 0 auto;
+}
+
+.hero-cover-player-text {
+  display: block;
+  padding-right: 0.3em;
+  color: #fff;
+  font-family: var(--heading-font-family);
+  font-weight: 800;
+  font-size: 64px;
+  line-height: 90px;
+  white-space: nowrap;
+
+  /* white fill with black outline */
+  -webkit-text-fill-color: #fff;
+  -webkit-text-stroke: 1px var(--brand-black);
+}
+
+@keyframes hero-cover-player-scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+/* pause / play control */
+.hero-cover-player-pause {
+  position: absolute;
+  left: 24px;
+  top: 100%;
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 4px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--brand-black);
+  font-family: var(--body-font-family);
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.hero-cover-player-pause-icon {
+  position: relative;
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--brand-black);
+  border-radius: 50%;
+}
+
+.hero-cover-player-pause-icon::before,
+.hero-cover-player-pause-icon::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 2px;
+  height: 7px;
+  background: var(--brand-black);
+  transform: translateY(-50%);
+}
+
+.hero-cover-player-pause-icon::before { left: 5px; }
+.hero-cover-player-pause-icon::after { right: 5px; }
+
+.hero-cover-player-pause.is-paused .hero-cover-player-pause-icon::before {
+  left: 6px;
+  width: 0;
+  height: 0;
+  border-top: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+  border-left: 6px solid var(--brand-black);
+  background: transparent;
+}
+
+.hero-cover-player-pause.is-paused .hero-cover-player-pause-icon::after {
+  display: none;
+}
+
+/* ---------- Content: yellow media panel + orange insert ---------- */
+
+.hero-cover-player-content {
+  position: relative;
+  max-width: 1018px;
+  margin: 0 auto;
+  padding-top: 48px;
+}
+
+/* media panel — solid yellow, image (with maze/name/1889 baked in) fills it */
+.hero-cover-player-media {
+  position: relative;
+  width: 100%;
+  border-radius: 20px;
+  background-color: var(--brand-yellow);
+  overflow: hidden;
+  aspect-ratio: 1018 / 516;
+}
+
+.hero-cover-player-poster,
+.hero-cover-player-poster img {
+  display: block;
+}
+
+.hero-cover-player-media img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+}
+
+/* play button — black circle with white triangle */
+.hero-cover-player-play {
+  position: absolute;
+  inset: 0;
+  margin: auto;
+  z-index: 2;
+  width: 70px;
+  height: 70px;
+  border: none;
+  border-radius: 50%;
+  background-color: var(--brand-black);
+  cursor: pointer;
+}
+
+.hero-cover-player-play::before {
+  content: '';
+  display: block;
+  width: 0;
+  height: 0;
+  margin: 0 auto;
+  border-style: solid;
+  border-width: 11px 0 11px 18px;
+  border-color: transparent transparent transparent #fff;
+}
+
+.hero-cover-player-iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+/* insert — orange text box */
+.hero-cover-player-insert {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 20px 24px 0;
+  background-color: var(--brand-orange);
+}
+
+.hero-cover-player-description {
+  margin: 0;
+  color: var(--brand-black);
+  font-size: 18px;
+  font-weight: 500;
+  line-height: normal;
+}
+
+.hero-cover-player-insert p:has(a.button) {
+  margin-top: 20px;
+}
+
+.hero-cover-player a.button {
+  font-size: 15px;
+}
+
+/* read the text version */
+.hero-cover-player-read-text {
+  display: block;
+  margin: 12px auto 0;
+  max-width: 1018px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--brand-black);
+  font-family: var(--body-font-family);
+  font-size: 12px;
+  font-weight: 500;
+  text-transform: uppercase;
+  text-decoration: underline;
+  text-align: left;
+  cursor: pointer;
+}
+
+@media (width >= 900px) {
+  .hero-cover-player {
+    padding-bottom: 160px;
+  }
+
+  .hero-cover-player-band {
+    height: 143px;
+  }
+
+  .hero-cover-player-text {
+    font-size: 110px;
+    line-height: 143px;
+  }
+
+  .hero-cover-player-content {
+    padding-top: 100px;
+  }
+
+  /* insert overlaps the bottom-right of the yellow media panel */
+  .hero-cover-player-insert {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    z-index: 3;
+    width: 474px;
+    padding: 20px 0 0 30px;
+  }
+
+  .hero-cover-player-read-text {
+    position: absolute;
+    left: 0;
+    bottom: -32px;
+    margin: 0;
+  }
+}

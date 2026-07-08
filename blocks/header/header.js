@@ -149,6 +149,15 @@ export default async function decorate(block) {
         }
       });
     });
+
+    // mark the link matching the current page as active (segmented-pill highlight)
+    const currentPath = window.location.pathname.replace(/\.html$/, '').replace(/\/$/, '');
+    navSections.querySelectorAll(':scope a[href]').forEach((link) => {
+      const linkPath = new URL(link.href, window.location).pathname.replace(/\.html$/, '').replace(/\/$/, '');
+      if (linkPath && currentPath.endsWith(linkPath)) {
+        link.setAttribute('aria-current', 'page');
+      }
+    });
   }
 
   // hamburger for mobile

@@ -1,9 +1,17 @@
 /* header and nav layout */
 header .nav-wrapper {
-  background-color: var(--background-color);
+  background-color: transparent;
   width: 100%;
-  z-index: 2;
-  position: fixed;
+  z-index: 100;
+  position: absolute;
+  top: 0;
+  left: 0;
+  overflow: visible;
+}
+
+/* header sits as an overlay on the page; logo + EN scroll away with it */
+header {
+  height: 0;
 }
 
 header nav {
@@ -31,10 +39,6 @@ header nav[aria-expanded='true'] {
 }
 
 @media (width >= 900px) {
-  header .nav-wrapper {
-    position: relative;
-  }
-
   header nav {
     display: flex;
     justify-content: space-between;
@@ -170,11 +174,35 @@ header nav[aria-expanded='true'] .nav-sections {
 header nav .nav-sections ul {
   list-style: none;
   padding-left: 0;
-  font-size: var(--body-font-size-s);
+  font-size: 18px;
 }
 
 header nav .nav-sections ul > li {
-  font-weight: 500;
+  font-family: var(--body-font-family);
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+/* segmented pill links */
+header nav .nav-sections a:any-link {
+  display: inline-block;
+  padding: 2px 10px 5px;
+  border-radius: 70px;
+  color: var(--brand-black);
+  text-decoration: none;
+  transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+header nav .nav-sections a:hover {
+  text-decoration: none;
+  opacity: 0.7;
+}
+
+/* active page = black pill inside the yellow bar */
+header nav .nav-sections a[aria-current='page'] {
+  background-color: var(--brand-black);
+  color: #fff;
+  opacity: 1;
 }
 
 header nav .nav-sections ul > li > ul {
@@ -266,7 +294,96 @@ header nav .nav-sections ul > li > ul > li {
   }
 }
 
-/* tools */
+/* tools — EN language switcher */
 header nav .nav-tools {
   grid-area: tools;
+  font-family: var(--body-font-family);
+  font-weight: 800;
+  font-size: 14px;
+  text-transform: uppercase;
+  color: var(--brand-black);
+}
+
+header nav .nav-tools p {
+  margin: 0;
+}
+
+/* ===== Suze brand header ===== */
+
+/* page-level logo — oversized, overflows below the nav bar onto the page */
+header nav .nav-brand {
+  position: relative;
+  z-index: 3;
+}
+
+header nav .nav-brand a:any-link {
+  display: inline-block;
+  line-height: 0;
+}
+
+header nav .nav-brand .icon-logo-suze,
+header nav .nav-brand .icon-logo-suze svg,
+header nav .nav-brand img {
+  width: 88px;
+  height: auto;
+  display: block;
+}
+
+@media (width >= 900px) {
+  header nav {
+    display: grid;
+    grid-template: 'brand sections tools' var(--nav-height) / 1fr auto 1fr;
+    align-items: center;
+    max-width: 1440px;
+    padding: 0 60px;
+  }
+
+  /* oversized page-level logo overlaid top-left (source: 205x135 at top 31 / left 60) */
+  header nav .nav-brand img,
+  header nav .nav-brand .icon-logo-suze svg,
+  header nav .nav-brand .icon-logo-suze {
+    width: 205px;
+  }
+
+  header nav .nav-brand .icon-logo-suze {
+    position: absolute;
+    top: 31px;
+    left: -32px;
+  }
+
+  /* nav pill — yellow rounded bar; the ONLY sticky element (logo + EN scroll away) */
+  header nav .nav-sections {
+    grid-area: sections;
+    justify-self: center;
+    position: fixed;
+    top: 15px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 101;
+  }
+
+  header nav .nav-sections .default-content-wrapper > ul {
+    background-color: var(--brand-yellow);
+    border-radius: 30px;
+    padding: 10px;
+    gap: 10px;
+    align-items: center;
+  }
+
+  /* EN language switcher — top-right with dropdown chevron */
+  header nav .nav-tools {
+    place-self: start end;
+    margin-top: 18px;
+  }
+
+  header nav .nav-tools p::after {
+    content: '';
+    display: inline-block;
+    margin-left: 6px;
+    width: 8px;
+    height: 8px;
+    border-right: 2px solid var(--brand-black);
+    border-bottom: 2px solid var(--brand-black);
+    transform: translateY(-2px) rotate(45deg);
+  }
 }

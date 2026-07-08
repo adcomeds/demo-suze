@@ -1,0 +1,237 @@
+{
+  "metadata": {
+    "projectType": "xwalk"
+  },
+  "templates": [
+    {
+      "name": "homepage",
+      "urls": [
+        "https://www.suze.com/"
+      ],
+      "representativeUrl": "https://www.suze.com/",
+      "coverageGaps": [],
+      "description": "Suze homepage with animated hero/frieze, product-showcase flip cards (How to drink it), and Suze story cover-player section",
+      "blocks": [
+        {
+          "name": "hero",
+          "instances": [
+            "#main > div.homepage > section.section:nth-child(1)"
+          ]
+        },
+        {
+          "name": "columns-frieze",
+          "instances": [
+            "#main > div.homepage > section.section.ofw-hidden:nth-child(2)"
+          ]
+        },
+        {
+          "name": "cards-flip",
+          "instances": [
+            "#main > div.homepage > section.section.ofw-hidden:nth-child(3)"
+          ]
+        },
+        {
+          "name": "hero-cover-player",
+          "instances": [
+            "#main > div.homepage > section.section.ofw-hidden:nth-child(4)"
+          ]
+        }
+      ],
+      "sections": [
+        {
+          "id": "home-1",
+          "name": "Hero",
+          "selector": "#main > div.homepage > section.section:nth-child(1)",
+          "style": null,
+          "blocks": [
+            "hero"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "home-2",
+          "name": "Suze L'Originale intro",
+          "selector": "#main > div.homepage > section.section.ofw-hidden:nth-child(2)",
+          "style": null,
+          "blocks": [
+            "columns-frieze"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "home-3",
+          "name": "How to drink it?",
+          "selector": "#main > div.homepage > section.section.ofw-hidden:nth-child(3)",
+          "style": "orange",
+          "blocks": [
+            "cards-flip"
+          ],
+          "defaultContent": [
+            "#main > div.homepage > section.section.ofw-hidden:nth-child(3) h2"
+          ]
+        },
+        {
+          "id": "home-4",
+          "name": "Suze story",
+          "selector": "#main > div.homepage > section.section.ofw-hidden:nth-child(4)",
+          "style": null,
+          "blocks": [
+            "hero-cover-player"
+          ],
+          "defaultContent": []
+        }
+      ]
+    },
+    {
+      "name": "product-page",
+      "urls": [
+        "https://www.suze.com/product/suze-loriginale/",
+        "https://www.suze.com/product/suze-tonic-0/"
+      ],
+      "representativeUrl": "https://www.suze.com/product/suze-loriginale/",
+      "coverageGaps": [],
+      "description": "Product detail page with video hero, tasting-notes, How-to-enjoy flip cards, origin frieze, and elaboration cover-player",
+      "blocks": [
+        {
+          "name": "hero-video-cover",
+          "instances": [
+            "#main > div.product > section.section:nth-child(1)"
+          ]
+        },
+        {
+          "name": "cards-tasting-notes",
+          "instances": [
+            "#main > div.product > section.section.product-section:nth-child(2)"
+          ]
+        },
+        {
+          "name": "cards-flip",
+          "instances": [
+            "#main > div.product > section.section.ofw-hidden:nth-child(3)"
+          ]
+        },
+        {
+          "name": "columns-frieze",
+          "instances": [
+            "#main > div.product > section.section.ofw-hidden:nth-child(4)"
+          ]
+        },
+        {
+          "name": "hero-cover-player",
+          "instances": [
+            "#main > div.product > section.section:nth-child(5)"
+          ]
+        }
+      ],
+      "sections": [
+        {
+          "id": "prod-1",
+          "name": "Hero",
+          "selector": "#main > div.product > section.section:nth-child(1)",
+          "style": null,
+          "blocks": [
+            "hero-video-cover"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "prod-2",
+          "name": "Product tasting notes",
+          "selector": "#main > div.product > section.section.product-section:nth-child(2)",
+          "style": null,
+          "blocks": [
+            "cards-tasting-notes"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "prod-3",
+          "name": "How to enjoy Suze?",
+          "selector": "#main > div.product > section.section.ofw-hidden:nth-child(3)",
+          "style": "orange",
+          "blocks": [
+            "cards-flip"
+          ],
+          "defaultContent": [
+            "#main > div.product > section.section.ofw-hidden:nth-child(3) h2"
+          ]
+        },
+        {
+          "id": "prod-4",
+          "name": "Where does Suze come from?",
+          "selector": "#main > div.product > section.section.ofw-hidden:nth-child(4)",
+          "style": null,
+          "blocks": [
+            "columns-frieze"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "prod-5",
+          "name": "Suze's elaboration",
+          "selector": "#main > div.product > section.section:nth-child(5)",
+          "style": "orange",
+          "blocks": [
+            "hero-cover-player"
+          ],
+          "defaultContent": [
+            "#main > div.product > section.section:nth-child(5) h2"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "suze-story",
+      "urls": [
+        "https://www.suze.com/suze-story/"
+      ],
+      "representativeUrl": "https://www.suze.com/suze-story/",
+      "coverageGaps": [],
+      "description": "Brand history timeline page with year navigation and chronological story entries",
+      "blocks": [
+        {
+          "name": "hero-frieze-cover",
+          "instances": [
+            "#main > div.history > section.section:nth-child(1)",
+            "main .history > section:nth-child(1)"
+          ]
+        },
+        {
+          "name": "cards-timeline",
+          "instances": [
+            "#main > div.history > section.section:nth-child(2)",
+            "main .history > section:nth-child(2)"
+          ]
+        }
+      ],
+      "sections": [
+        {
+          "id": "story-1",
+          "name": "Hero",
+          "selector": [
+            "#main > div.history > section.section:nth-child(1)",
+            "main .history > section:nth-child(1)"
+          ],
+          "style": null,
+          "blocks": [
+            "hero-frieze-cover"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "story-2",
+          "name": "History timeline",
+          "selector": [
+            "#main > div.history > section.section:nth-child(2)",
+            "main .history > section:nth-child(2)"
+          ],
+          "style": null,
+          "blocks": [
+            "cards-timeline"
+          ],
+          "defaultContent": []
+        }
+      ]
+    }
+  ]
+}

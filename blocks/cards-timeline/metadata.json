@@ -1,0 +1,41 @@
+{
+  "variantName": "cards-timeline",
+  "baseBlock": "cards",
+  "version": "1.0.0",
+  "created": "2026-07-07T15:55:00.000Z",
+  "sourceContext": {
+    "originUrl": "https://www.suze.com/suze-story/",
+    "originPage": "Suze story (brand history) page",
+    "blockPosition": "middle"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "accent",
+    "density": "spacious",
+    "purpose": "history-timeline",
+    "imagePattern": "large"
+  },
+  "contentPattern": {
+    "structure": "year-navigation list (anchor scroll) + repeating chronological entries; each entry = year label + image + heading + paragraph, alternating image-left/image-right",
+    "buttonCount": 0,
+    "imageCount": 10,
+    "repeating": true,
+    "entryCount": 10,
+    "anchorNavigation": true
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "brand-history / chronological timeline sections with an anchor year (or milestone) navigation and one image+heading+text entry per point in time",
+      "any milestone list where entries alternate image and text sides and are jump-linked from a nav"
+    ],
+    "notSuitableFor": [
+      "simple image + text card grids (use vanilla cards)",
+      "cocktail/recipe flip cards (use cards-flip)",
+      "icon-left tasting-note/spec lists (use cards-tasting-notes)"
+    ]
+  },
+  "usage": {
+    "pagesUsing": ["/suze-story"],
+    "reuseCount": 1,
+    "lastUsed": "2026-07-07T15:55:00.000Z"
+  }
+}

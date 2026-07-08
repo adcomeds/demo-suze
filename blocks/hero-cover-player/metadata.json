@@ -1,0 +1,38 @@
+{
+  "variantName": "hero-cover-player",
+  "baseBlock": "hero",
+  "version": "1.0.0",
+  "created": "2026-07-07T15:35:00.000Z",
+  "sourceContext": {
+    "originUrl": "https://www.suze.com/",
+    "originPage": "Suze homepage",
+    "blockPosition": "bottom"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "accent",
+    "density": "spacious",
+    "purpose": "video-cover-player",
+    "imagePattern": "large"
+  },
+  "contentPattern": {
+    "structure": "frieze-heading + poster image with play button (opens video) + paragraph + CTA",
+    "buttonCount": 1,
+    "imageCount": 1,
+    "videoCount": 1
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "brand-story sections with a poster image that plays an embedded video",
+      "cover-player layouts featuring an animated repeating word-frieze heading band"
+    ],
+    "notSuitableFor": [
+      "static lead image + heading with no video (use hero)",
+      "card grids or side-by-side text columns"
+    ]
+  },
+  "usage": {
+    "pagesUsing": ["/index", "/product/suze-loriginale"],
+    "reuseCount": 2,
+    "lastUsed": "2026-07-07T15:46:00.000Z"
+  }
+}

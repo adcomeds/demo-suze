@@ -1,0 +1,13 @@
+{
+  "status": "success",
+  "url": "https://www.suze.com/product/suze-tonic-0/",
+  "path": "product/suze-tonic-0",
+  "timestamp": "2026-07-07T16:58:43.492Z",
+  "title": "Suze Tonic 0%: Our Zero-Alc. Alternative, Ready to Go | Suze",
+  "template": "product-page",
+  "blocks": [
+    "hero-video-cover",
+    "cards-tasting-notes",
+    "cards-flip"
+  ]
+}

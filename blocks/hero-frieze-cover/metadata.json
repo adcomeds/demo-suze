@@ -1,0 +1,39 @@
+{
+  "variantName": "hero-frieze-cover",
+  "baseBlock": "hero",
+  "version": "1.0.0",
+  "created": "2026-07-07T15:55:00.000Z",
+  "sourceContext": {
+    "originUrl": "https://www.suze.com/suze-story/",
+    "originPage": "Suze story (brand history) page",
+    "blockPosition": "top"
+  },
+  "visualCharacteristics": {
+    "colorScheme": "accent",
+    "density": "spacious",
+    "purpose": "frieze-cover-hero",
+    "imagePattern": "large"
+  },
+  "contentPattern": {
+    "structure": "full-bleed static cover image + overlaid orange frieze insert band (title + description) with decorative corner ornaments",
+    "buttonCount": 0,
+    "imageCount": 1,
+    "videoCount": 0
+  },
+  "reuseGuidance": {
+    "suitableFor": [
+      "static poster/cover hero sections with a title and short description overlaid in a brand-colored frieze insert band",
+      "brand-story or landing lead sections that use the frieze design language without any video"
+    ],
+    "notSuitableFor": [
+      "poster with click-to-play video (use hero-cover-player)",
+      "full-bleed autoplay background video hero (use hero-video-cover)",
+      "plain background-image hero with no frieze band (use vanilla hero)"
+    ]
+  },
+  "usage": {
+    "pagesUsing": ["/suze-story"],
+    "reuseCount": 1,
+    "lastUsed": "2026-07-07T15:55:00.000Z"
+  }
+}

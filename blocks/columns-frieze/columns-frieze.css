@@ -1,0 +1,211 @@
+/* columns-frieze — "Suze L'Originale intro" section on brand orange */
+
+.columns-frieze {
+  position: relative;
+  padding-bottom: 60px;
+}
+
+/* ---------- Frieze band (full-bleed animated marquee) ---------- */
+
+.columns-frieze-band {
+  position: relative;
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  height: 90px;
+  overflow: hidden;
+}
+
+.columns-frieze-track {
+  display: flex;
+  width: max-content;
+  height: 100%;
+  animation: columns-frieze-scroll 8s linear infinite;
+}
+
+.columns-frieze-track.paused {
+  animation-play-state: paused;
+}
+
+.columns-frieze-set {
+  display: flex;
+  flex: 0 0 auto;
+}
+
+.columns-frieze-text {
+  display: block;
+  padding-right: 0.3em;
+  color: #fff;
+  font-family: var(--heading-font-family);
+  font-weight: 800;
+  font-size: 64px;
+  line-height: 90px;
+  white-space: nowrap;
+
+  /* white fill with black outline */
+  -webkit-text-fill-color: #fff;
+  -webkit-text-stroke: 1px var(--brand-black);
+}
+
+@keyframes columns-frieze-scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+/* pause / play control */
+.columns-frieze-pause {
+  position: absolute;
+  left: 24px;
+  top: 100%;
+  z-index: 3;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 4px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--brand-black);
+  font-family: var(--body-font-family);
+  font-weight: 700;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.columns-frieze-pause-icon {
+  position: relative;
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--brand-black);
+  border-radius: 50%;
+}
+
+.columns-frieze-pause-icon::before,
+.columns-frieze-pause-icon::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  width: 2px;
+  height: 7px;
+  background: var(--brand-black);
+  transform: translateY(-50%);
+}
+
+.columns-frieze-pause-icon::before { left: 5px; }
+.columns-frieze-pause-icon::after { right: 5px; }
+
+/* play (triangle) state */
+.columns-frieze-pause.is-paused .columns-frieze-pause-icon::before {
+  left: 6px;
+  width: 0;
+  height: 0;
+  border-top: 4px solid transparent;
+  border-bottom: 4px solid transparent;
+  border-left: 6px solid var(--brand-black);
+  background: transparent;
+}
+
+.columns-frieze-pause.is-paused .columns-frieze-pause-icon::after {
+  display: none;
+}
+
+/* ---------- Content row: bottle image + yellow card ---------- */
+
+.columns-frieze > div:not(.columns-frieze-band) {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding-top: 40px;
+}
+
+.columns-frieze > div:not(.columns-frieze-band) > .columns-frieze-img-col {
+  width: 100%;
+  order: 0;
+}
+
+.columns-frieze > div:not(.columns-frieze-band) > .columns-frieze-img-col img {
+  display: block;
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+/* text cell = yellow card */
+.columns-frieze > div:not(.columns-frieze-band) > div:last-child {
+  order: 1;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 20px 25px 25px;
+  border-radius: 16px;
+  background-color: var(--brand-yellow);
+}
+
+.columns-frieze > div:not(.columns-frieze-band) > div:last-child p {
+  margin: 0;
+  color: var(--brand-black);
+  font-size: 18px;
+  font-weight: 500;
+  line-height: normal;
+}
+
+.columns-frieze > div:not(.columns-frieze-band) > div:last-child p:has(a.button) {
+  margin-top: 20px;
+}
+
+/* CTA black pill inherits global .button styles */
+.columns-frieze a.button {
+  font-size: 15px;
+}
+
+@media (width >= 900px) {
+  .columns-frieze {
+    padding-bottom: 160px;
+  }
+
+  .columns-frieze-band {
+    height: 143px;
+  }
+
+  .columns-frieze-text {
+    font-size: 110px;
+    line-height: 143px;
+  }
+
+  /* content: centered wrapper, card on the right, bottle absolute over its left */
+  .columns-frieze > div:not(.columns-frieze-band) {
+    flex-direction: row;
+    justify-content: center;
+    align-items: flex-start;
+    max-width: 1130px;
+    margin: 0 auto;
+    padding-top: 100px;
+  }
+
+  .columns-frieze > div:not(.columns-frieze-band) > .columns-frieze-img-col {
+    position: absolute;
+    left: 0;
+    top: 100px;
+    width: 673px;
+    margin-left: 53px;
+    order: unset;
+    z-index: 1;
+  }
+
+  .columns-frieze > div:not(.columns-frieze-band) > .columns-frieze-img-col img {
+    width: 673px;
+    height: 484px;
+    border-radius: 8px;
+  }
+
+  .columns-frieze > div:not(.columns-frieze-band) > div:last-child {
+    position: relative;
+    width: 471px;
+    flex: 0 0 471px;
+    margin-left: auto;
+    order: unset;
+    z-index: 2;
+  }
+}

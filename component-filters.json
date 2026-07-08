@@ -19,9 +19,42 @@
     ]
   },
   {
+    "id": "cards-flip",
+    "components": [
+      "flip-card"
+    ]
+  },
+  {
+    "id": "cards-tasting-notes",
+    "components": [
+      "tasting-note-card"
+    ]
+  },
+  {
+    "id": "cards-timeline",
+    "components": [
+      "timeline-card"
+    ]
+  },
+  {
     "id": "cards",
     "components": [
       "card"
+    ]
+  },
+  {
+    "id": "columns-frieze",
+    "components": [
+      "column"
+    ]
+  },
+  {
+    "id": "column",
+    "components": [
+      "text",
+      "image",
+      "button",
+      "title"
     ]
   },
   {

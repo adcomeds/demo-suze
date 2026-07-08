@@ -1,0 +1,142 @@
+/*
+ * Hero Frieze Cover
+ * Rounded full-bleed B&W cover image with an overlaid orange "frieze" insert
+ * band anchored bottom-left containing the bold title + description, blended
+ * into the rounded image with two concave corner ornaments.
+ * Source: .history__header on suze.com/suze-story (measured @1440).
+ */
+
+/* Full-bleed: neutralize EDS section max-width/padding so the hero controls
+   its own ~30px page inset, matching the source (1380 wide within 1440). */
+.hero-frieze-cover-wrapper {
+  max-width: 100% !important;
+  padding: 0 !important;
+}
+
+/* Block is the positioning context; aspect ratio locks the cover proportions. */
+.hero-frieze-cover {
+  position: relative;
+  z-index: 1;
+  box-sizing: border-box;
+  display: block;
+  margin: 0;
+
+  /* top spacing clears the header; horizontal inset ~16px mobile */
+  padding: 16px 16px 0;
+}
+
+/* Rounded media card. Yellow bg shows as a thin strip below the image
+   (source: media padding-bottom 14px over a #ffdf00 background). */
+.hero-frieze-cover .hero-frieze-cover-media {
+  position: relative;
+  z-index: 1;
+  box-sizing: border-box;
+  aspect-ratio: 1380 / 700;
+  padding-bottom: 14px;
+  border-radius: 20px;
+  overflow: hidden;
+  background-color: var(--brand-yellow, #ffdf00);
+}
+
+.hero-frieze-cover .hero-frieze-cover-media picture {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.hero-frieze-cover .hero-frieze-cover-media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Orange frieze insert band overlaid on the bottom-left of the cover image. */
+.hero-frieze-cover .hero-frieze-cover-insert {
+  position: absolute;
+  left: 16px;
+  bottom: 0;
+  z-index: 10;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  max-width: 80%;
+  padding: 10px 20px 5px 0;
+  background-color: var(--brand-orange, #fe6b1e);
+  border-radius: 0 20px 0 0;
+  color: var(--brand-black, #000);
+}
+
+/* Text content wrapper (the authored cell) holds the title + description. */
+.hero-frieze-cover .hero-frieze-cover-insert > div {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.hero-frieze-cover .hero-frieze-cover-insert h1 {
+  margin: 0;
+  padding: 0;
+  font-family: var(--heading-font-family);
+  font-size: var(--heading-font-size-xxl);
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: normal;
+  color: var(--brand-black, #000);
+}
+
+.hero-frieze-cover .hero-frieze-cover-insert p {
+  margin: 0;
+  padding: 0;
+  font-size: var(--body-font-size-m, 18px);
+  font-weight: 500;
+  line-height: 1.2;
+  color: var(--brand-black, #000);
+}
+
+/*
+ * Decorative concave corner ornaments (40x21 SVG) that blend the orange band
+ * into the rounded image. Same SVG for both, positioned per source:
+ * before = external top-left corner, after = the notch at the band top-right.
+ */
+.hero-frieze-cover .hero-frieze-cover-corner {
+  position: absolute;
+  width: 40px;
+  height: 21px;
+  background-image: url('./insert-corner.svg');
+  background-repeat: no-repeat;
+  background-size: 40px 21px;
+  pointer-events: none;
+}
+
+.hero-frieze-cover .hero-frieze-cover-corner.before {
+  top: -20px;
+  left: -21px;
+}
+
+.hero-frieze-cover .hero-frieze-cover-corner.after {
+  bottom: 0;
+  left: 100%;
+  margin-left: -21px;
+}
+
+@media (width >= 900px) {
+  .hero-frieze-cover {
+    padding: 24px 30px 0;
+  }
+
+  .hero-frieze-cover .hero-frieze-cover-insert {
+    left: 30px;
+    width: 474px;
+    max-width: 474px;
+    padding: 10px 30px 5px 0;
+  }
+
+  .hero-frieze-cover .hero-frieze-cover-insert > div {
+    gap: 30px;
+  }
+
+  .hero-frieze-cover .hero-frieze-cover-insert h1 {
+    line-height: 58px;
+  }
+}
