@@ -46,15 +46,20 @@ export function moveInstrumentation(from, to) {
 }
 
 /**
- * Returns the locale root of the current page — the first two path segments,
- * e.g. "/masters/en" for "/masters/en/product/x", or "" at the site root.
- * In this path-based multi-locale setup the nav/footer fragments live at
- * `<localeRoot>/nav` and `<localeRoot>/footer`.
+ * Returns the locale root of the current page in a path-based multi-locale setup,
+ * where nav/footer fragments live at `<localeRoot>/nav` and `<localeRoot>/footer`.
+ * The locale is the first two path segments (e.g. "/masters/en"). On the author /
+ * Universal Editor the page is served under a `/content/<site>/` prefix
+ * (e.g. "/content/suze/masters/en/index.html"); that prefix is preserved so the
+ * fragments resolve in the editor too.
  * @returns {string} the locale root path, or "" if the page is not under a locale
  */
 export function getLocaleRoot() {
-  const [, first, second] = window.location.pathname.split('/');
-  return first && second ? `/${first}/${second}` : '';
+  const segments = window.location.pathname.replace(/\.html$/, '').split('/').filter(Boolean);
+  const prefix = segments[0] === 'content' ? segments.slice(0, 2) : [];
+  const locale = segments.slice(prefix.length, prefix.length + 2);
+  if (locale.length < 2) return '';
+  return `/${[...prefix, ...locale].join('/')}`;
 }
 
 /**
