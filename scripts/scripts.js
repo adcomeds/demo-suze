@@ -46,6 +46,18 @@ export function moveInstrumentation(from, to) {
 }
 
 /**
+ * Returns the locale root of the current page — the first two path segments,
+ * e.g. "/masters/en" for "/masters/en/product/x", or "" at the site root.
+ * In this path-based multi-locale setup the nav/footer fragments live at
+ * `<localeRoot>/nav` and `<localeRoot>/footer`.
+ * @returns {string} the locale root path, or "" if the page is not under a locale
+ */
+export function getLocaleRoot() {
+  const [, first, second] = window.location.pathname.split('/');
+  return first && second ? `/${first}/${second}` : '';
+}
+
+/**
  * load fonts.css and set a session storage flag
  */
 async function loadFonts() {
