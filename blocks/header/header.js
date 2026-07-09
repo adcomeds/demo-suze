@@ -5,6 +5,83 @@ import { getLocaleRoot } from '../../scripts/scripts.js';
 // media query match that indicates mobile/tablet width
 const isDesktop = window.matchMedia('(min-width: 900px)');
 
+// hardcoded language options per country (first locale path segment)
+const LANGUAGE_OPTIONS = {
+  masters: [['en', 'English'], ['fr', 'Français']],
+  fr: [['fr', 'Français'], ['en', 'English']],
+  us: [['en', 'English'], ['es', 'Español']],
+};
+
+/**
+ * Replaces the authored nav "tools" cell (the "EN" label) with a hardcoded
+ * language dropdown. Available languages depend on the country — the first
+ * locale path segment — so /fr offers French + English and /us offers English +
+ * Spanish. Selecting a language swaps the language segment of the current path.
+ * Works both on the delivery tier (/fr/fr/…) and in Universal Editor, where the
+ * page is served under a /content/<site>/ prefix.
+ * @param {Element} nav the decorated <nav> element
+ */
+function decorateLanguageSelector(nav) {
+  const navTools = nav.querySelector('.nav-tools');
+  if (!navTools) return;
+
+  const segments = window.location.pathname.replace(/\.html$/, '').split('/').filter(Boolean);
+  const offset = segments[0] === 'content' ? 2 : 0;
+  const country = segments[offset];
+  const lang = segments[offset + 1];
+  const options = LANGUAGE_OPTIONS[country];
+  if (!options || !lang) {
+    navTools.textContent = '';
+    return;
+  }
+
+  const wrapper = document.createElement('div');
+  wrapper.className = 'nav-language';
+
+  const current = options.find(([code]) => code === lang);
+  const toggle = document.createElement('button');
+  toggle.type = 'button';
+  toggle.className = 'nav-language-toggle';
+  toggle.setAttribute('aria-haspopup', 'true');
+  toggle.setAttribute('aria-expanded', 'false');
+  toggle.textContent = current ? current[1] : lang.toUpperCase();
+
+  const list = document.createElement('ul');
+  list.className = 'nav-language-list';
+  const suffix = window.location.pathname.endsWith('.html') ? '.html' : '';
+  // at the locale root (homepage) link to the folder URL with a trailing slash
+  const isLocaleRoot = segments.length <= offset + 2;
+  options.forEach(([code, label]) => {
+    const li = document.createElement('li');
+    const a = document.createElement('a');
+    const parts = [...segments];
+    parts[offset + 1] = code;
+    a.href = `/${parts.join('/')}${suffix || (isLocaleRoot ? '/' : '')}`;
+    a.textContent = label;
+    if (code === lang) a.setAttribute('aria-current', 'true');
+    li.append(a);
+    list.append(li);
+  });
+
+  wrapper.append(toggle, list);
+
+  const close = () => {
+    wrapper.classList.remove('open');
+    toggle.setAttribute('aria-expanded', 'false');
+  };
+  toggle.addEventListener('click', (e) => {
+    e.stopPropagation();
+    const open = wrapper.classList.toggle('open');
+    toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+  });
+  document.addEventListener('click', (e) => {
+    if (!wrapper.contains(e.target)) close();
+  });
+
+  navTools.textContent = '';
+  navTools.append(wrapper);
+}
+
 function closeOnEscape(e) {
   if (e.code === 'Escape') {
     const nav = document.getElementById('nav');
@@ -220,6 +297,8 @@ export default async function decorate(block) {
 
     decorateNavHighlight(navSections);
   }
+
+  decorateLanguageSelector(nav);
 
   // hamburger for mobile
   const hamburger = document.createElement('div');

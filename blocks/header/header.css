@@ -293,7 +293,7 @@ header nav .nav-sections ul > li > ul > li {
   }
 }
 
-/* tools — EN language switcher */
+/* tools — language switcher */
 header nav .nav-tools {
   grid-area: tools;
   font-family: var(--body-font-family);
@@ -305,6 +305,79 @@ header nav .nav-tools {
 
 header nav .nav-tools p {
   margin: 0;
+}
+
+/* hardcoded language selection dropdown */
+header nav .nav-language {
+  position: relative;
+  text-transform: none;
+}
+
+header nav .nav-language-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--brand-black);
+  font-family: var(--body-font-family);
+  font-size: 14px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+header nav .nav-language-toggle::after {
+  content: '';
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-right: 2px solid var(--brand-black);
+  border-bottom: 2px solid var(--brand-black);
+  transform: translateY(-2px) rotate(45deg);
+  transition: transform 0.2s ease;
+}
+
+header nav .nav-language.open .nav-language-toggle::after {
+  transform: translateY(2px) rotate(-135deg);
+}
+
+header nav .nav-language-list {
+  position: absolute;
+  right: 0;
+  top: 100%;
+  z-index: 102;
+  display: none;
+  min-width: 130px;
+  margin: 10px 0 0;
+  padding: 6px 0;
+  list-style: none;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 6px 20px rgb(0 0 0 / 18%);
+}
+
+header nav .nav-language.open .nav-language-list {
+  display: block;
+}
+
+header nav .nav-language-list a:any-link {
+  display: block;
+  padding: 8px 18px;
+  color: var(--brand-black);
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+header nav .nav-language-list a:hover {
+  background: var(--brand-yellow);
+}
+
+header nav .nav-language-list a[aria-current] {
+  font-weight: 800;
 }
 
 /* ===== Suze brand header ===== */
