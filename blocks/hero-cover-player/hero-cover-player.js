@@ -2,13 +2,14 @@ import { moveInstrumentation } from '../../scripts/scripts.js';
 
 /**
  * Hero Cover Player ("Suze story" cover-player)
- * Structure authored as three rows:
- *   1. image cell  -> poster (founder image, contains the yellow maze / name / 1889 baked in)
- *   2. video cell  -> a link whose href is the YouTube URL
- *   3. text cell   -> h2 (frieze marquee text) + intro paragraph + CTA link
+ * Structure authored as four rows:
+ *   1. image cell   -> poster (founder image, contains the yellow maze / name / 1889 baked in)
+ *   2. video cell   -> a link whose href is the YouTube URL
+ *   3. heading cell -> frieze marquee text (its own field, edited independently of the text below)
+ *   4. text cell    -> intro paragraph + CTA link
  *
  * Renders:
- *   - an animated marquee "frieze" band from the h2 (columns-frieze visual pattern)
+ *   - an animated marquee "frieze" band from the heading (columns-frieze visual pattern)
  *   - a yellow media panel with the poster and a centered circular play button that
  *     swaps in the embedded YouTube video on click
  *   - an orange "insert" text box overlapping the panel, with the intro + black pill CTA
@@ -23,17 +24,18 @@ export default function decorate(block) {
   const videoUrl = videoAnchor ? videoAnchor.href : '';
 
   const picture = block.querySelector('picture');
-  const heading = block.querySelector('h1, h2, h3');
 
   const imageRow = picture ? rows.find((r) => r.contains(picture)) : null;
   const videoRow = videoAnchor ? rows.find((r) => r.contains(videoAnchor)) : null;
-  // Text row = the row that holds the heading (frieze text).
-  const textRow = rows.find((r) => r.contains(heading));
+  // The heading and text rows are whatever's left, in authored field order.
+  const [headingRow, textRow] = rows.filter((r) => r !== imageRow && r !== videoRow);
+  const headingCell = headingRow ? headingRow.querySelector(':scope > div') || headingRow : null;
+  const headingText = headingCell ? headingCell.textContent.trim() : '';
   const textCell = textRow ? textRow.querySelector(':scope > div') || textRow : null;
 
   // ---- Build the frieze band ----------------------------------------------
-  if (heading) {
-    const text = heading.textContent.trim();
+  if (headingText) {
+    const text = headingText;
 
     const band = document.createElement('div');
     band.className = 'hero-cover-player-band';
@@ -70,8 +72,13 @@ export default function decorate(block) {
     band.appendChild(pauseBtn);
     band.appendChild(track);
 
-    // keep a visually-hidden heading for a11y
-    heading.classList.add('hero-cover-player-sr-heading');
+    // a visually-hidden real heading for a11y, kept editable via the heading row
+    const srHeading = document.createElement('h2');
+    srHeading.className = 'hero-cover-player-sr-heading';
+    srHeading.textContent = text;
+    if (headingRow) moveInstrumentation(headingRow, srHeading);
+    band.appendChild(srHeading);
+
     block.insertBefore(band, block.firstElementChild);
   }
 
@@ -120,7 +127,6 @@ export default function decorate(block) {
 
   if (textCell) {
     [...textCell.children].forEach((el) => {
-      if (el === heading) return;
       const anchor = el.matches('a') ? el : el.querySelector('a');
       if (anchor && anchor !== videoAnchor) {
         anchor.classList.add('button');

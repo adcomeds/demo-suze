@@ -422,6 +422,13 @@
         "value": ""
       },
       {
+        "component": "text",
+        "valueType": "string",
+        "name": "heading",
+        "label": "Frieze Heading",
+        "value": ""
+      },
+      {
         "component": "richtext",
         "name": "text",
         "value": "",
