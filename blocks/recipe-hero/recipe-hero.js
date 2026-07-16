@@ -3,92 +3,66 @@ import { moveInstrumentation } from '../../scripts/scripts.js';
 
 /**
  * Recipe Hero
- * Full-bleed cocktail hero: large image + title/tagline + a meta strip
- * (glassware, prep time, difficulty, servings).
+ * Full-bleed cocktail hero: large image + title/tagline + a meta strip of stats
+ * (e.g. glassware, prep time, difficulty, servings).
  *
- * Authored rows (recipe-hero model, in field order):
- *   row = image (picture)
- *   row = text  (h1 title + optional tagline)
- *   row = meta  (pipe-separated: "Old-Fashioned | 3 min | Easy | Serves 1")
- *
- * Rows are classified by content shape so a missing meta row degrades
- * gracefully. Meta labels are localized from the page language (derived from
- * the /recipes/<lang>/ path segment, falling back to <html lang>).
+ * Authored as a container:
+ *   row 0    = Content item (image, text)
+ *   row 1..N = Stat items (label, value) — any number, in author-chosen order
  */
-const META_LABELS = {
-  en: ['Glass', 'Time', 'Difficulty', 'Serves'],
-  es: ['Vaso', 'Tiempo', 'Dificultad', 'Raciones'],
-  fr: ['Verre', 'Temps', 'Difficulté', 'Personnes'],
-};
-
-function getLang() {
-  const fromPath = window.location.pathname.match(/\/recipes\/([a-z]{2})\//);
-  if (fromPath && META_LABELS[fromPath[1]]) return fromPath[1];
-  const htmlLang = (document.documentElement.lang || '').slice(0, 2).toLowerCase();
-  return META_LABELS[htmlLang] ? htmlLang : 'en';
-}
-
 export default function decorate(block) {
-  const labels = META_LABELS[getLang()];
-  let imageRow = null;
-  let textRow = null;
-  const metaValues = [];
-
-  // The decorated block is flat: block > div(row) > [content nodes].
-  [...block.children].forEach((row) => {
-    const text = row.textContent.trim();
-    if (!imageRow && row.querySelector('picture, img')) {
-      imageRow = row;
-    } else if (text.includes('|')) {
-      // meta row: pipe-separated "glass | time | difficulty | serves"
-      text.split('|').forEach((part) => {
-        const v = part.trim();
-        if (v) metaValues.push(v);
-      });
-    } else if (!textRow && text) {
-      // remaining text row = title + tagline
-      textRow = row;
-    }
-  });
+  const [contentRow, ...statRows] = [...block.children];
 
   const frag = document.createDocumentFragment();
 
   // media
   const media = document.createElement('div');
   media.className = 'recipe-hero-media';
-  if (imageRow) {
-    while (imageRow.firstChild) media.append(imageRow.firstChild);
-  }
-  frag.append(media);
 
   // insert: title/tagline + meta strip
   const insert = document.createElement('div');
   insert.className = 'recipe-hero-insert';
-  if (textRow) {
-    const body = document.createElement('div');
-    body.className = 'recipe-hero-text';
-    while (textRow.firstChild) body.append(textRow.firstChild);
-    insert.append(body);
-  }
 
-  if (metaValues.length) {
+  if (contentRow) {
+    moveInstrumentation(contentRow, media);
+    const cells = [...contentRow.children];
+    const imageCell = cells.find((c) => c.querySelector('picture, img'));
+    const textCell = cells.find((c) => c !== imageCell);
+
+    if (imageCell) {
+      while (imageCell.firstChild) media.append(imageCell.firstChild);
+    }
+    if (textCell) {
+      const body = document.createElement('div');
+      body.className = 'recipe-hero-text';
+      while (textCell.firstChild) body.append(textCell.firstChild);
+      insert.append(body);
+    }
+  }
+  frag.append(media, insert);
+
+  if (statRows.length) {
     const metaStrip = document.createElement('ul');
     metaStrip.className = 'recipe-hero-meta';
-    metaValues.forEach((value, i) => {
+    statRows.forEach((row) => {
+      const cells = [...row.children];
       const item = document.createElement('li');
       item.className = 'recipe-hero-meta-item';
+      moveInstrumentation(row, item);
+
       const label = document.createElement('span');
       label.className = 'recipe-hero-meta-label';
-      label.textContent = labels[i] || '';
-      const val = document.createElement('span');
-      val.className = 'recipe-hero-meta-value';
-      val.textContent = value;
-      item.append(label, val);
+      label.textContent = cells[0] ? cells[0].textContent.trim() : '';
+
+      const value = document.createElement('span');
+      value.className = 'recipe-hero-meta-value';
+      value.textContent = cells[1] ? cells[1].textContent.trim() : '';
+
+      item.append(label, value);
       metaStrip.append(item);
     });
     insert.append(metaStrip);
   }
-  frag.append(insert);
 
   // optimize the hero image
   const img = media.querySelector('picture > img');

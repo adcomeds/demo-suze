@@ -50,7 +50,17 @@
         "hero",
         "cards",
         "columns",
-        "fragment"
+        "fragment",
+        "cards-flip",
+        "cards-tasting-notes",
+        "cards-timeline",
+        "columns-frieze",
+        "hero-cover-player",
+        "hero-frieze-cover",
+        "hero-video-cover",
+        "recipe-hero",
+        "recipe-ingredients",
+        "recipe-steps"
       ]
     }
   ]

@@ -14,14 +14,133 @@
           }
         }
       }
+    },
+    {
+      "title": "Flip Card",
+      "id": "flip-card",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block/item",
+            "template": {
+              "name": "Flip Card",
+              "model": "flip-card"
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Back Content",
+      "id": "flip-card-back",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block/item",
+            "template": {
+              "name": "Back Content",
+              "model": "flip-card-back"
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Ingredient",
+      "id": "flip-card-ingredient",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block/item",
+            "template": {
+              "name": "Ingredient",
+              "model": "flip-card-ingredient"
+            }
+          }
+        }
+      }
     }
   ],
-  "models": [],
+  "models": [
+    {
+      "id": "flip-card",
+      "fields": [
+        {
+          "component": "reference",
+          "valueType": "string",
+          "name": "image",
+          "label": "Image",
+          "multi": false
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "heading",
+          "label": "Front Title",
+          "value": ""
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "description",
+          "label": "Description",
+          "value": ""
+        }
+      ]
+    },
+    {
+      "id": "flip-card-back",
+      "fields": [
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "heading",
+          "label": "Back Title",
+          "value": ""
+        },
+        {
+          "component": "richtext",
+          "name": "method",
+          "value": "",
+          "label": "Method",
+          "valueType": "string"
+        },
+        {
+          "component": "aem-content",
+          "valueType": "string",
+          "name": "productLink",
+          "label": "Product Link",
+          "value": ""
+        }
+      ]
+    },
+    {
+      "id": "flip-card-ingredient",
+      "fields": [
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "quantity",
+          "label": "Quantity",
+          "value": ""
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "ingredient",
+          "label": "Ingredient",
+          "value": ""
+        }
+      ]
+    }
+  ],
   "filters": [
     {
       "id": "cards-flip",
       "components": [
-        "card"
+        "flip-card",
+        "flip-card-back",
+        "flip-card-ingredient"
       ]
     }
   ]

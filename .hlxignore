@@ -1,5 +1,6 @@
 .*
 *.md
+migration-notes/*
 karma.config.js
 LICENSE
 package.json

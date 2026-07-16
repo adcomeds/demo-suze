@@ -1,3 +1,5 @@
+import { moveInstrumentation } from '../../scripts/scripts.js';
+
 /**
  * Hero Video Cover
  * A full-bleed rounded cover with an autoplay/loop/muted background video and
@@ -31,11 +33,12 @@ export default function decorate(block) {
   const videoRow = videoAnchor
     ? rows.find((r) => r.contains(videoAnchor))
     : rows.find((r) => r.textContent.trim() === videoUrl);
-  if (videoRow && videoRow.parentElement === block) videoRow.remove();
 
   // --- Build the rounded media cover with a background video ---
   const media = document.createElement('div');
   media.className = 'hero-video-cover-media';
+  if (videoRow) moveInstrumentation(videoRow, media);
+  if (videoRow && videoRow.parentElement === block) videoRow.remove();
 
   if (videoUrl) {
     const video = document.createElement('video');

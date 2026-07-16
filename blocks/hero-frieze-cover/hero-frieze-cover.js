@@ -1,3 +1,5 @@
+import { moveInstrumentation } from '../../scripts/scripts.js';
+
 /**
  * Hero Frieze Cover
  * A full-bleed rounded cover image with an overlaid orange "frieze" insert band
@@ -12,6 +14,7 @@ export default function decorate(block) {
   // Build the rounded media card from the picture (a direct child of the block).
   const media = document.createElement('div');
   media.className = 'hero-frieze-cover-media';
+  if (pictureRow) moveInstrumentation(pictureRow, media);
   if (picture) media.append(picture);
 
   // Build the overlaid orange insert band from the remaining (text) content.
@@ -24,6 +27,7 @@ export default function decorate(block) {
       row.remove();
       return;
     }
+    moveInstrumentation(row, insert);
     while (row.firstElementChild) insert.append(row.firstElementChild);
     row.remove();
   });

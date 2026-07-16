@@ -142,6 +142,148 @@
     ]
   },
   {
+    "id": "flip-card",
+    "fields": [
+      {
+        "component": "reference",
+        "valueType": "string",
+        "name": "image",
+        "label": "Image",
+        "multi": false
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "heading",
+        "label": "Front Title",
+        "value": ""
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "description",
+        "label": "Description",
+        "value": ""
+      }
+    ]
+  },
+  {
+    "id": "flip-card-back",
+    "fields": [
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "heading",
+        "label": "Back Title",
+        "value": ""
+      },
+      {
+        "component": "richtext",
+        "name": "method",
+        "value": "",
+        "label": "Method",
+        "valueType": "string"
+      },
+      {
+        "component": "aem-content",
+        "valueType": "string",
+        "name": "productLink",
+        "label": "Product Link",
+        "value": ""
+      }
+    ]
+  },
+  {
+    "id": "flip-card-ingredient",
+    "fields": [
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "quantity",
+        "label": "Quantity",
+        "value": ""
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "ingredient",
+        "label": "Ingredient",
+        "value": ""
+      }
+    ]
+  },
+  {
+    "id": "tasting-hero-item",
+    "fields": [
+      {
+        "component": "reference",
+        "valueType": "string",
+        "name": "image",
+        "label": "Bottle Image",
+        "multi": false
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "imageAlt",
+        "label": "Alt Text",
+        "value": ""
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "heading",
+        "label": "Frieze Heading",
+        "value": ""
+      }
+    ]
+  },
+  {
+    "id": "tasting-note-item",
+    "fields": [
+      {
+        "component": "reference",
+        "valueType": "string",
+        "name": "icon",
+        "label": "Icon",
+        "multi": false
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "label",
+        "label": "Label",
+        "value": ""
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "value",
+        "label": "Value",
+        "value": ""
+      }
+    ]
+  },
+  {
+    "id": "tasting-outro-item",
+    "fields": [
+      {
+        "component": "richtext",
+        "name": "intro",
+        "value": "",
+        "label": "Intro Text",
+        "valueType": "string"
+      },
+      {
+        "component": "aem-content",
+        "valueType": "string",
+        "name": "productLink",
+        "label": "Buy Now Link",
+        "value": ""
+      }
+    ]
+  },
+  {
     "id": "timeline-card",
     "fields": [
       {
@@ -162,7 +304,7 @@
         "component": "text",
         "valueType": "string",
         "name": "imageAlt",
-        "label": "Alt",
+        "label": "Alt Text",
         "value": ""
       },
       {
@@ -183,6 +325,13 @@
         "name": "image",
         "label": "Image",
         "multi": false
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "imageAlt",
+        "label": "Alt Text",
+        "value": ""
       },
       {
         "component": "richtext",
@@ -255,7 +404,7 @@
         "component": "text",
         "valueType": "string",
         "name": "imageAlt",
-        "label": "Alt",
+        "label": "Alt Text",
         "value": ""
       },
       {
@@ -288,7 +437,7 @@
         "component": "text",
         "valueType": "string",
         "name": "imageAlt",
-        "label": "Alt",
+        "label": "Alt Text",
         "value": ""
       },
       {
@@ -333,7 +482,7 @@
         "component": "text",
         "valueType": "string",
         "name": "imageAlt",
-        "label": "Alt",
+        "label": "Alt Text",
         "value": ""
       },
       {
@@ -346,7 +495,7 @@
     ]
   },
   {
-    "id": "recipe-hero",
+    "id": "recipe-hero-content",
     "fields": [
       {
         "component": "reference",
@@ -359,7 +508,7 @@
         "component": "text",
         "valueType": "string",
         "name": "imageAlt",
-        "label": "Image Alt",
+        "label": "Alt Text",
         "value": ""
       },
       {
@@ -368,12 +517,24 @@
         "value": "",
         "label": "Title & Tagline",
         "valueType": "string"
+      }
+    ]
+  },
+  {
+    "id": "hero-stat-item",
+    "fields": [
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "label",
+        "label": "Label",
+        "value": ""
       },
       {
         "component": "text",
         "valueType": "string",
-        "name": "meta",
-        "label": "Meta (Glass · Time · Difficulty · Servings, pipe-separated)",
+        "name": "value",
+        "label": "Value",
         "value": ""
       }
     ]

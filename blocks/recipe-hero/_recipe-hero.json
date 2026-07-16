@@ -9,7 +9,37 @@
             "resourceType": "core/franklin/components/block/v1/block",
             "template": {
               "name": "Recipe Hero",
-              "model": "recipe-hero"
+              "filter": "recipe-hero"
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Content",
+      "id": "recipe-hero-content",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block/item",
+            "template": {
+              "name": "Content",
+              "model": "recipe-hero-content"
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Stat",
+      "id": "hero-stat-item",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block/item",
+            "template": {
+              "name": "Stat",
+              "model": "hero-stat-item"
             }
           }
         }
@@ -18,7 +48,7 @@
   ],
   "models": [
     {
-      "id": "recipe-hero",
+      "id": "recipe-hero-content",
       "fields": [
         {
           "component": "reference",
@@ -31,7 +61,7 @@
           "component": "text",
           "valueType": "string",
           "name": "imageAlt",
-          "label": "Image Alt",
+          "label": "Alt Text",
           "value": ""
         },
         {
@@ -40,16 +70,36 @@
           "value": "",
           "label": "Title & Tagline",
           "valueType": "string"
+        }
+      ]
+    },
+    {
+      "id": "hero-stat-item",
+      "fields": [
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "label",
+          "label": "Label",
+          "value": ""
         },
         {
           "component": "text",
           "valueType": "string",
-          "name": "meta",
-          "label": "Meta (Glass · Time · Difficulty · Servings, pipe-separated)",
+          "name": "value",
+          "label": "Value",
           "value": ""
         }
       ]
     }
   ],
-  "filters": []
+  "filters": [
+    {
+      "id": "recipe-hero",
+      "components": [
+        "recipe-hero-content",
+        "hero-stat-item"
+      ]
+    }
+  ]
 }

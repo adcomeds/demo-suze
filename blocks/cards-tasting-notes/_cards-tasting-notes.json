@@ -14,14 +14,133 @@
           }
         }
       }
+    },
+    {
+      "title": "Bottle Hero",
+      "id": "tasting-hero-item",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block/item",
+            "template": {
+              "name": "Bottle Hero",
+              "model": "tasting-hero-item"
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Tasting Note",
+      "id": "tasting-note-item",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block/item",
+            "template": {
+              "name": "Tasting Note",
+              "model": "tasting-note-item"
+            }
+          }
+        }
+      }
+    },
+    {
+      "title": "Outro",
+      "id": "tasting-outro-item",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block/item",
+            "template": {
+              "name": "Outro",
+              "model": "tasting-outro-item"
+            }
+          }
+        }
+      }
     }
   ],
-  "models": [],
+  "models": [
+    {
+      "id": "tasting-hero-item",
+      "fields": [
+        {
+          "component": "reference",
+          "valueType": "string",
+          "name": "image",
+          "label": "Bottle Image",
+          "multi": false
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "imageAlt",
+          "label": "Alt Text",
+          "value": ""
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "heading",
+          "label": "Frieze Heading",
+          "value": ""
+        }
+      ]
+    },
+    {
+      "id": "tasting-note-item",
+      "fields": [
+        {
+          "component": "reference",
+          "valueType": "string",
+          "name": "icon",
+          "label": "Icon",
+          "multi": false
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "label",
+          "label": "Label",
+          "value": ""
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "value",
+          "label": "Value",
+          "value": ""
+        }
+      ]
+    },
+    {
+      "id": "tasting-outro-item",
+      "fields": [
+        {
+          "component": "richtext",
+          "name": "intro",
+          "value": "",
+          "label": "Intro Text",
+          "valueType": "string"
+        },
+        {
+          "component": "aem-content",
+          "valueType": "string",
+          "name": "productLink",
+          "label": "Buy Now Link",
+          "value": ""
+        }
+      ]
+    }
+  ],
   "filters": [
     {
       "id": "cards-tasting-notes",
       "components": [
-        "card"
+        "tasting-hero-item",
+        "tasting-note-item",
+        "tasting-outro-item"
       ]
     }
   ]

@@ -1,3 +1,5 @@
+import { moveInstrumentation } from '../../scripts/scripts.js';
+
 /**
  * Hero Cover Player ("Suze story" cover-player)
  * Structure authored as three rows:
@@ -23,6 +25,8 @@ export default function decorate(block) {
   const picture = block.querySelector('picture');
   const heading = block.querySelector('h1, h2, h3');
 
+  const imageRow = picture ? rows.find((r) => r.contains(picture)) : null;
+  const videoRow = videoAnchor ? rows.find((r) => r.contains(videoAnchor)) : null;
   // Text row = the row that holds the heading (frieze text).
   const textRow = rows.find((r) => r.contains(heading));
   const textCell = textRow ? textRow.querySelector(':scope > div') || textRow : null;
@@ -78,6 +82,7 @@ export default function decorate(block) {
   // Media panel (yellow) with the poster + play button.
   const media = document.createElement('div');
   media.className = 'hero-cover-player-media';
+  if (imageRow) moveInstrumentation(imageRow, media);
 
   const toEmbed = (url) => {
     const yt = url.match(/(?:youtube\.com\/(?:embed\/|watch\?v=)|youtu\.be\/)([\w-]{6,15})/);
@@ -105,11 +110,13 @@ export default function decorate(block) {
       playButton.remove();
     });
     media.appendChild(playButton);
+    if (videoRow) moveInstrumentation(videoRow, playButton);
   }
 
   // Insert box (orange) with intro paragraph + CTA.
   const insert = document.createElement('div');
   insert.className = 'hero-cover-player-insert';
+  if (textRow) moveInstrumentation(textRow, insert);
 
   if (textCell) {
     [...textCell.children].forEach((el) => {
