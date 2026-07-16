@@ -14,11 +14,21 @@ import { moveInstrumentation } from '../../scripts/scripts.js';
  * Bottle Hero and Outro are each expected once but are optional.
  */
 
-/** Classify a row by its authored model (falls back to cell shape when the
- * data-aue-model instrumentation attribute isn't present, e.g. on delivery). */
+/**
+ * Classify a row by its authored model. In Universal Editor each field cell
+ * carries a `data-aue-prop` attribute naming that field even before it has a
+ * value, so the first cell's field name reliably identifies the item type —
+ * unlike a content-shape check, which can't tell an empty Bottle Hero from an
+ * empty Outro (both are two empty cells). Falls back to cell-shape/content
+ * sniffing when that instrumentation isn't present (e.g. on delivery, where
+ * it's stripped and content is always filled in).
+ */
 function classifyRow(row) {
-  if (row.dataset.aueModel) return row.dataset.aueModel;
   const cells = [...row.children];
+  const firstProp = cells[0]?.dataset.aueProp;
+  if (firstProp === 'image') return 'tasting-hero-item';
+  if (firstProp === 'icon') return 'tasting-note-item';
+  if (firstProp === 'intro') return 'tasting-outro-item';
   if (cells.length >= 3) return 'tasting-note-item';
   const hasPicture = cells.some((c) => c.querySelector('picture, img'));
   return hasPicture ? 'tasting-hero-item' : 'tasting-outro-item';
@@ -80,10 +90,8 @@ export default function decorate(block) {
     if (type === 'tasting-hero-item') {
       const [imageCell, headingCell] = cells;
       headingText = headingCell ? headingCell.textContent.trim() : '';
-      if (imageCell && imageCell.querySelector('picture, img')) {
-        bottleRow = row;
-        bottleCell = imageCell;
-      }
+      bottleRow = row;
+      bottleCell = imageCell;
     } else if (type === 'tasting-outro-item') {
       outroRow = row;
     } else {
@@ -104,11 +112,13 @@ export default function decorate(block) {
   content.className = 'cards-tasting-notes-content';
 
   // bottle
-  if (bottleCell) {
+  if (bottleRow) {
     const imgBox = document.createElement('div');
     imgBox.className = 'cards-tasting-notes-img-box';
     moveInstrumentation(bottleRow, imgBox);
-    while (bottleCell.firstChild) imgBox.append(bottleCell.firstChild);
+    if (bottleCell) {
+      while (bottleCell.firstChild) imgBox.append(bottleCell.firstChild);
+    }
     // The tonic bottle image (suze_tonic_logo) already embeds the "0%" ring
     // badge, so we only tag the variant for any variant-specific styling.
     const bottleImg = imgBox.querySelector('img');

@@ -21,9 +21,21 @@ import { moveInstrumentation } from '../../scripts/scripts.js';
  * that entirely.)
  */
 
+/**
+ * Classify a row by its authored model. In Universal Editor each field cell
+ * carries a `data-aue-prop` attribute naming that field even before it has a
+ * value, so the first cell's field name reliably identifies the item type —
+ * unlike a content-shape check, which can't tell an empty Flip Card from an
+ * empty Back Content item. Falls back to cell-shape/content sniffing when
+ * that instrumentation isn't present (e.g. on delivery, where it's stripped
+ * and content is always filled in).
+ */
 function classifyRow(row) {
-  if (row.dataset.aueModel) return row.dataset.aueModel;
   const cells = [...row.children];
+  const firstProp = cells[0]?.dataset.aueProp;
+  if (firstProp === 'image') return 'flip-card';
+  if (firstProp === 'heading') return 'flip-card-back';
+  if (firstProp === 'quantity') return 'flip-card-ingredient';
   if (cells.length <= 2) return 'flip-card-ingredient';
   const hasPicture = cells[0] && cells[0].querySelector('picture, img');
   return hasPicture ? 'flip-card' : 'flip-card-back';
