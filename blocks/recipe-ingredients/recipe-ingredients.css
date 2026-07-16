@@ -1,0 +1,54 @@
+/* Recipe Ingredients — quantity + ingredient rows on a yellow card (Suze brand) */
+.recipe-ingredients {
+  background-color: var(--brand-yellow);
+  border-radius: 20px;
+  padding: 24px 30px;
+  max-width: 560px;
+}
+
+.recipe-ingredients-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.recipe-ingredients-item {
+  display: flex;
+  align-items: baseline;
+  gap: 16px;
+  padding: 12px 0;
+  border-bottom: 2px solid rgb(0 0 0 / 12%);
+  font-family: var(--body-font-family);
+}
+
+.recipe-ingredients-item:last-child {
+  border-bottom: 0;
+}
+
+.recipe-ingredients-qty {
+  flex: 0 0 90px;
+  font-weight: 800;
+  font-size: 16px;
+  color: var(--brand-black);
+}
+
+.recipe-ingredients-name {
+  font-weight: 500;
+  font-size: 18px;
+  color: var(--brand-black);
+}
+
+@media (width >= 900px) {
+  .recipe-ingredients {
+    padding: 30px 40px;
+  }
+
+  .recipe-ingredients-qty {
+    flex-basis: 110px;
+    font-size: 18px;
+  }
+
+  .recipe-ingredients-name {
+    font-size: 20px;
+  }
+}

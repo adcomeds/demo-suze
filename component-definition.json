@@ -276,6 +276,81 @@
               }
             }
           }
+        },
+        {
+          "title": "Recipe Hero",
+          "id": "recipe-hero",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block",
+                "template": {
+                  "name": "Recipe Hero",
+                  "model": "recipe-hero"
+                }
+              }
+            }
+          }
+        },
+        {
+          "title": "Recipe Ingredients",
+          "id": "recipe-ingredients",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block",
+                "template": {
+                  "name": "Recipe Ingredients",
+                  "filter": "recipe-ingredients"
+                }
+              }
+            }
+          }
+        },
+        {
+          "title": "Ingredient",
+          "id": "ingredient-item",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block/item",
+                "template": {
+                  "name": "Ingredient",
+                  "model": "ingredient-item"
+                }
+              }
+            }
+          }
+        },
+        {
+          "title": "Recipe Steps",
+          "id": "recipe-steps",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block",
+                "template": {
+                  "name": "Recipe Steps",
+                  "filter": "recipe-steps"
+                }
+              }
+            }
+          }
+        },
+        {
+          "title": "Step",
+          "id": "step-item",
+          "plugins": {
+            "xwalk": {
+              "page": {
+                "resourceType": "core/franklin/components/block/v1/block/item",
+                "template": {
+                  "name": "Step",
+                  "model": "step-item"
+                }
+              }
+            }
+          }
         }
       ]
     }

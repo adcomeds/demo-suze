@@ -1,0 +1,119 @@
+/* Recipe Hero — cocktail lead image + title + meta strip (Suze brand) */
+.recipe-hero-wrapper {
+  max-width: 100% !important;
+  padding: 0 !important;
+}
+
+.recipe-hero {
+  position: relative;
+  box-sizing: border-box;
+  padding: 16px 16px 40px;
+  margin: 0;
+}
+
+.recipe-hero-media {
+  position: relative;
+  border-radius: 20px;
+  overflow: hidden;
+  margin: 0;
+  line-height: 0;
+}
+
+.recipe-hero-media picture {
+  display: block;
+}
+
+.recipe-hero-media img {
+  display: block;
+  width: 100%;
+  height: 360px;
+  object-fit: cover;
+}
+
+/* orange insert notched into the bottom-left of the image */
+.recipe-hero-insert {
+  position: absolute;
+  left: 16px;
+  bottom: 0;
+  z-index: 10;
+  max-width: 560px;
+  padding: 20px 30px 12px 0;
+  background-color: var(--brand-orange);
+  border-radius: 0 20px 0 0;
+}
+
+.recipe-hero-text h1 {
+  margin: 0;
+  padding: 0;
+  color: var(--brand-black);
+  font-family: var(--heading-font-family);
+  font-size: 34px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.recipe-hero-text p {
+  margin: 8px 0 0;
+  color: var(--brand-black);
+  font-size: 16px;
+  font-weight: 500;
+  max-width: 460px;
+}
+
+/* meta strip: glass · time · difficulty · serves */
+.recipe-hero-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  list-style: none;
+  margin: 16px 0 0;
+  padding: 0;
+}
+
+.recipe-hero-meta-item {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 8px 16px;
+  background-color: var(--brand-yellow);
+  border-radius: 16px;
+}
+
+.recipe-hero-meta-label {
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--brand-black);
+  opacity: 0.6;
+}
+
+.recipe-hero-meta-value {
+  font-size: 15px;
+  font-weight: 800;
+  color: var(--brand-black);
+}
+
+@media (width >= 900px) {
+  .recipe-hero {
+    padding: 24px 30px 60px;
+  }
+
+  .recipe-hero-media img {
+    height: 620px;
+  }
+
+  .recipe-hero-insert {
+    left: 30px;
+    padding: 24px 40px 16px 0;
+  }
+
+  .recipe-hero-text h1 {
+    font-size: 58px;
+    line-height: 58px;
+  }
+
+  .recipe-hero-text p {
+    font-size: 18px;
+  }
+}

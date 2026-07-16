@@ -71,5 +71,17 @@
       "button",
       "title"
     ]
+  },
+  {
+    "id": "recipe-ingredients",
+    "components": [
+      "ingredient-item"
+    ]
+  },
+  {
+    "id": "recipe-steps",
+    "components": [
+      "step-item"
+    ]
   }
 ]

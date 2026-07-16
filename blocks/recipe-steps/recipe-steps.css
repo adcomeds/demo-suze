@@ -1,0 +1,63 @@
+/* Recipe Steps — numbered preparation steps with brand-styled counters */
+.recipe-steps-list {
+  list-style: none;
+  counter-reset: recipe-step;
+  margin: 0;
+  padding: 0;
+  max-width: 720px;
+}
+
+.recipe-steps-item {
+  counter-increment: recipe-step;
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  padding: 16px 0;
+  border-bottom: 2px solid rgb(0 0 0 / 12%);
+}
+
+.recipe-steps-item:last-child {
+  border-bottom: 0;
+}
+
+.recipe-steps-item::before {
+  content: counter(recipe-step);
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background-color: var(--brand-black);
+  color: #fff;
+  font-family: var(--heading-font-family);
+  font-weight: 800;
+  font-size: 20px;
+  line-height: 1;
+}
+
+.recipe-steps-body {
+  flex: 1 1 auto;
+}
+
+.recipe-steps-body p {
+  margin: 0;
+  color: var(--brand-black);
+  font-family: var(--body-font-family);
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+@media (width >= 900px) {
+  .recipe-steps-item::before {
+    width: 52px;
+    height: 52px;
+    font-size: 24px;
+  }
+
+  .recipe-steps-body p {
+    font-size: 20px;
+  }
+}
