@@ -69,6 +69,7 @@ export default function decorate(block) {
 
   // buckets
   let headingText = '';
+  let bottleRow = null;
   let bottleCell = null;
   const noteRows = [];
   let outroRow = null;
@@ -79,7 +80,10 @@ export default function decorate(block) {
     if (type === 'tasting-hero-item') {
       const [imageCell, headingCell] = cells;
       headingText = headingCell ? headingCell.textContent.trim() : '';
-      if (imageCell && imageCell.querySelector('picture, img')) bottleCell = imageCell;
+      if (imageCell && imageCell.querySelector('picture, img')) {
+        bottleRow = row;
+        bottleCell = imageCell;
+      }
     } else if (type === 'tasting-outro-item') {
       outroRow = row;
     } else {
@@ -103,6 +107,7 @@ export default function decorate(block) {
   if (bottleCell) {
     const imgBox = document.createElement('div');
     imgBox.className = 'cards-tasting-notes-img-box';
+    moveInstrumentation(bottleRow, imgBox);
     while (bottleCell.firstChild) imgBox.append(bottleCell.firstChild);
     // The tonic bottle image (suze_tonic_logo) already embeds the "0%" ring
     // badge, so we only tag the variant for any variant-specific styling.
