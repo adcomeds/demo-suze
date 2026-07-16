@@ -130,6 +130,13 @@
           "name": "productLink",
           "label": "Buy Now Link",
           "value": ""
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "productLinkText",
+          "label": "Buy Now Button Text",
+          "value": ""
         }
       ]
     }
