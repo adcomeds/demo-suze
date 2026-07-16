@@ -18,6 +18,8 @@ indices:
   recipes:
     include:
       - '/*/*/recipes/**'
+    exclude:
+      - '/*/*/recipes'
     target: /query-index-recipes.json
     properties:
       title:
