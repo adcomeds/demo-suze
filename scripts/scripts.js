@@ -63,6 +63,21 @@ export function getLocaleRoot() {
 }
 
 /**
+ * Returns the delivery-path locale prefix (e.g. "/us/en"), stripped of any
+ * `/content/<site>` Universal Editor prefix. Unlike `getLocaleRoot()`, this is
+ * meant for matching against delivery paths coming from a query index (whose
+ * `path` values never carry the UE prefix), not for resolving fragment URLs.
+ * @returns {string} the locale prefix path, or "" if the page is not under a locale
+ */
+export function getLocalePrefix() {
+  const segments = window.location.pathname.replace(/\.html$/, '').split('/').filter(Boolean);
+  const offset = segments[0] === 'content' ? 2 : 0;
+  const locale = segments.slice(offset, offset + 2);
+  if (locale.length < 2) return '';
+  return `/${locale.join('/')}`;
+}
+
+/**
  * load fonts.css and set a session storage flag
  */
 async function loadFonts() {

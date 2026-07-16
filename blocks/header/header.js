@@ -1,6 +1,7 @@
 import { getMetadata } from '../../scripts/aem.js';
 import { loadFragment } from '../fragment/fragment.js';
 import { getLocaleRoot } from '../../scripts/scripts.js';
+import decorateSearch from './search.js';
 
 // media query match that indicates mobile/tablet width
 const isDesktop = window.matchMedia('(min-width: 900px)');
@@ -295,6 +296,7 @@ export default async function decorate(block) {
       }
     });
 
+    decorateSearch(navSections);
     decorateNavHighlight(navSections);
   }
 

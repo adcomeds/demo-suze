@@ -427,6 +427,8 @@ header nav .nav-brand img {
   header nav .nav-sections {
     grid-area: sections;
     justify-self: center;
+    display: flex;
+    align-items: center;
     position: fixed;
     top: 15px;
     left: 50%;
@@ -481,6 +483,26 @@ header nav .nav-brand img {
     color: #fff;
   }
 
+  header nav .nav-sections .default-content-wrapper > ul > li.nav-lit .nav-search-icon {
+    background-color: #fff;
+  }
+
+  /* once open, the pill highlight would sit behind the expanded input and
+     hurt readability — suppress it regardless of hover/focus state */
+  header nav .nav-sections .default-content-wrapper > ul:has(> li.nav-search.open) .nav-highlight {
+    opacity: 0;
+  }
+
+  header nav .nav-sections .default-content-wrapper > ul > li.nav-search.open .nav-search-icon {
+    background-color: var(--brand-black);
+  }
+
+  /* hovering a result row still bubbles into the shared nav-lit state (which
+     turns all a:any-link white) — keep result titles/links black while open */
+  header nav .nav-sections .default-content-wrapper > ul > li.nav-search.open a:any-link {
+    color: var(--brand-black);
+  }
+
   /* EN language switcher — top-right with dropdown chevron */
   header nav .nav-tools {
     place-self: start end;
@@ -496,5 +518,154 @@ header nav .nav-brand img {
     border-right: 2px solid var(--brand-black);
     border-bottom: 2px solid var(--brand-black);
     transform: translateY(-2px) rotate(45deg);
+  }
+}
+
+/* recipe search */
+header nav .nav-search {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+header nav .nav-search-toggle {
+  display: inline-flex;
+  align-items: center;
+  margin: 0;
+  border: 0;
+  padding: 2px 10px 5px;
+  border-radius: 70px;
+  background: transparent;
+  cursor: pointer;
+}
+
+header nav .nav-search-icon {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  background-color: var(--brand-black);
+  transition: background-color 0.2s ease;
+  mask-image: url('/icons/search.svg');
+  mask-repeat: no-repeat;
+  mask-position: center;
+  mask-size: contain;
+}
+
+header nav .nav-search-field {
+  display: flex;
+  align-items: center;
+  width: 0;
+  overflow: hidden;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  header nav .nav-search-field {
+    transition: width 0.25s ease;
+  }
+}
+
+header nav .nav-search.open .nav-search-field {
+  width: 220px;
+  overflow: visible;
+}
+
+header nav .nav-search-input {
+  width: 100%;
+  margin-left: 8px;
+  border: 0;
+  border-bottom: 2px solid var(--brand-black);
+  background: transparent;
+  color: var(--brand-black);
+  font-family: var(--body-font-family);
+  font-size: 14px;
+  padding: 4px 6px;
+}
+
+header nav .nav-search .nav-search-results {
+  display: block;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 102;
+  margin: 8px 0 0;
+  padding: 6px 0;
+  list-style: none;
+  max-height: 320px;
+  overflow-y: auto;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 6px 20px rgb(0 0 0 / 18%);
+}
+
+header nav .nav-search .nav-search-results[hidden] {
+  display: none;
+}
+
+header nav .nav-search .nav-search-results li a {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding: 8px 12px;
+  color: var(--brand-black);
+  text-decoration: none;
+}
+
+header nav .nav-search .nav-search-results li a:hover,
+header nav .nav-search .nav-search-results li.nav-search-result-active a {
+  background-color: var(--brand-yellow);
+  color: var(--brand-black);
+}
+
+header nav .nav-search .nav-search-result-title {
+  overflow: hidden;
+  font-size: 14px;
+  font-weight: 500;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+header nav .nav-search .nav-search-result-description {
+  overflow: hidden;
+  font-size: 12px;
+  font-weight: 400;
+  color: #666;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+header nav .nav-search .nav-search-empty {
+  padding: 10px 12px;
+  color: #666;
+  font-size: 14px;
+}
+
+header nav .nav-search .nav-search-status {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* mobile hamburger menu — search sits below the nav links, always expanded */
+@media (width < 900px) {
+  header nav .nav-search {
+    margin: 16px 0;
+  }
+
+  header nav .nav-search-toggle {
+    display: none;
+  }
+
+  header nav .nav-search-field {
+    flex: 1;
+    width: auto;
+    overflow: visible;
+  }
+
+  header nav .nav-search-input {
+    margin-left: 0;
   }
 }
