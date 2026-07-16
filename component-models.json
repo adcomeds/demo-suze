@@ -190,6 +190,13 @@
         "name": "productLink",
         "label": "Product Link",
         "value": ""
+      },
+      {
+        "component": "text",
+        "valueType": "string",
+        "name": "productLinkText",
+        "label": "Product Link Button Text",
+        "value": ""
       }
     ]
   },
