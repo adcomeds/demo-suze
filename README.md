@@ -1,9 +1,9 @@
-# Your Project's Title...
-Your project's description...
+# Suze
+Demo site built with Adobe Experience Manager Edge Delivery Services.
 
 ## Environments
-- Preview: https://main--{repo}--{owner}.aem.page/
-- Live: https://main--{repo}--{owner}.aem.live/
+- Preview: https://main--demo-suze--adcomeds.aem.page/
+- Live: https://main--demo-suze--adcomeds.aem.live/
 
 ## Documentation
 
