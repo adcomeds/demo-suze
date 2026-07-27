@@ -74,7 +74,12 @@ export function moveInstrumentation(from, to) {
 export function getLocaleRoot() {
   const segments = window.location.pathname.replace(/\.html$/, '').split('/').filter(Boolean);
   const prefix = segments[0] === 'content' ? segments.slice(0, 2) : [];
-  const locale = segments.slice(prefix.length, prefix.length + 2);
+  // Experiment variant pages are authored under a mirror `experiments/` tree
+  // (e.g. /content/suze/experiments/masters/en/index/<exp-id>/<variant>) and do
+  // not carry their own nav/footer. Skip the `experiments` segment so fragments
+  // resolve against the source locale, not the variant's own path.
+  const offset = segments[prefix.length] === 'experiments' ? prefix.length + 1 : prefix.length;
+  const locale = segments.slice(offset, offset + 2);
   if (locale.length < 2) return '';
   return `/${[...prefix, ...locale].join('/')}`;
 }
@@ -88,7 +93,10 @@ export function getLocaleRoot() {
  */
 export function getLocalePrefix() {
   const segments = window.location.pathname.replace(/\.html$/, '').split('/').filter(Boolean);
-  const offset = segments[0] === 'content' ? 2 : 0;
+  const base = segments[0] === 'content' ? 2 : 0;
+  // Skip the experiment mirror segment so variant pages match the source locale
+  // (see getLocaleRoot for details).
+  const offset = segments[base] === 'experiments' ? base + 1 : base;
   const locale = segments.slice(offset, offset + 2);
   if (locale.length < 2) return '';
   return `/${locale.join('/')}`;
