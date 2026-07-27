@@ -97,7 +97,7 @@ export default function decorate(block) {
     const li = document.createElement('li');
     moveInstrumentation(row, li);
 
-    const [imageCell, headingCell, descriptionCell] = [...row.children];
+    const [imageCell, headingCell, descriptionCell, flipLabelCell] = [...row.children];
     let backHeadingCell = null;
     let methodCell = null;
     let productLinkCell = null;
@@ -138,7 +138,9 @@ export default function decorate(block) {
     const flipBtn = document.createElement('button');
     flipBtn.type = 'button';
     flipBtn.className = 'flip-card-flip button';
-    flipBtn.textContent = 'Flip the card';
+    flipBtn.textContent = flipLabelCell && flipLabelCell.textContent.trim()
+      ? flipLabelCell.textContent.trim()
+      : 'Flip the card';
     front.append(flipBtn);
 
     // BACK: back title, recipe grid, method, product link + flip back

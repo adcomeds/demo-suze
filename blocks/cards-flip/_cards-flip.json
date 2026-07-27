@@ -85,6 +85,13 @@
           "name": "description",
           "label": "Description",
           "value": ""
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "flipLabel",
+          "label": "Flip Button Text",
+          "value": "Flip the card"
         }
       ]
     },
