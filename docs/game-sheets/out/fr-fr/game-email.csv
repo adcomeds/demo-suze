@@ -1,0 +1,13 @@
+"Key","Text","Review"
+"invite-email-subject","{inviterFirstName} vous invite à une partie d'échecs","MT: needs review"
+"invite-email-body","Bonjour,
+
+{inviterFirstName} a commencé une partie d'échecs dans le Suze Chess Challenge et vous invite à jouer les noirs.
+
+Ouvrez la partie ici : {gameUrl}
+
+Avant de jouer, vous devrez confirmer que vous avez l'âge légal pour consommer de l'alcool et accepter les conditions du jeu.
+
+Vous recevez cet e-mail unique parce que {inviterFirstName} a saisi votre adresse pour vous inviter. Votre adresse n'est ajoutée à aucune liste de diffusion.
+
+L'abus d'alcool est dangereux pour la santé, à consommer avec modération.","MT: needs review"

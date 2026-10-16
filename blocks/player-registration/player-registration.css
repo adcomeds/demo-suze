@@ -1,0 +1,20 @@
+.player-registration {
+  box-sizing: border-box;
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.player-registration h2 {
+  margin: 0 0 12px;
+  font-size: var(--heading-font-size-l);
+  line-height: 1.1;
+}
+
+.player-registration .player-registration-intro p {
+  margin: 0 0 24px;
+}
+
+.player-registration .game-field-checkbox label a {
+  font-weight: 800;
+  text-decoration: underline;
+}

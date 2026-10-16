@@ -1,0 +1,13 @@
+"Key","Text","Review"
+"invite-email-subject","{inviterFirstName} has invited you to a game of chess",""
+"invite-email-body","Hello,
+
+{inviterFirstName} has started a game of chess in the Suze Chess Challenge and invited you to play black.
+
+Open the game here: {gameUrl}
+
+Before you play, you will be asked to confirm that you are of legal drinking age and to accept the game terms.
+
+You are receiving this single email because {inviterFirstName} entered your address to invite you. Your address is not added to any mailing list.
+
+Please drink responsibly.",""

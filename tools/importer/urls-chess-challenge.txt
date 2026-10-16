@@ -1,0 +1,6 @@
+http://localhost:3000/tools/importer/sources/chess-challenge/masters-en.html
+http://localhost:3000/tools/importer/sources/chess-challenge/us-es.html
+http://localhost:3000/tools/importer/sources/chess-challenge/fr-fr.html
+http://localhost:3000/tools/importer/sources/chess-challenge/masters-en.html?variant=challenger
+http://localhost:3000/tools/importer/sources/chess-challenge/us-es.html?variant=challenger
+http://localhost:3000/tools/importer/sources/chess-challenge/fr-fr.html?variant=challenger

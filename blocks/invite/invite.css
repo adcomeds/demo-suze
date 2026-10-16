@@ -1,0 +1,51 @@
+.invite {
+  box-sizing: border-box;
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.invite h2 {
+  margin: 0 0 12px;
+  font-size: var(--heading-font-size-l);
+  line-height: 1.1;
+}
+
+.invite .invite-intro p {
+  margin: 0 0 24px;
+}
+
+.invite .invite-mock-panel {
+  display: grid;
+  gap: 12px;
+  margin-top: 24px;
+  border: 3px dashed var(--brand-black);
+  border-radius: 24px;
+  padding: 20px;
+  background-color: var(--brand-yellow);
+}
+
+.invite .invite-mock-panel h3 {
+  margin: 0;
+  font-size: var(--heading-font-size-s);
+}
+
+.invite .invite-mock-panel h3:focus-visible {
+  outline: 3px solid var(--brand-black);
+  outline-offset: 4px;
+}
+
+.invite .invite-mock-panel p {
+  margin: 0;
+}
+
+.invite .invite-mock-link {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 48px;
+  border: 2px solid var(--brand-black);
+  border-radius: 8px;
+  padding: 10px 14px;
+  background-color: #fff;
+  font: inherit;
+  font-size: var(--body-font-size-xs);
+}

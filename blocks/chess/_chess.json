@@ -1,0 +1,60 @@
+{
+  "definitions": [
+    {
+      "title": "Chess",
+      "id": "chess",
+      "plugins": {
+        "xwalk": {
+          "page": {
+            "resourceType": "core/franklin/components/block/v1/block",
+            "template": {
+              "name": "Chess",
+              "model": "chess"
+            }
+          }
+        }
+      }
+    }
+  ],
+  "models": [
+    {
+      "id": "chess",
+      "fields": [
+        {
+          "component": "multiselect",
+          "name": "classes",
+          "label": "Options",
+          "valueType": "string",
+          "options": [
+            {
+              "name": "Show an \"Invite a friend\" prompt after the opening move",
+              "value": "nudge"
+            }
+          ]
+        },
+        {
+          "component": "richtext",
+          "name": "resultWin",
+          "label": "Result: player won",
+          "valueType": "string",
+          "value": ""
+        },
+        {
+          "component": "richtext",
+          "name": "resultLoss",
+          "label": "Result: player lost",
+          "valueType": "string",
+          "value": ""
+        },
+        {
+          "component": "richtext",
+          "name": "resultDraw",
+          "label": "Result: draw",
+          "valueType": "string",
+          "value": ""
+        }
+      ]
+    }
+  ],
+  "filters": []
+}

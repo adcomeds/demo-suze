@@ -232,6 +232,43 @@
           "defaultContent": []
         }
       ]
+    },
+    {
+      "name": "chess-challenge",
+      "urls": [
+        "http://localhost:3000/tools/importer/sources/chess-challenge/masters-en.html",
+        "http://localhost:3000/tools/importer/sources/chess-challenge/us-es.html",
+        "http://localhost:3000/tools/importer/sources/chess-challenge/fr-fr.html"
+      ],
+      "representativeUrl": "http://localhost:3000/tools/importer/sources/chess-challenge/masters-en.html",
+      "coverageGaps": [],
+      "description": "New chess challenge game pages (control and, with ?variant=challenger, the experiment challenger). Sources are authoring briefs in tools/importer/sources/chess-challenge/.",
+      "blocks": [
+        {
+          "name": "age-gate",
+          "instances": [
+            "[data-block=\"age-gate\"]"
+          ]
+        },
+        {
+          "name": "player-registration",
+          "instances": [
+            "[data-block=\"player-registration\"]"
+          ]
+        },
+        {
+          "name": "chess",
+          "instances": [
+            "[data-block=\"chess\"]"
+          ]
+        },
+        {
+          "name": "invite",
+          "instances": [
+            "[data-block=\"invite\"]"
+          ]
+        }
+      ]
     }
   ]
 }
