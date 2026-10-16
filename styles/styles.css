@@ -74,8 +74,10 @@ body.appear {
   display: block;
 }
 
+/* the header is an overlay (see blocks/header/header.css): reserve no height on first
+   paint, otherwise the page jumps up when the header styles load (layout shift) */
 header {
-  height: var(--nav-height);
+  height: 0;
 }
 
 header .header,

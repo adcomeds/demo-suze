@@ -25,7 +25,11 @@
       "hero-video-cover",
       "recipe-hero",
       "recipe-ingredients",
-      "recipe-steps"
+      "recipe-steps",
+      "age-gate",
+      "player-registration",
+      "chess",
+      "invite"
     ]
   },
   {

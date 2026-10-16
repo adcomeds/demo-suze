@@ -58,6 +58,13 @@ footer .footer ul {
   font-weight: 800;
 }
 
+/* at least 24px tall tap targets (WCAG 2.2 target size) */
+footer .footer ul a:any-link {
+  display: inline-block;
+  min-height: 24px;
+  line-height: 24px;
+}
+
 footer .footer ul a::before {
   content: '> ';
 }

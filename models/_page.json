@@ -21,6 +21,96 @@
           "name": "keywords",
           "multi": true,
           "label": "Keywords"
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "experiment",
+          "label": "Experiment ID",
+          "description": "e.g. exp-chess-001. Leave empty when no experiment runs on this page."
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "experiment-variants",
+          "label": "Experiment Variants",
+          "description": "Comma separated URLs of the challenger pages"
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "experiment-split",
+          "label": "Experiment Split",
+          "description": "Comma separated percentages for the challengers, e.g. 50"
+        },
+        {
+          "component": "select",
+          "valueType": "string",
+          "name": "experiment-status",
+          "label": "Experiment Status",
+          "value": "",
+          "options": [
+            {
+              "name": "Not set",
+              "value": ""
+            },
+            {
+              "name": "Active",
+              "value": "Active"
+            },
+            {
+              "name": "Inactive",
+              "value": "Inactive"
+            }
+          ]
+        },
+        {
+          "component": "select",
+          "valueType": "string",
+          "name": "experiment-audience",
+          "label": "Experiment Audience",
+          "value": "",
+          "description": "Limit the experiment to an audience defined in scripts.js",
+          "options": [
+            {
+              "name": "Everyone",
+              "value": ""
+            },
+            {
+              "name": "Mobile only",
+              "value": "mobile"
+            },
+            {
+              "name": "Desktop only",
+              "value": "desktop"
+            }
+          ]
+        },
+        {
+          "component": "select",
+          "valueType": "string",
+          "name": "conversion-element",
+          "label": "Conversion Element",
+          "value": "",
+          "description": "What counts as a conversion (RUM conversion plugin)",
+          "options": [
+            {
+              "name": "Not set",
+              "value": ""
+            },
+            {
+              "name": "Form",
+              "value": "Form"
+            },
+            {
+              "name": "Link",
+              "value": "Link"
+            },
+            {
+              "name": "Labeled Link",
+              "value": "Labeled Link"
+            }
+          ]
         }
       ]
     }

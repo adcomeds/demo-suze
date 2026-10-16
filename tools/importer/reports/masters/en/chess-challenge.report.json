@@ -1,0 +1,15 @@
+{
+  "status": "success",
+  "url": "http://localhost:3000/tools/importer/sources/chess-challenge/masters-en.html",
+  "path": "masters/en/chess-challenge",
+  "timestamp": "2026-10-16T13:36:29.433Z",
+  "title": "The Suze Chess Challenge",
+  "template": "chess-challenge",
+  "variant": "control",
+  "blocks": [
+    "age-gate",
+    "player-registration",
+    "chess",
+    "invite"
+  ]
+}

@@ -35,6 +35,13 @@
               "value": "highlight"
             }
           ]
+        },
+        {
+          "component": "text",
+          "valueType": "string",
+          "name": "conversion-name",
+          "label": "Conversion Name",
+          "description": "RUM conversion name for forms in this section (experiment tracking), e.g. chess-invite"
         }
       ]
     }
@@ -60,7 +67,11 @@
         "hero-video-cover",
         "recipe-hero",
         "recipe-ingredients",
-        "recipe-steps"
+        "recipe-steps",
+        "age-gate",
+        "player-registration",
+        "chess",
+        "invite"
       ]
     }
   ]

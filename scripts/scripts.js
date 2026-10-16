@@ -9,6 +9,8 @@ import {
   loadSection,
   loadSections,
   loadCSS,
+  getMetadata,
+  toClassName,
 } from './aem.js';
 import {
   runExperimentation,
@@ -63,6 +65,18 @@ export function moveInstrumentation(from, to) {
 }
 
 /**
+ * Number of leading `/content/...` path segments that are not part of the delivery
+ * path: 2 for the `/content/<site>` prefix on the author / Universal Editor, 1 for the
+ * local dev server, which mounts imported content at `/content` (no site segment).
+ * @param {string[]} segments the path segments
+ * @returns {number} the number of segments to skip
+ */
+function contentPrefixLength(segments) {
+  if (segments[0] !== 'content') return 0;
+  return ['localhost', '127.0.0.1'].includes(window.location.hostname) ? 1 : 2;
+}
+
+/**
  * Returns the locale root of the current page in a path-based multi-locale setup,
  * where nav/footer fragments live at `<localeRoot>/nav` and `<localeRoot>/footer`.
  * The locale is the first two path segments (e.g. "/masters/en"). On the author /
@@ -73,12 +87,14 @@ export function moveInstrumentation(from, to) {
  */
 export function getLocaleRoot() {
   const segments = window.location.pathname.replace(/\.html$/, '').split('/').filter(Boolean);
-  const prefix = segments[0] === 'content' ? segments.slice(0, 2) : [];
+  const skip = contentPrefixLength(segments);
+  // the UE prefix is kept so fragments resolve in the editor; the local mount is not
+  const prefix = skip === 2 ? segments.slice(0, 2) : [];
   // Experiment variant pages are authored under a mirror `experiments/` tree
   // (e.g. /content/suze/experiments/masters/en/index/<exp-id>/<variant>) and do
   // not carry their own nav/footer. Skip the `experiments` segment so fragments
   // resolve against the source locale, not the variant's own path.
-  const offset = segments[prefix.length] === 'experiments' ? prefix.length + 1 : prefix.length;
+  const offset = segments[skip] === 'experiments' ? skip + 1 : skip;
   const locale = segments.slice(offset, offset + 2);
   if (locale.length < 2) return '';
   return `/${[...prefix, ...locale].join('/')}`;
@@ -93,13 +109,28 @@ export function getLocaleRoot() {
  */
 export function getLocalePrefix() {
   const segments = window.location.pathname.replace(/\.html$/, '').split('/').filter(Boolean);
-  const base = segments[0] === 'content' ? 2 : 0;
+  const base = contentPrefixLength(segments);
   // Skip the experiment mirror segment so variant pages match the source locale
   // (see getLocaleRoot for details).
   const offset = segments[base] === 'experiments' ? base + 1 : base;
   const locale = segments.slice(offset, offset + 2);
   if (locale.length < 2) return '';
   return `/${locale.join('/')}`;
+}
+
+/**
+ * Gives icon-only links (e.g. the logo) an accessible name. Uses the authored link title,
+ * else the icon name ("icon-logo-suze" -> "Suze").
+ * @param {Element} container the element to scan
+ */
+export function labelIconLinks(container) {
+  container.querySelectorAll('a[href]').forEach((link) => {
+    if (link.textContent.trim() || link.getAttribute('aria-label')) return;
+    if ([...link.querySelectorAll('img')].some((img) => img.alt)) return;
+    const icon = [...(link.querySelector('.icon')?.classList || [])].find((c) => c.startsWith('icon-'));
+    const name = link.title || icon?.replace(/^icon-(logo-)?/, '').replace(/-/g, ' ');
+    if (name) link.setAttribute('aria-label', name.replace(/\b\w/g, (c) => c.toUpperCase()));
+  });
 }
 
 /**
@@ -221,7 +252,9 @@ export function decorateMain(main) {
  * @param {Element} doc The container element
  */
 async function loadEager(doc) {
-  document.documentElement.lang = 'en';
+  // the language is the second locale segment, e.g. "/us/es/..." -> "es"
+  const [, lang] = getLocalePrefix().split('/').filter(Boolean);
+  document.documentElement.lang = /^[a-z]{2}$/.test(lang) ? lang : 'en';
   decorateTemplateAndTheme();
   await runExperimentation(doc, experimentationConfig);
   const main = doc.querySelector('main');
@@ -242,6 +275,28 @@ async function loadEager(doc) {
 }
 
 /**
+ * RUM conversion tracking (plugins/rum-conversion), only on pages that declare a
+ * "Conversion Element" in their metadata. When sections declare a "Conversion Name",
+ * tracking is limited to those sections, so other forms on the page (age gate,
+ * registration) never count as conversions.
+ * @param {Element} doc The container element
+ */
+async function loadConversionTracking(doc) {
+  if (!getMetadata('conversion-element')) return;
+  try {
+    // eslint-disable-next-line import/no-relative-packages
+    const { initConversionTracking } = await import('../plugins/rum-conversion/src/index.js');
+    const context = { getMetadata, toClassName };
+    const sections = [...doc.querySelectorAll('main .section[data-conversion-name]')];
+    const parents = sections.length ? sections : [doc];
+    parents.forEach((parent) => initConversionTracking.call(context, parent));
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.error('Failed to load conversion tracking:', error);
+  }
+}
+
+/**
  * Loads everything that doesn't need to be delayed.
  * @param {Element} doc The container element
  */
@@ -256,6 +311,7 @@ async function loadLazy(doc) {
   if (hash && element) element.scrollIntoView();
 
   loadFooter(doc.querySelector('footer'));
+  loadConversionTracking(doc);
 
   loadCSS(`${window.hlx.codeBasePath}/styles/lazy-styles.css`);
   loadFonts();

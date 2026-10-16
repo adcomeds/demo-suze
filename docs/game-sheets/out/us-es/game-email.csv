@@ -1,0 +1,13 @@
+"Key","Text","Review"
+"invite-email-subject","{inviterFirstName} te ha invitado a una partida de ajedrez",""
+"invite-email-body","Hola:
+
+{inviterFirstName} ha empezado una partida de ajedrez en el Suze Chess Challenge y te ha invitado a jugar con negras.
+
+Abre la partida aquí: {gameUrl}
+
+Antes de jugar, tendrás que confirmar que tienes la edad legal para beber y aceptar las condiciones del juego.
+
+Recibes este único correo porque {inviterFirstName} ha introducido tu dirección para invitarte. Tu dirección no se añade a ninguna lista de correo.
+
+Bebe con responsabilidad.",""

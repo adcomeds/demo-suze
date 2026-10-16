@@ -12,7 +12,9 @@
     "build:json:models": "merge-json-cli -i \"models/_component-models.json\" -o \"component-models.json\"",
     "build:json:definitions": "merge-json-cli -i \"models/_component-definition.json\" -o \"component-definition.json\"",
     "build:json:filters": "merge-json-cli -i \"models/_component-filters.json\" -o \"component-filters.json\"",
-    "prepare": "husky"
+    "prepare": "husky",
+    "sheets:build": "node tools/game-sheets/build.mjs",
+    "sheets:local": "node tools/game-sheets/build.mjs --local"
   },
   "repository": {
     "type": "git",

@@ -1,6 +1,6 @@
 import { getMetadata } from '../../scripts/aem.js';
 import { loadFragment } from '../fragment/fragment.js';
-import { getLocaleRoot } from '../../scripts/scripts.js';
+import { getLocaleRoot, labelIconLinks } from '../../scripts/scripts.js';
 import decorateSearch from './search.js';
 
 // media query match that indicates mobile/tablet width
@@ -317,6 +317,7 @@ export default async function decorate(block) {
 
   const navWrapper = document.createElement('div');
   navWrapper.className = 'nav-wrapper';
+  labelIconLinks(nav);
   navWrapper.append(nav);
   block.append(navWrapper);
 }

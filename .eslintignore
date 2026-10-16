@@ -2,3 +2,5 @@ helix-importer-ui
 dompurify.min.js
 *.min.js
 plugins/experimentation
+scripts/vendor
+plugins/rum-conversion

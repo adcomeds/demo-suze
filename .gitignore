@@ -11,3 +11,11 @@ helix-importer-ui
 # Ensure these files are tracked
 !CLAUDE.md
 !AGENTS.md
+
+# Local-only copies of AEM sheets for the chess challenge (npm run sheets:local).
+# The real sheets are authored in AEM; never commit these.
+/masters/
+/us/
+/fr/
+/game-config.json
+/metadata.json

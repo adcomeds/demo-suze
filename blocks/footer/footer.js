@@ -1,6 +1,6 @@
 import { getMetadata } from '../../scripts/aem.js';
 import { loadFragment } from '../fragment/fragment.js';
-import { getLocaleRoot } from '../../scripts/scripts.js';
+import { getLocaleRoot, labelIconLinks } from '../../scripts/scripts.js';
 
 /**
  * loads and decorates the footer
@@ -17,6 +17,7 @@ export default async function decorate(block) {
   block.textContent = '';
   const footer = document.createElement('div');
   while (fragment.firstElementChild) footer.append(fragment.firstElementChild);
+  labelIconLinks(footer);
 
   block.append(footer);
 }
