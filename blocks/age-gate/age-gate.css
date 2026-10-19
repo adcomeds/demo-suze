@@ -1,7 +1,7 @@
 .age-gate {
   box-sizing: border-box;
   max-width: 720px;
-  margin: 0 auto;
+  margin: var(--game-block-spacing, 40px) 0;
   border: 3px solid var(--brand-black);
   border-radius: 24px;
   padding: 24px;

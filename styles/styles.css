@@ -105,10 +105,15 @@
 
   /* nav height */
   --nav-height: 80px;
+
+  /* vertical space around the chess challenge blocks */
+  --game-block-spacing: 40px;
 }
 
 @media (width >= 900px) {
   :root {
+    --game-block-spacing: 56px;
+
     /* body sizes */
     --body-font-size-m: 18px;
     --body-font-size-s: 16px;
@@ -377,6 +382,24 @@ main > .section > div {
 
 main > .section:first-of-type {
   margin-top: 0;
+}
+
+/* The header is an overlay and the hero blocks leave room for it. Game pages start with
+   plain content instead, so clear the header: the 80px bar on small screens, and the
+   oversized desktop logo and the language menu, which reach about 205px. Kept in the eager styles so the
+   space is reserved on first paint (no layout shift). */
+main:has(.chess) > .section:first-of-type > .default-content-wrapper:first-child {
+  padding-top: 96px;
+}
+
+main:has(.chess) > .section:first-of-type > .default-content-wrapper:first-child > :first-child {
+  margin-top: 0;
+}
+
+@media (width >= 900px) {
+  main:has(.chess) > .section:first-of-type > .default-content-wrapper:first-child {
+    padding-top: 230px;
+  }
 }
 
 @media (width >= 900px) {

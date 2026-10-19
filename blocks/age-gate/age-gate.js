@@ -1,7 +1,7 @@
 import { fetchPlaceholders } from '../../scripts/placeholders.js';
 import { getAgeGateResult, setAgeGateResult } from '../../scripts/game-session.js';
 import {
-  createField, createStatus, loadFormStyles, validateForm, wireValidation,
+  createField, loadFormStyles, validateForm, wireValidation,
 } from '../../scripts/game-form.js';
 
 const DEFAULT_MINIMUM_AGE = 18;
@@ -132,5 +132,5 @@ export default async function decorate(block) {
   if (mode === 'dob') buildDob(form, t, minimumAge, done);
   else buildYesNo(form, t, minimumAge, done);
 
-  block.replaceChildren(heading, ...(intro.childNodes.length ? [intro] : []), form, createStatus());
+  block.replaceChildren(heading, ...(intro.childNodes.length ? [intro] : []), form);
 }
