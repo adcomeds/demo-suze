@@ -10,15 +10,22 @@ import {
 /* stable selector for the experiment conversion (submit of #chess-invite-form) */
 const SEND_BUTTON_ID = 'chess-invite-send';
 
-function buildMockPanel(t, link) {
+/**
+ * Panel with the game link, shown after every successful invite so the host can also share
+ * the link directly (the invite email may be slow, filtered or, in demos, not sent at all).
+ * @param {function} t placeholders
+ * @param {string} link absolute game link
+ * @param {string} headingText "Demo mode: no email was sent" (mock) or "Invite sent..." (real API)
+ */
+function buildLinkPanel(t, link, headingText) {
   const panel = document.createElement('div');
-  panel.className = 'invite-mock-panel';
+  panel.className = 'invite-link-panel';
   panel.setAttribute('role', 'region');
-  panel.setAttribute('aria-labelledby', 'invite-mock-heading');
+  panel.setAttribute('aria-labelledby', 'invite-link-heading');
 
   const heading = document.createElement('h3');
-  heading.id = 'invite-mock-heading';
-  heading.textContent = t('invite-mock-heading');
+  heading.id = 'invite-link-heading';
+  heading.textContent = headingText;
   heading.tabIndex = -1;
   const text = document.createElement('p');
   text.textContent = t('invite-mock-text');
@@ -27,7 +34,7 @@ function buildMockPanel(t, link) {
   output.type = 'text';
   output.readOnly = true;
   output.value = link;
-  output.className = 'invite-mock-link';
+  output.className = 'invite-link';
   output.setAttribute('aria-label', t('invite-mock-link-label'));
   output.addEventListener('focus', () => output.select());
 
@@ -119,7 +126,7 @@ export default async function decorate(block) {
     if (!gameId) return;
     send.disabled = true;
     setStatus(status, t('invite-sending'));
-    block.querySelector('.invite-mock-panel')?.remove();
+    block.querySelector('.invite-link-panel')?.remove();
     try {
       const { gameUrl } = await sendInvite(gameId, {
         email: email.input.value.trim(),
@@ -127,15 +134,12 @@ export default async function decorate(block) {
       });
       form.reset();
       const url = new URL(gameUrl, window.location.origin);
-      if (await isMockMode()) {
-        if (isMockForced()) url.searchParams.set('mock', '1');
-        setStatus(status, '');
-        const panel = buildMockPanel(t, url.href);
-        form.after(panel);
-        panel.querySelector('h3').focus();
-      } else {
-        setStatus(status, t('invite-sent'));
-      }
+      const mock = await isMockMode();
+      if (mock && isMockForced()) url.searchParams.set('mock', '1');
+      setStatus(status, '');
+      const panel = buildLinkPanel(t, url.href, t(mock ? 'invite-mock-heading' : 'invite-sent'));
+      form.after(panel);
+      panel.querySelector('h3').focus();
     } catch (error) {
       setStatus(status, t(errorKey(error)), true);
     } finally {

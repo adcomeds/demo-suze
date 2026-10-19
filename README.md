@@ -98,6 +98,14 @@ on unpublished paths. The real backend returns `/<locale>/chess-challenge?game=<
 Set `game-api-base` in the `/content/suze/game-config` sheet to the App Builder base URL and
 publish. No code change. The backend must allow CORS from the site origins (see the contract).
 
+The App Builder project (Chess, org AGS955) has Stage and Production workspaces. The Stage URL is
+`https://129433-chess-stage.adobeioruntime.net/api/v1/web/chess/game-api`.
+
+After every successful invite, the invite block shows the game link with copy and open buttons,
+whether the site uses the real API or the mock. With the real API the panel is headed by the
+`invite-sent` string. So the demo works even when the backend's email is in `log` mode, and the
+host can always share the link directly. `?mock=1` still forces the in-browser mock as a fallback.
+
 ### chess.js
 
 [chess.js](https://github.com/jhlywa/chess.js) **1.4.0**, copyright (c) 2025 Jeff Hlywa,
