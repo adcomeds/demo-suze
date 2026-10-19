@@ -1,4 +1,6 @@
 .chess {
+  margin: var(--game-block-spacing, 40px) 0;
+
   --chess-light: #ffe9b8;
   --chess-dark: #d9560f;
   --chess-highlight: var(--brand-yellow);

@@ -1,7 +1,7 @@
 .player-registration {
   box-sizing: border-box;
   max-width: 720px;
-  margin: 0 auto;
+  margin: var(--game-block-spacing, 40px) 0;
 }
 
 .player-registration h2 {

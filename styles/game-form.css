@@ -1,6 +1,7 @@
 /* shared form styles for the chess challenge blocks (loaded by scripts/game-form.js) */
 .game-form {
   display: grid;
+  margin: 0;
   gap: 24px;
   max-width: 560px;
 }
