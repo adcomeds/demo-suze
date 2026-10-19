@@ -14,7 +14,7 @@
   margin: 0 0 24px;
 }
 
-.invite .invite-mock-panel {
+.invite .invite-link-panel {
   display: grid;
   gap: 12px;
   margin-top: 24px;
@@ -24,21 +24,21 @@
   background-color: var(--brand-yellow);
 }
 
-.invite .invite-mock-panel h3 {
+.invite .invite-link-panel h3 {
   margin: 0;
   font-size: var(--heading-font-size-s);
 }
 
-.invite .invite-mock-panel h3:focus-visible {
+.invite .invite-link-panel h3:focus-visible {
   outline: 3px solid var(--brand-black);
   outline-offset: 4px;
 }
 
-.invite .invite-mock-panel p {
+.invite .invite-link-panel p {
   margin: 0;
 }
 
-.invite .invite-mock-link {
+.invite .invite-link {
   box-sizing: border-box;
   width: 100%;
   min-height: 48px;
