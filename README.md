@@ -37,6 +37,63 @@ board and a friend invite, A/B tested with the AEM Experimentation plugin. Front
 only. The backend (App Builder) is built separately against
 [`docs/game-api-contract.md`](docs/game-api-contract.md).
 
+### Architecture
+
+The diagrams are in [`docs/architecture.md`](docs/architecture.md): system overview, game flow,
+and the A/B experiment and conversion.
+
+```mermaid
+flowchart TB
+  subgraph Authoring["Authoring (AEM author + Universal Editor)"]
+    Pages["Pages per locale<br/>control: /locale/chess-challenge<br/>challenger: /experiments/locale/..."]
+    Sheets["Spreadsheets<br/>placeholders · game-email<br/>game-config · metadata"]
+  end
+
+  subgraph Code["Code"]
+    GH["GitHub<br/>adcomeds/demo-suze"]
+  end
+
+  subgraph EDS["Edge Delivery Services"]
+    Admin["admin.hlx.page<br/>preview / publish"]
+    CDN["aem.page / aem.live<br/>HTML, JSON sheets, code"]
+  end
+
+  subgraph Browser["Visitor browser"]
+    Blocks["Blocks<br/>age-gate · player-registration<br/>chess · invite"]
+    Session["game-session.js<br/>sessionStorage + events"]
+    Api["game-api.js<br/>single API client"]
+    Mock["game-api-mock.js<br/>localStorage + chess.js"]
+    Exp["Experimentation plugin<br/>+ rum-conversion"]
+  end
+
+  subgraph AB["Adobe App Builder · project Chess (AGS955)"]
+    Action["Web action chess/game-api<br/>chess.js 1.4.0 validation"]
+    State[("aio-lib-state<br/>players · token hashes · games")]
+  end
+
+  SMTP["Own SMTP server<br/>(log mode until configured)"]
+  Inbox["Friend's inbox"]
+  subgraph Obs["Measurement"]
+    RUM["RUM / OpTel<br/>no personal data"]
+  end
+
+  Pages --> Admin
+  Sheets --> Admin
+  Admin --> CDN
+  GH -- "Code Sync" --> CDN
+  CDN --> Blocks
+  Blocks --> Session
+  Blocks --> Api
+  Blocks --> Exp
+  Api -- "game-api-base empty or ?mock=1" --> Mock
+  Api -- "HTTPS, Bearer token, CORS" --> Action
+  Action --> State
+  Action -- "reads game-email.json" --> CDN
+  Action -- "invite email" --> SMTP
+  SMTP --> Inbox
+  Exp -- "experiment + convert checkpoints" --> RUM
+```
+
 ### What is where
 
 | Path | Purpose |
