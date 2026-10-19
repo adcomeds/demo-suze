@@ -155,6 +155,9 @@ is already in the sheets.
 - `labelIconLinks()` in `scripts/scripts.js`, used by the header and footer: icon-only links such as
   the logo get an accessible name from the authored link title, or else from the icon name.
 - Footer links are at least 24px tall (tap-target size).
+- `styles/styles.css`: size-matched fallback fonts for Obviously (Arial/Liberation/Arimo, Roboto and
+  DejaVu faces with measured `size-adjust`), so text wraps the same before and after the web font
+  loads. On mobile `fonts.css` is lazy, and the swap used to re-wrap the intro text.
 
 Lighthouse on the local dev server, mobile, control page: performance 99, accessibility 100.
 Best practices loses points only for the 404 of the not-yet-published challenger, and SEO only for

@@ -10,6 +10,70 @@
  * governing permissions and limitations under the License.
  */
 
+/* Fallback faces sized to match Obviously, so text wraps the same before and after the web
+   font loads (fonts.css is lazy on mobile): no layout shift on the swap. One face per platform
+   font (Arial on Windows/macOS, Roboto on Android, DejaVu on Linux), measured against
+   Obviously Medium (500) and Black (800). Obviously's ascent/descent are 1.30/0.27 em. */
+@font-face {
+  font-family: obviously-fallback;
+  font-weight: 500;
+  src: local('Arial'), local('ArialMT'), local('Liberation Sans'), local('Arimo');
+  size-adjust: 127.4%;
+  ascent-override: 102.0%;
+  descent-override: 21.2%;
+  line-gap-override: 0%;
+}
+
+@font-face {
+  font-family: obviously-fallback;
+  font-weight: 800;
+  src: local('Arial Bold'), local('Arial-BoldMT'), local('Liberation Sans Bold'), local('Arimo Bold');
+  size-adjust: 124.1%;
+  ascent-override: 104.8%;
+  descent-override: 21.8%;
+  line-gap-override: 0%;
+}
+
+@font-face {
+  font-family: obviously-fallback-roboto;
+  font-weight: 500;
+  src: local('Roboto'), local('Roboto-Regular');
+  size-adjust: 129.0%;
+  ascent-override: 100.8%;
+  descent-override: 20.9%;
+  line-gap-override: 0%;
+}
+
+@font-face {
+  font-family: obviously-fallback-roboto;
+  font-weight: 800;
+  src: local('Roboto Bold'), local('Roboto-Bold');
+  size-adjust: 130.9%;
+  ascent-override: 99.3%;
+  descent-override: 20.6%;
+  line-gap-override: 0%;
+}
+
+@font-face {
+  font-family: obviously-fallback-dejavu;
+  font-weight: 500;
+  src: local('DejaVu Sans'), local('DejaVuSans');
+  size-adjust: 111.8%;
+  ascent-override: 116.3%;
+  descent-override: 24.2%;
+  line-gap-override: 0%;
+}
+
+@font-face {
+  font-family: obviously-fallback-dejavu;
+  font-weight: 800;
+  src: local('DejaVu Sans Bold'), local('DejaVuSans-Bold');
+  size-adjust: 103.1%;
+  ascent-override: 126.1%;
+  descent-override: 26.2%;
+  line-gap-override: 0%;
+}
+
 :root {
   /* colors — Suze brand */
   --brand-orange: #fe6b1e;
@@ -23,8 +87,8 @@
   --link-hover-color: #000;
 
   /* fonts */
-  --body-font-family: obviously, arial, sans-serif;
-  --heading-font-family: obviously, arial, sans-serif;
+  --body-font-family: obviously, obviously-fallback, obviously-fallback-roboto, obviously-fallback-dejavu, arial, sans-serif;
+  --heading-font-family: obviously, obviously-fallback, obviously-fallback-roboto, obviously-fallback-dejavu, arial, sans-serif;
 
   /* body sizes */
   --body-font-size-m: 18px;
