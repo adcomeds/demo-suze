@@ -1,29 +1,37 @@
-import { getLocaleRoot } from './scripts.js';
+import { getLocalePrefix } from './scripts.js';
+
+/*
+ * In the Universal Editor the page runs on the AEM author host, where sheets are not served at
+ * their delivery path. Read them through the same AEM delivery servlet Edge Delivery uses
+ * (see fstab.yaml); it works with the author's login and returns the sheet JSON format.
+ */
+const AUTHOR_DELIVERY_PREFIX = '/bin/franklin.delivery/adcomeds/demo-suze/main';
 
 const sheetCache = {};
 
+function isAuthorHost() {
+  const { hostname } = window.location;
+  return hostname.startsWith('author-') && hostname.endsWith('.adobeaemcloud.com');
+}
+
 /**
- * Returns the site root of the current page: "/content/<site>" on the author /
- * Universal Editor, "" on the delivery tiers.
- * @returns {string} the site root path
+ * @param {string} deliveryPath delivery path without extension, e.g. "/fr/fr/placeholders"
+ * @returns {string} the URL to fetch the sheet JSON from on the current host
  */
-export function getSiteRoot() {
-  const segments = window.location.pathname.split('/').filter(Boolean);
-  // the local dev server mounts imported content at /content without a site segment
-  if (['localhost', '127.0.0.1'].includes(window.location.hostname)) return '';
-  return segments[0] === 'content' && segments[1] ? `/content/${segments[1]}` : '';
+function sheetUrl(deliveryPath) {
+  return `${isAuthorHost() ? AUTHOR_DELIVERY_PREFIX : ''}${deliveryPath}.json`;
 }
 
 /**
  * Fetches a key/value spreadsheet and returns it as a plain object.
  * Supports single sheets ({ data }) and the default sheet of a multi-sheet ({ default: { data } }).
  * Column names are matched case-insensitively ("Key"/"key", "Text"/"Value").
- * @param {string} path the sheet path without extension, e.g. "/masters/en/placeholders"
+ * @param {string} path the sheet's delivery path without extension, e.g. "/masters/en/placeholders"
  * @returns {Promise<Object<string, string>>} keys mapped to values, {} if the sheet is missing
  */
 export function fetchSheet(path) {
   if (!sheetCache[path]) {
-    sheetCache[path] = fetch(`${path}.json`)
+    sheetCache[path] = fetch(sheetUrl(path))
       .then((resp) => (resp.ok ? resp.json() : {}))
       .then((json) => {
         const rows = json.data || json.default?.data || [];
@@ -49,7 +57,7 @@ export function fetchSheet(path) {
  * @returns {Promise<function(string, Object=): string>} t(key, vars) replacing {var} tokens
  */
 export async function fetchPlaceholders(sheet = 'placeholders') {
-  const strings = await fetchSheet(`${getLocaleRoot()}/${sheet}`);
+  const strings = await fetchSheet(`${getLocalePrefix()}/${sheet}`);
   return (key, vars = {}) => (strings[key] ?? key)
     .replace(/\{(\w+)\}/g, (match, name) => (name in vars ? vars[name] : match));
 }
@@ -60,6 +68,6 @@ export async function fetchPlaceholders(sheet = 'placeholders') {
  * @returns {Promise<string>} the trimmed value, "" if not set
  */
 export async function getGameConfig(key) {
-  const config = await fetchSheet(`${getSiteRoot()}/game-config`);
+  const config = await fetchSheet('/game-config');
   return (config[key] || '').trim();
 }
