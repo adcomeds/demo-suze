@@ -11,3 +11,39 @@ Antes de jugar, tendrás que confirmar que tienes la edad legal para beber y ace
 Recibes este único correo porque {inviterFirstName} ha introducido tu dirección para invitarte. Tu dirección no se añade a ninguna lista de correo.
 
 Bebe con responsabilidad.",""
+"followup-win-subject","Bien jugado, {firstName}",""
+"followup-win-body","Hola, {firstName}:
+
+¡Jaque mate! Ganaste tu partida contra {opponentFirstName} en el Suze Chess Challenge.
+
+¿Listo para defender tu título? Empieza una revancha: {rematchUrl}
+
+Mientras planeas tu próxima apertura, descubre Suze Tonic 0%: las notas amargas de la genciana, sin alcohol.
+
+Bebe con responsabilidad.
+
+Recibes este correo porque aceptaste recibir noticias de Suze. Darte de baja: {unsubscribeUrl}",""
+"followup-loss-subject","¿Una revancha, {firstName}?",""
+"followup-loss-body","Hola, {firstName}:
+
+{opponentFirstName} ganó esta ronda del Suze Chess Challenge. Una buena partida nunca se pierde del todo.
+
+Pide la revancha: {rematchUrl}
+
+Mientras planeas tu próxima apertura, descubre Suze Tonic 0%: las notas amargas de la genciana, sin alcohol.
+
+Bebe con responsabilidad.
+
+Recibes este correo porque aceptaste recibir noticias de Suze. Darte de baja: {unsubscribeUrl}",""
+"followup-draw-subject","Fuerzas igualadas, {firstName}",""
+"followup-draw-body","Hola, {firstName}:
+
+Tu partida contra {opponentFirstName} en el Suze Chess Challenge terminó en tablas.
+
+Desempata con una revancha: {rematchUrl}
+
+Mientras planeas tu próxima apertura, descubre Suze Tonic 0%: las notas amargas de la genciana, sin alcohol.
+
+Bebe con responsabilidad.
+
+Recibes este correo porque aceptaste recibir noticias de Suze. Darte de baja: {unsubscribeUrl}",""

@@ -1,112 +1,633 @@
 {
   "description": "Source copy for the per-locale `placeholders` sheets of the chess challenge. Edit here, then run `npm run sheets:build`. fr/fr is machine translated and needs review.",
-  "locales": ["masters/en", "us/es", "fr/fr"],
-  "review": { "masters/en": "", "us/es": "", "fr/fr": "MT: needs review" },
+  "locales": [
+    "masters/en",
+    "us/es",
+    "fr/fr"
+  ],
+  "review": {
+    "masters/en": "",
+    "us/es": "",
+    "fr/fr": "MT: needs review"
+  },
   "rows": [
-    ["terms-version", "2026-10", "2026-10", "2026-10"],
-    ["responsible-drinking", "Please drink responsibly. The Suze Chess Challenge is for adults of legal drinking age only.", "Bebe con responsabilidad. El Suze Chess Challenge es solo para adultos en edad legal para beber.", "L'abus d'alcool est dangereux pour la santé, à consommer avec modération."],
-
-    ["age-gate-heading", "Before you play", "Antes de jugar", "Avant de jouer"],
-    ["age-gate-question", "Are you {age} or over, the legal drinking age where you live?", "¿Tienes {age} años o más, la edad legal para beber donde vives?", "Avez-vous {age} ans ou plus, l'âge légal pour consommer de l'alcool là où vous vivez ?"],
-    ["age-gate-yes", "Yes, I am", "Sí, los tengo", "Oui"],
-    ["age-gate-no", "No, I am not", "No", "Non"],
-    ["age-gate-dob-label", "Your date of birth (you must be {age} or over)", "Tu fecha de nacimiento (debes tener {age} años o más)", "Votre date de naissance (vous devez avoir {age} ans ou plus)"],
-    ["age-gate-dob-hint", "We only use it to check your age. It is not stored.", "Solo la usamos para comprobar tu edad. No la guardamos.", "Nous l'utilisons uniquement pour vérifier votre âge. Elle n'est pas conservée."],
-    ["age-gate-dob-invalid", "Please enter a valid date of birth.", "Introduce una fecha de nacimiento válida.", "Veuillez saisir une date de naissance valide."],
-    ["age-gate-submit", "Continue", "Continuar", "Continuer"],
-    ["age-gate-refused", "Sorry, you need to be of legal drinking age to play the Suze Chess Challenge.", "Lo sentimos, debes tener la edad legal para beber para jugar al Suze Chess Challenge.", "Désolé, vous devez avoir l'âge légal pour consommer de l'alcool pour participer au Suze Chess Challenge."],
-
-    ["registration-heading", "Join the challenge", "Únete al desafío", "Rejoignez le défi"],
-    ["registration-first-name", "First name", "Nombre", "Prénom"],
-    ["registration-first-name-error", "Please enter your first name.", "Introduce tu nombre.", "Veuillez saisir votre prénom."],
-    ["registration-email", "Email", "Correo electrónico", "E-mail"],
-    ["registration-email-error", "Please enter a valid email address, like name@example.com.", "Introduce un correo electrónico válido, como nombre@ejemplo.com.", "Veuillez saisir une adresse e-mail valide, comme nom@exemple.com."],
-    ["registration-terms", "I accept the {termsLink} (required).", "Acepto las {termsLink} (obligatorio).", "J'accepte les {termsLink} (obligatoire)."],
-    ["registration-terms-link", "game terms", "condiciones del juego", "conditions du jeu"],
-    ["registration-terms-error", "Please accept the game terms to play.", "Acepta las condiciones del juego para jugar.", "Veuillez accepter les conditions du jeu pour jouer."],
-    ["registration-marketing", "I would like to receive news and offers from Suze by email (optional). You can unsubscribe at any time.", "Quiero recibir novedades y ofertas de Suze por correo electrónico (opcional). Puedes darte de baja cuando quieras.", "Je souhaite recevoir les actualités et offres de Suze par e-mail (facultatif). Vous pouvez vous désinscrire à tout moment."],
-    ["registration-submit", "Start playing", "Empezar a jugar", "Commencer à jouer"],
-
-    ["chess-board-label", "Chess board", "Tablero de ajedrez", "Échiquier"],
-    ["chess-keyboard-help", "Use the arrow keys to move around the board. Press Enter to pick up a piece, then Enter again on a highlighted square to move it. Press Escape to cancel.", "Usa las flechas para moverte por el tablero. Pulsa Intro para elegir una pieza y vuelve a pulsar Intro en una casilla resaltada para moverla. Pulsa Escape para cancelar.", "Utilisez les flèches pour vous déplacer sur l'échiquier. Appuyez sur Entrée pour choisir une pièce, puis à nouveau sur Entrée sur une case en surbrillance pour la déplacer. Appuyez sur Échap pour annuler."],
-    ["chess-square", "{square}, {piece}", "{square}, {piece}", "{square}, {piece}"],
-    ["chess-empty", "empty", "vacía", "vide"],
-    ["chess-selected", "selected", "seleccionada", "sélectionnée"],
-    ["chess-legal-target", "possible move", "movimiento posible", "coup possible"],
-    ["chess-last-move", "last move", "último movimiento", "dernier coup"],
-    ["chess-piece-wp", "white pawn", "peón blanco", "pion blanc"],
-    ["chess-piece-wn", "white knight", "caballo blanco", "cavalier blanc"],
-    ["chess-piece-wb", "white bishop", "alfil blanco", "fou blanc"],
-    ["chess-piece-wr", "white rook", "torre blanca", "tour blanche"],
-    ["chess-piece-wq", "white queen", "dama blanca", "dame blanche"],
-    ["chess-piece-wk", "white king", "rey blanco", "roi blanc"],
-    ["chess-piece-bp", "black pawn", "peón negro", "pion noir"],
-    ["chess-piece-bn", "black knight", "caballo negro", "cavalier noir"],
-    ["chess-piece-bb", "black bishop", "alfil negro", "fou noir"],
-    ["chess-piece-br", "black rook", "torre negra", "tour noire"],
-    ["chess-piece-bq", "black queen", "dama negra", "dame noire"],
-    ["chess-piece-bk", "black king", "rey negro", "roi noir"],
-    ["chess-promotion-heading", "Promote your pawn to", "Corona tu peón como", "Promouvoir votre pion en"],
-    ["chess-promote-q", "Queen", "Dama", "Dame"],
-    ["chess-promote-r", "Rook", "Torre", "Tour"],
-    ["chess-promote-b", "Bishop", "Alfil", "Fou"],
-    ["chess-promote-n", "Knight", "Caballo", "Cavalier"],
-    ["chess-you", "You", "Tú", "Vous"],
-    ["chess-you-are-white", "You play white.", "Juegas con blancas.", "Vous jouez les blancs."],
-    ["chess-you-are-black", "You play black.", "Juegas con negras.", "Vous jouez les noirs."],
-    ["chess-opponent", "Your opponent: {name}", "Tu rival: {name}", "Votre adversaire : {name}"],
-    ["chess-opponent-waiting", "Your opponent: waiting for a friend to join", "Tu rival: esperando a que se una alguien", "Votre adversaire : en attente d'un ami"],
-    ["chess-opponent-joined", "{name} has joined the game.", "{name} se ha unido a la partida.", "{name} a rejoint la partie."],
-    ["chess-status-creating", "Setting up your board.", "Preparando tu tablero.", "Préparation de votre échiquier."],
-    ["chess-status-joining", "Joining the game.", "Uniéndote a la partida.", "Connexion à la partie."],
-    ["chess-status-opening", "Make your opening move, then invite a friend to reply.", "Haz tu primer movimiento y luego invita a alguien a responder.", "Jouez votre premier coup, puis invitez un ami à répondre."],
-    ["chess-status-waiting-opponent", "Waiting for a friend to join and reply.", "Esperando a que alguien se una y responda.", "En attente qu'un ami rejoigne la partie et réponde."],
-    ["chess-status-your-move", "Your move.", "Te toca.", "À vous de jouer."],
-    ["chess-status-your-move-check", "Your move. You are in check.", "Te toca. Estás en jaque.", "À vous de jouer. Vous êtes en échec."],
-    ["chess-status-their-move", "Waiting for {name} to move.", "Esperando el movimiento de {name}.", "En attente du coup de {name}."],
-    ["chess-status-check", "Check.", "Jaque.", "Échec."],
-    ["chess-announce-move", "{player}: {piece} from {from} to {to}.", "{player}: {piece} de {from} a {to}.", "{player} : {piece} de {from} à {to}."],
-    ["chess-resign", "Resign", "Abandonar", "Abandonner"],
-    ["chess-resign-confirm", "Confirm: resign this game", "Confirmar: abandonar la partida", "Confirmer : abandonner la partie"],
-    ["chess-invite-prompt-heading", "Nice opening!", "¡Buena apertura!", "Belle ouverture !"],
-    ["chess-invite-prompt-text", "Now invite a friend to reply to your move.", "Ahora invita a alguien a responder a tu movimiento.", "Invitez maintenant un ami à répondre à votre coup."],
-    ["chess-invite-prompt-cta", "Invite a friend", "Invitar a alguien", "Inviter un ami"],
-    ["chess-outcome-checkmate-win", "Checkmate. You win!", "Jaque mate. ¡Ganas!", "Échec et mat. Vous avez gagné !"],
-    ["chess-outcome-checkmate-loss", "Checkmate. Your opponent wins.", "Jaque mate. Gana tu rival.", "Échec et mat. Votre adversaire a gagné."],
-    ["chess-outcome-resign-you", "You resigned the game.", "Has abandonado la partida.", "Vous avez abandonné la partie."],
-    ["chess-outcome-resign-them", "Your opponent resigned. You win!", "Tu rival ha abandonado. ¡Ganas!", "Votre adversaire a abandonné. Vous avez gagné !"],
-    ["chess-outcome-stalemate", "Stalemate. It is a draw.", "Rey ahogado. Es tablas.", "Pat. Match nul."],
-    ["chess-outcome-draw", "It is a draw.", "Es tablas.", "Match nul."],
-    ["chess-outcome-abandoned", "This game was closed before it started.", "Esta partida se cerró antes de empezar.", "Cette partie a été fermée avant de commencer."],
-    ["chess-play-again", "Play again", "Jugar otra vez", "Rejouer"],
-    ["chess-new-game", "Start a new game", "Empezar una partida nueva", "Commencer une nouvelle partie"],
-    ["chess-history-label", "Move history", "Historial de movimientos", "Historique des coups"],
-
-    ["invite-heading", "Challenge a friend", "Desafía a alguien", "Défiez un ami"],
-    ["invite-email-label", "Your friend's email", "Correo electrónico de tu amigo o amiga", "E-mail de votre ami"],
-    ["invite-email-hint", "We only use it to send this one invite.", "Solo lo usamos para enviar esta invitación.", "Nous l'utilisons uniquement pour envoyer cette invitation."],
-    ["invite-email-error", "Please enter a valid email address, like name@example.com.", "Introduce un correo electrónico válido, como nombre@ejemplo.com.", "Veuillez saisir une adresse e-mail valide, comme nom@exemple.com."],
-    ["invite-send", "Send invite", "Enviar invitación", "Envoyer l'invitation"],
-    ["invite-sending", "Sending your invite.", "Enviando tu invitación.", "Envoi de votre invitation."],
-    ["invite-sent", "Invite sent. The game continues as soon as your friend joins.", "Invitación enviada. La partida sigue en cuanto se una.", "Invitation envoyée. La partie reprend dès que votre ami la rejoint."],
-    ["invite-mock-heading", "Demo mode: no email was sent", "Modo demo: no se ha enviado ningún correo", "Mode démo : aucun e-mail n'a été envoyé"],
-    ["invite-mock-text", "Share this link with your friend, or open it in another tab to play the other side.", "Comparte este enlace o ábrelo en otra pestaña para jugar con el otro color.", "Partagez ce lien avec votre ami, ou ouvrez-le dans un autre onglet pour jouer l'autre camp."],
-    ["invite-mock-link-label", "Game link", "Enlace de la partida", "Lien de la partie"],
-    ["invite-mock-copy", "Copy link", "Copiar enlace", "Copier le lien"],
-    ["invite-mock-copied", "Link copied.", "Enlace copiado.", "Lien copié."],
-    ["invite-mock-copy-manual", "Select the link and copy it.", "Selecciona el enlace y cópialo.", "Sélectionnez le lien et copiez-le."],
-    ["invite-mock-open", "Open in a new tab", "Abrir en otra pestaña", "Ouvrir dans un nouvel onglet"],
-    ["invite-mock-close", "Close", "Cerrar", "Fermer"],
-
-    ["error-validation", "Please check your details and try again.", "Revisa tus datos e inténtalo de nuevo.", "Veuillez vérifier vos informations et réessayer."],
-    ["error-unauthorized", "Your session has ended. Please reload the page and register again.", "Tu sesión ha terminado. Recarga la página y regístrate de nuevo.", "Votre session a expiré. Veuillez recharger la page et vous inscrire à nouveau."],
-    ["error-not-found", "We could not find this game. It may have ended.", "No encontramos esta partida. Puede que haya terminado.", "Cette partie est introuvable. Elle est peut-être terminée."],
-    ["error-game-full", "This game already has two players.", "Esta partida ya tiene dos jugadores.", "Cette partie a déjà deux joueurs."],
-    ["error-not-your-turn", "It is not your turn yet.", "Todavía no es tu turno.", "Ce n'est pas encore votre tour."],
-    ["error-illegal-move", "That move is not allowed. Try another one.", "Ese movimiento no está permitido. Prueba otro.", "Ce coup n'est pas autorisé. Essayez-en un autre."],
-    ["error-stale-version", "The board has changed. We have reloaded it for you.", "El tablero ha cambiado. Lo hemos actualizado.", "L'échiquier a changé. Nous l'avons actualisé."],
-    ["error-rate-limited", "Too many attempts. Please wait a moment and try again.", "Demasiados intentos. Espera un momento e inténtalo de nuevo.", "Trop de tentatives. Veuillez patienter un instant et réessayer."],
-    ["error-network", "We could not connect. Check your connection and try again.", "No hemos podido conectar. Revisa tu conexión e inténtalo de nuevo.", "Connexion impossible. Vérifiez votre connexion et réessayez."],
-    ["error-unknown", "Something went wrong. Please try again.", "Algo ha salido mal. Inténtalo de nuevo.", "Une erreur s'est produite. Veuillez réessayer."]
+    [
+      "terms-version",
+      "2026-10",
+      "2026-10",
+      "2026-10"
+    ],
+    [
+      "responsible-drinking",
+      "Please drink responsibly. The Suze Chess Challenge is for adults of legal drinking age only.",
+      "Bebe con responsabilidad. El Suze Chess Challenge es solo para adultos en edad legal para beber.",
+      "L'abus d'alcool est dangereux pour la santé, à consommer avec modération."
+    ],
+    [
+      "age-gate-heading",
+      "Before you play",
+      "Antes de jugar",
+      "Avant de jouer"
+    ],
+    [
+      "age-gate-question",
+      "Are you {age} or over, the legal drinking age where you live?",
+      "¿Tienes {age} años o más, la edad legal para beber donde vives?",
+      "Avez-vous {age} ans ou plus, l'âge légal pour consommer de l'alcool là où vous vivez ?"
+    ],
+    [
+      "age-gate-yes",
+      "Yes, I am",
+      "Sí, los tengo",
+      "Oui"
+    ],
+    [
+      "age-gate-no",
+      "No, I am not",
+      "No",
+      "Non"
+    ],
+    [
+      "age-gate-dob-label",
+      "Your date of birth (you must be {age} or over)",
+      "Tu fecha de nacimiento (debes tener {age} años o más)",
+      "Votre date de naissance (vous devez avoir {age} ans ou plus)"
+    ],
+    [
+      "age-gate-dob-hint",
+      "We only use it to check your age. It is not stored.",
+      "Solo la usamos para comprobar tu edad. No la guardamos.",
+      "Nous l'utilisons uniquement pour vérifier votre âge. Elle n'est pas conservée."
+    ],
+    [
+      "age-gate-dob-invalid",
+      "Please enter a valid date of birth.",
+      "Introduce una fecha de nacimiento válida.",
+      "Veuillez saisir une date de naissance valide."
+    ],
+    [
+      "age-gate-submit",
+      "Continue",
+      "Continuar",
+      "Continuer"
+    ],
+    [
+      "age-gate-refused",
+      "Sorry, you need to be of legal drinking age to play the Suze Chess Challenge.",
+      "Lo sentimos, debes tener la edad legal para beber para jugar al Suze Chess Challenge.",
+      "Désolé, vous devez avoir l'âge légal pour consommer de l'alcool pour participer au Suze Chess Challenge."
+    ],
+    [
+      "registration-heading",
+      "Join the challenge",
+      "Únete al desafío",
+      "Rejoignez le défi"
+    ],
+    [
+      "registration-first-name",
+      "First name",
+      "Nombre",
+      "Prénom"
+    ],
+    [
+      "registration-first-name-error",
+      "Please enter your first name.",
+      "Introduce tu nombre.",
+      "Veuillez saisir votre prénom."
+    ],
+    [
+      "registration-email",
+      "Email",
+      "Correo electrónico",
+      "E-mail"
+    ],
+    [
+      "registration-email-error",
+      "Please enter a valid email address, like name@example.com.",
+      "Introduce un correo electrónico válido, como nombre@ejemplo.com.",
+      "Veuillez saisir une adresse e-mail valide, comme nom@exemple.com."
+    ],
+    [
+      "registration-terms",
+      "I accept the {termsLink} (required).",
+      "Acepto las {termsLink} (obligatorio).",
+      "J'accepte les {termsLink} (obligatoire)."
+    ],
+    [
+      "registration-terms-link",
+      "game terms",
+      "condiciones del juego",
+      "conditions du jeu"
+    ],
+    [
+      "registration-terms-error",
+      "Please accept the game terms to play.",
+      "Acepta las condiciones del juego para jugar.",
+      "Veuillez accepter les conditions du jeu pour jouer."
+    ],
+    [
+      "registration-marketing",
+      "I would like to receive news and offers from Suze by email (optional). You can unsubscribe at any time.",
+      "Quiero recibir novedades y ofertas de Suze por correo electrónico (opcional). Puedes darte de baja cuando quieras.",
+      "Je souhaite recevoir les actualités et offres de Suze par e-mail (facultatif). Vous pouvez vous désinscrire à tout moment."
+    ],
+    [
+      "registration-submit",
+      "Start playing",
+      "Empezar a jugar",
+      "Commencer à jouer"
+    ],
+    [
+      "chess-board-label",
+      "Chess board",
+      "Tablero de ajedrez",
+      "Échiquier"
+    ],
+    [
+      "chess-keyboard-help",
+      "Use the arrow keys to move around the board. Press Enter to pick up a piece, then Enter again on a highlighted square to move it. Press Escape to cancel.",
+      "Usa las flechas para moverte por el tablero. Pulsa Intro para elegir una pieza y vuelve a pulsar Intro en una casilla resaltada para moverla. Pulsa Escape para cancelar.",
+      "Utilisez les flèches pour vous déplacer sur l'échiquier. Appuyez sur Entrée pour choisir une pièce, puis à nouveau sur Entrée sur une case en surbrillance pour la déplacer. Appuyez sur Échap pour annuler."
+    ],
+    [
+      "chess-square",
+      "{square}, {piece}",
+      "{square}, {piece}",
+      "{square}, {piece}"
+    ],
+    [
+      "chess-empty",
+      "empty",
+      "vacía",
+      "vide"
+    ],
+    [
+      "chess-selected",
+      "selected",
+      "seleccionada",
+      "sélectionnée"
+    ],
+    [
+      "chess-legal-target",
+      "possible move",
+      "movimiento posible",
+      "coup possible"
+    ],
+    [
+      "chess-last-move",
+      "last move",
+      "último movimiento",
+      "dernier coup"
+    ],
+    [
+      "chess-piece-wp",
+      "white pawn",
+      "peón blanco",
+      "pion blanc"
+    ],
+    [
+      "chess-piece-wn",
+      "white knight",
+      "caballo blanco",
+      "cavalier blanc"
+    ],
+    [
+      "chess-piece-wb",
+      "white bishop",
+      "alfil blanco",
+      "fou blanc"
+    ],
+    [
+      "chess-piece-wr",
+      "white rook",
+      "torre blanca",
+      "tour blanche"
+    ],
+    [
+      "chess-piece-wq",
+      "white queen",
+      "dama blanca",
+      "dame blanche"
+    ],
+    [
+      "chess-piece-wk",
+      "white king",
+      "rey blanco",
+      "roi blanc"
+    ],
+    [
+      "chess-piece-bp",
+      "black pawn",
+      "peón negro",
+      "pion noir"
+    ],
+    [
+      "chess-piece-bn",
+      "black knight",
+      "caballo negro",
+      "cavalier noir"
+    ],
+    [
+      "chess-piece-bb",
+      "black bishop",
+      "alfil negro",
+      "fou noir"
+    ],
+    [
+      "chess-piece-br",
+      "black rook",
+      "torre negra",
+      "tour noire"
+    ],
+    [
+      "chess-piece-bq",
+      "black queen",
+      "dama negra",
+      "dame noire"
+    ],
+    [
+      "chess-piece-bk",
+      "black king",
+      "rey negro",
+      "roi noir"
+    ],
+    [
+      "chess-promotion-heading",
+      "Promote your pawn to",
+      "Corona tu peón como",
+      "Promouvoir votre pion en"
+    ],
+    [
+      "chess-promote-q",
+      "Queen",
+      "Dama",
+      "Dame"
+    ],
+    [
+      "chess-promote-r",
+      "Rook",
+      "Torre",
+      "Tour"
+    ],
+    [
+      "chess-promote-b",
+      "Bishop",
+      "Alfil",
+      "Fou"
+    ],
+    [
+      "chess-promote-n",
+      "Knight",
+      "Caballo",
+      "Cavalier"
+    ],
+    [
+      "chess-you",
+      "You",
+      "Tú",
+      "Vous"
+    ],
+    [
+      "chess-you-are-white",
+      "You play white.",
+      "Juegas con blancas.",
+      "Vous jouez les blancs."
+    ],
+    [
+      "chess-you-are-black",
+      "You play black.",
+      "Juegas con negras.",
+      "Vous jouez les noirs."
+    ],
+    [
+      "chess-opponent",
+      "Your opponent: {name}",
+      "Tu rival: {name}",
+      "Votre adversaire : {name}"
+    ],
+    [
+      "chess-opponent-waiting",
+      "Your opponent: waiting for a friend to join",
+      "Tu rival: esperando a que se una alguien",
+      "Votre adversaire : en attente d'un ami"
+    ],
+    [
+      "chess-opponent-joined",
+      "{name} has joined the game.",
+      "{name} se ha unido a la partida.",
+      "{name} a rejoint la partie."
+    ],
+    [
+      "chess-status-creating",
+      "Setting up your board.",
+      "Preparando tu tablero.",
+      "Préparation de votre échiquier."
+    ],
+    [
+      "chess-status-joining",
+      "Joining the game.",
+      "Uniéndote a la partida.",
+      "Connexion à la partie."
+    ],
+    [
+      "chess-status-opening",
+      "Make your opening move, then invite a friend to reply.",
+      "Haz tu primer movimiento y luego invita a alguien a responder.",
+      "Jouez votre premier coup, puis invitez un ami à répondre."
+    ],
+    [
+      "chess-status-waiting-opponent",
+      "Waiting for a friend to join and reply.",
+      "Esperando a que alguien se una y responda.",
+      "En attente qu'un ami rejoigne la partie et réponde."
+    ],
+    [
+      "chess-status-your-move",
+      "Your move.",
+      "Te toca.",
+      "À vous de jouer."
+    ],
+    [
+      "chess-status-your-move-check",
+      "Your move. You are in check.",
+      "Te toca. Estás en jaque.",
+      "À vous de jouer. Vous êtes en échec."
+    ],
+    [
+      "chess-status-their-move",
+      "Waiting for {name} to move.",
+      "Esperando el movimiento de {name}.",
+      "En attente du coup de {name}."
+    ],
+    [
+      "chess-status-check",
+      "Check.",
+      "Jaque.",
+      "Échec."
+    ],
+    [
+      "chess-announce-move",
+      "{player}: {piece} from {from} to {to}.",
+      "{player}: {piece} de {from} a {to}.",
+      "{player} : {piece} de {from} à {to}."
+    ],
+    [
+      "chess-resign",
+      "Resign",
+      "Abandonar",
+      "Abandonner"
+    ],
+    [
+      "chess-resign-confirm",
+      "Confirm: resign this game",
+      "Confirmar: abandonar la partida",
+      "Confirmer : abandonner la partie"
+    ],
+    [
+      "chess-invite-prompt-heading",
+      "Nice opening!",
+      "¡Buena apertura!",
+      "Belle ouverture !"
+    ],
+    [
+      "chess-invite-prompt-text",
+      "Now invite a friend to reply to your move.",
+      "Ahora invita a alguien a responder a tu movimiento.",
+      "Invitez maintenant un ami à répondre à votre coup."
+    ],
+    [
+      "chess-invite-prompt-cta",
+      "Invite a friend",
+      "Invitar a alguien",
+      "Inviter un ami"
+    ],
+    [
+      "chess-outcome-checkmate-win",
+      "Checkmate. You win!",
+      "Jaque mate. ¡Ganas!",
+      "Échec et mat. Vous avez gagné !"
+    ],
+    [
+      "chess-outcome-checkmate-loss",
+      "Checkmate. Your opponent wins.",
+      "Jaque mate. Gana tu rival.",
+      "Échec et mat. Votre adversaire a gagné."
+    ],
+    [
+      "chess-outcome-resign-you",
+      "You resigned the game.",
+      "Has abandonado la partida.",
+      "Vous avez abandonné la partie."
+    ],
+    [
+      "chess-outcome-resign-them",
+      "Your opponent resigned. You win!",
+      "Tu rival ha abandonado. ¡Ganas!",
+      "Votre adversaire a abandonné. Vous avez gagné !"
+    ],
+    [
+      "chess-outcome-stalemate",
+      "Stalemate. It is a draw.",
+      "Rey ahogado. Es tablas.",
+      "Pat. Match nul."
+    ],
+    [
+      "chess-outcome-draw",
+      "It is a draw.",
+      "Es tablas.",
+      "Match nul."
+    ],
+    [
+      "chess-outcome-abandoned",
+      "This game was closed before it started.",
+      "Esta partida se cerró antes de empezar.",
+      "Cette partie a été fermée avant de commencer."
+    ],
+    [
+      "chess-play-again",
+      "Play again",
+      "Jugar otra vez",
+      "Rejouer"
+    ],
+    [
+      "chess-new-game",
+      "Start a new game",
+      "Empezar una partida nueva",
+      "Commencer une nouvelle partie"
+    ],
+    [
+      "chess-history-label",
+      "Move history",
+      "Historial de movimientos",
+      "Historique des coups"
+    ],
+    [
+      "invite-heading",
+      "Challenge a friend",
+      "Desafía a alguien",
+      "Défiez un ami"
+    ],
+    [
+      "invite-email-label",
+      "Your friend's email",
+      "Correo electrónico de tu amigo o amiga",
+      "E-mail de votre ami"
+    ],
+    [
+      "invite-email-hint",
+      "We only use it to send this one invite.",
+      "Solo lo usamos para enviar esta invitación.",
+      "Nous l'utilisons uniquement pour envoyer cette invitation."
+    ],
+    [
+      "invite-email-error",
+      "Please enter a valid email address, like name@example.com.",
+      "Introduce un correo electrónico válido, como nombre@ejemplo.com.",
+      "Veuillez saisir une adresse e-mail valide, comme nom@exemple.com."
+    ],
+    [
+      "invite-send",
+      "Send invite",
+      "Enviar invitación",
+      "Envoyer l'invitation"
+    ],
+    [
+      "invite-sending",
+      "Sending your invite.",
+      "Enviando tu invitación.",
+      "Envoi de votre invitation."
+    ],
+    [
+      "invite-sent",
+      "Invite sent. The game continues as soon as your friend joins.",
+      "Invitación enviada. La partida sigue en cuanto se una.",
+      "Invitation envoyée. La partie reprend dès que votre ami la rejoint."
+    ],
+    [
+      "invite-mock-heading",
+      "Demo mode: no email was sent",
+      "Modo demo: no se ha enviado ningún correo",
+      "Mode démo : aucun e-mail n'a été envoyé"
+    ],
+    [
+      "invite-mock-text",
+      "Share this link with your friend, or open it in another tab to play the other side.",
+      "Comparte este enlace o ábrelo en otra pestaña para jugar con el otro color.",
+      "Partagez ce lien avec votre ami, ou ouvrez-le dans un autre onglet pour jouer l'autre camp."
+    ],
+    [
+      "invite-mock-link-label",
+      "Game link",
+      "Enlace de la partida",
+      "Lien de la partie"
+    ],
+    [
+      "invite-mock-copy",
+      "Copy link",
+      "Copiar enlace",
+      "Copier le lien"
+    ],
+    [
+      "invite-mock-copied",
+      "Link copied.",
+      "Enlace copiado.",
+      "Lien copié."
+    ],
+    [
+      "invite-mock-copy-manual",
+      "Select the link and copy it.",
+      "Selecciona el enlace y cópialo.",
+      "Sélectionnez le lien et copiez-le."
+    ],
+    [
+      "invite-mock-open",
+      "Open in a new tab",
+      "Abrir en otra pestaña",
+      "Ouvrir dans un nouvel onglet"
+    ],
+    [
+      "invite-mock-close",
+      "Close",
+      "Cerrar",
+      "Fermer"
+    ],
+    [
+      "error-validation",
+      "Please check your details and try again.",
+      "Revisa tus datos e inténtalo de nuevo.",
+      "Veuillez vérifier vos informations et réessayer."
+    ],
+    [
+      "error-unauthorized",
+      "Your session has ended. Please reload the page and register again.",
+      "Tu sesión ha terminado. Recarga la página y regístrate de nuevo.",
+      "Votre session a expiré. Veuillez recharger la page et vous inscrire à nouveau."
+    ],
+    [
+      "error-not-found",
+      "We could not find this game. It may have ended.",
+      "No encontramos esta partida. Puede que haya terminado.",
+      "Cette partie est introuvable. Elle est peut-être terminée."
+    ],
+    [
+      "error-game-full",
+      "This game already has two players.",
+      "Esta partida ya tiene dos jugadores.",
+      "Cette partie a déjà deux joueurs."
+    ],
+    [
+      "error-not-your-turn",
+      "It is not your turn yet.",
+      "Todavía no es tu turno.",
+      "Ce n'est pas encore votre tour."
+    ],
+    [
+      "error-illegal-move",
+      "That move is not allowed. Try another one.",
+      "Ese movimiento no está permitido. Prueba otro.",
+      "Ce coup n'est pas autorisé. Essayez-en un autre."
+    ],
+    [
+      "error-stale-version",
+      "The board has changed. We have reloaded it for you.",
+      "El tablero ha cambiado. Lo hemos actualizado.",
+      "L'échiquier a changé. Nous l'avons actualisé."
+    ],
+    [
+      "error-rate-limited",
+      "Too many attempts. Please wait a moment and try again.",
+      "Demasiados intentos. Espera un momento e inténtalo de nuevo.",
+      "Trop de tentatives. Veuillez patienter un instant et réessayer."
+    ],
+    [
+      "error-network",
+      "We could not connect. Check your connection and try again.",
+      "No hemos podido conectar. Revisa tu conexión e inténtalo de nuevo.",
+      "Connexion impossible. Vérifiez votre connexion et réessayez."
+    ],
+    [
+      "error-unknown",
+      "Something went wrong. Please try again.",
+      "Algo ha salido mal. Inténtalo de nuevo.",
+      "Une erreur s'est produite. Veuillez réessayer."
+    ],
+    [
+      "player-message-label",
+      "A message for you",
+      "Un mensaje para ti",
+      "Un message pour vous"
+    ],
+    [
+      "player-message-close",
+      "Close message",
+      "Cerrar mensaje",
+      "Fermer le message"
+    ],
+    [
+      "unsubscribed-confirmation",
+      "You have been unsubscribed. You will no longer receive Suze Chess Challenge marketing emails.",
+      "Te has dado de baja. Ya no recibirás correos de marketing del Suze Chess Challenge.",
+      "Votre désinscription est confirmée. Vous ne recevrez plus d'e-mails marketing du Suze Chess Challenge."
+    ]
   ]
 }

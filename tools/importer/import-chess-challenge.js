@@ -15,6 +15,7 @@ import ageGateParser from './parsers/age-gate.js';
 import playerRegistrationParser from './parsers/player-registration.js';
 import chessParser from './parsers/chess.js';
 import inviteParser from './parsers/invite.js';
+import playerMessageParser from './parsers/player-message.js';
 
 const PAGE_TEMPLATE = {
   name: 'chess-challenge',
@@ -29,6 +30,7 @@ const PAGE_TEMPLATE = {
     { name: 'player-registration', instances: ['[data-block="player-registration"]'] },
     { name: 'chess', instances: ['[data-block="chess"]'] },
     { name: 'invite', instances: ['[data-block="invite"]'] },
+    { name: 'player-message', instances: ['[data-block="player-message"]'] },
   ],
 };
 
@@ -37,6 +39,7 @@ const parsers = {
   'player-registration': playerRegistrationParser,
   chess: chessParser,
   invite: inviteParser,
+  'player-message': playerMessageParser,
 };
 
 const meta = (document, name) => document.querySelector(`meta[name="${name}"]`)?.content?.trim() || '';

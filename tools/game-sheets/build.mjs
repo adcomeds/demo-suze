@@ -22,7 +22,7 @@ const sheetsDir = join(root, 'docs/game-sheets');
 const outDir = join(sheetsDir, 'out');
 const local = process.argv.includes('--local');
 const SHEETS = ['placeholders', 'game-email'];
-const GAME_BLOCKS = ['age-gate', 'player-registration', 'chess', 'invite'];
+const GAME_BLOCKS = ['age-gate', 'player-registration', 'chess', 'invite', 'player-message'];
 const DYNAMIC_KEYS = [
   'age-gate-yes', 'age-gate-no',
   ...['q', 'r', 'b', 'n'].map((p) => `chess-promote-${p}`),

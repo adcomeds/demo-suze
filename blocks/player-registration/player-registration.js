@@ -3,6 +3,7 @@ import {
   EVENTS, getLocale, getPlayer, isAgePassed, on, setPlayer,
 } from '../../scripts/game-session.js';
 import { errorKey, registerPlayer } from '../../scripts/game-api.js';
+import { startGameEvents } from '../../scripts/game-events.js';
 import {
   createField, createStatus, loadFormStyles, setStatus, validateForm, wireValidation,
 } from '../../scripts/game-form.js';
@@ -102,9 +103,17 @@ function buildForm(t, termsLink) {
         locale: getLocale(),
         consents: { terms: terms.input.checked, marketing: marketing.input.checked },
         termsVersion: t('terms-version'),
+        context: {
+          page: window.location.pathname,
+          ...(document.body.dataset.experiment ? {
+            experiment: document.body.dataset.experiment,
+            variant: document.body.dataset.variant,
+          } : {}),
+        },
       });
+      const marketingOptIn = marketing.input.checked;
       form.reset();
-      setPlayer(player);
+      setPlayer({ ...player, marketing: marketingOptIn });
     } catch (error) {
       setStatus(status, t(errorKey(error)), true);
       submit.disabled = false;
@@ -118,6 +127,7 @@ function buildForm(t, termsLink) {
  * @param {Element} block The block element
  */
 export default async function decorate(block) {
+  startGameEvents();
   const [t] = await Promise.all([fetchPlaceholders(), loadFormStyles()]);
   const { termsLink, intro } = readConfig(block);
 

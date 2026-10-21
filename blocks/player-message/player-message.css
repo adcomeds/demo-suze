@@ -1,0 +1,83 @@
+.player-message {
+  box-sizing: border-box;
+  max-width: 720px;
+  margin: var(--game-block-spacing, 40px) 0;
+}
+
+.player-message[hidden] {
+  display: none;
+}
+
+.player-message .player-message-panel {
+  position: relative;
+  display: grid;
+  gap: 16px;
+  border: 3px solid var(--brand-black);
+  border-radius: 24px;
+  padding: 24px 56px 20px 24px;
+  background-color: var(--brand-yellow);
+}
+
+.player-message .player-message-body > :first-child {
+  margin-top: 0;
+}
+
+.player-message .player-message-body p {
+  margin: 0 0 8px;
+  font-size: var(--body-font-size-m);
+}
+
+.player-message .player-message-body h2,
+.player-message .player-message-body h3 {
+  margin: 0 0 8px;
+  font-size: var(--heading-font-size-m);
+  line-height: 1.2;
+}
+
+.player-message .player-message-actions:empty {
+  display: none;
+}
+
+.player-message .player-message-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 36px;
+  height: 36px;
+  border: 2px solid var(--brand-black);
+  border-radius: 50%;
+  padding: 0;
+  background: transparent;
+  color: var(--brand-black);
+  font: inherit;
+  font-size: 22px;
+  font-weight: 800;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.player-message .player-message-close:focus-visible {
+  outline: 3px solid var(--brand-black);
+  outline-offset: 2px;
+}
+
+.player-message .player-message-responsible {
+  margin: 0;
+  border-top: 2px solid var(--brand-black);
+  padding-top: 10px;
+  font-size: var(--body-font-size-xs);
+  font-weight: 800;
+}
+
+.player-message .player-message-notice {
+  margin: 0;
+  padding-right: 0;
+  font-size: var(--body-font-size-m);
+  font-weight: 800;
+}
+
+@media (width >= 900px) {
+  .player-message .player-message-panel {
+    padding: 32px 64px 24px 32px;
+  }
+}

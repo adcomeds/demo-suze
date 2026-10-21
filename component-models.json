@@ -707,6 +707,60 @@
     ]
   },
   {
+    "id": "player-message-item",
+    "fields": [
+      {
+        "component": "select",
+        "name": "audience",
+        "label": "Show to",
+        "description": "Only players who passed the age gate and opted in to marketing see these messages",
+        "valueType": "string",
+        "value": "registered",
+        "options": [
+          {
+            "name": "Opted-in player, game started",
+            "value": "registered"
+          },
+          {
+            "name": "Host waiting for a friend",
+            "value": "waiting"
+          },
+          {
+            "name": "Player won",
+            "value": "won"
+          },
+          {
+            "name": "Player lost",
+            "value": "lost"
+          },
+          {
+            "name": "Draw",
+            "value": "draw"
+          }
+        ]
+      },
+      {
+        "component": "richtext",
+        "name": "text",
+        "label": "Message",
+        "description": "{firstName} is replaced with the player's first name",
+        "valueType": "string",
+        "value": ""
+      },
+      {
+        "component": "aem-content",
+        "name": "link",
+        "label": "Link"
+      },
+      {
+        "component": "text",
+        "name": "linkText",
+        "label": "Link text",
+        "valueType": "string"
+      }
+    ]
+  },
+  {
     "id": "player-registration",
     "fields": [
       {

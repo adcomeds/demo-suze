@@ -99,3 +99,6 @@
 "error-rate-limited","Demasiados intentos. Espera un momento e inténtalo de nuevo.",""
 "error-network","No hemos podido conectar. Revisa tu conexión e inténtalo de nuevo.",""
 "error-unknown","Algo ha salido mal. Inténtalo de nuevo.",""
+"player-message-label","Un mensaje para ti",""
+"player-message-close","Cerrar mensaje",""
+"unsubscribed-confirmation","Te has dado de baja. Ya no recibirás correos de marketing del Suze Chess Challenge.",""

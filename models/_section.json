@@ -71,7 +71,8 @@
         "age-gate",
         "player-registration",
         "chess",
-        "invite"
+        "invite",
+        "player-message"
       ]
     }
   ]

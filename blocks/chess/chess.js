@@ -6,6 +6,7 @@ import {
 import {
   createGame, errorKey, getGame, joinGame, makeMove, resignGame, subscribeToGame,
 } from '../../scripts/game-api.js';
+import { startGameEvents } from '../../scripts/game-events.js';
 
 const POLL_INTERVAL_MS = 3000;
 const FILES = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
@@ -342,6 +343,7 @@ class ChessGame {
     }
     if (previous && !previous.players.black && game.players.black && this.color === 'w') {
       this.announce(this.t('chess-opponent-joined', { name: game.players.black.firstName }));
+      emit(EVENTS.OPPONENT_JOINED, { gameId: game.gameId });
     }
     this.updateInvite();
     this.render();
@@ -350,7 +352,14 @@ class ChessGame {
     if (game.status === 'finished') {
       this.stopPolling();
       this.showResult();
-      if (!previous || previous.status !== 'finished') emit(EVENTS.OVER, { result: game.result });
+      if (!previous || previous.status !== 'finished') {
+        const { outcome, winner } = game.result || {};
+        let perspective = 'draw';
+        if (winner) perspective = winner === this.color ? 'win' : 'loss';
+        emit(EVENTS.OVER, {
+          gameId: game.gameId, result: game.result, outcome, perspective,
+        });
+      }
     } else {
       this.schedulePoll();
     }
@@ -390,15 +399,18 @@ class ChessGame {
     const urlGameId = getGameIdFromUrl();
     const stored = getStoredGame();
     let game;
+    let origin = 'resumed';
     try {
       if (urlGameId && stored?.gameId !== urlGameId) {
         this.statusEl.textContent = t('chess-status-joining');
         game = await joinGame(urlGameId);
+        origin = 'joined';
       } else if (urlGameId || stored?.gameId) {
         game = await getGame(urlGameId || stored.gameId);
       } else {
         this.statusEl.textContent = t('chess-status-creating');
         game = await createGame({ locale: getLocale() });
+        origin = 'created';
       }
     } catch (error) {
       if (!urlGameId && stored?.gameId && error.code === 'NOT_FOUND') {
@@ -417,7 +429,7 @@ class ChessGame {
       return;
     }
     setStoredGame({ gameId: game.gameId, color: this.color });
-    emit(EVENTS.CREATED, { game });
+    emit(EVENTS.CREATED, { game, origin, color: this.color });
     this.unsubscribe = await subscribeToGame(game.gameId, (update) => this.applyGame(update));
     document.addEventListener('visibilitychange', () => {
       if (!document.hidden) this.poll();
@@ -614,6 +626,7 @@ class ChessGame {
  * @param {Element} block The block element
  */
 export default async function decorate(block) {
+  startGameEvents();
   const content = readContent(block);
   const t = await fetchPlaceholders();
   const game = new ChessGame(block, t, content, null);
