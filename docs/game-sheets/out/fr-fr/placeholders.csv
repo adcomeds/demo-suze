@@ -99,3 +99,6 @@
 "error-rate-limited","Trop de tentatives. Veuillez patienter un instant et réessayer.","MT: needs review"
 "error-network","Connexion impossible. Vérifiez votre connexion et réessayez.","MT: needs review"
 "error-unknown","Une erreur s'est produite. Veuillez réessayer.","MT: needs review"
+"player-message-label","Un message pour vous","MT: needs review"
+"player-message-close","Fermer le message","MT: needs review"
+"unsubscribed-confirmation","Votre désinscription est confirmée. Vous ne recevrez plus d'e-mails marketing du Suze Chess Challenge.","MT: needs review"

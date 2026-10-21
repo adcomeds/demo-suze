@@ -1,7 +1,15 @@
 {
-  "description": "Source copy for the per-locale `game-email` sheets read by the backend for the transactional invite email. Plain text, \\n is a line break. Tokens: {inviterFirstName}, {gameUrl}. No promotional content. fr/fr is machine translated and needs review.",
-  "locales": ["masters/en", "us/es", "fr/fr"],
-  "review": { "masters/en": "", "us/es": "", "fr/fr": "MT: needs review" },
+  "description": "Source copy for the per-locale `game-email` sheets read by the backend. Plain text, \\n is a line break. invite-email-*: transactional invite (tokens {inviterFirstName}, {gameUrl}), no promotional content. followup-*: marketing follow-up after a game, sent only to players who opted in to marketing (tokens {firstName}, {opponentFirstName}, {rematchUrl}, {unsubscribeUrl}). fr/fr is machine translated and needs review.",
+  "locales": [
+    "masters/en",
+    "us/es",
+    "fr/fr"
+  ],
+  "review": {
+    "masters/en": "",
+    "us/es": "",
+    "fr/fr": "MT: needs review"
+  },
   "rows": [
     [
       "invite-email-subject",
@@ -14,6 +22,42 @@
       "Hello,\n\n{inviterFirstName} has started a game of chess in the Suze Chess Challenge and invited you to play black.\n\nOpen the game here: {gameUrl}\n\nBefore you play, you will be asked to confirm that you are of legal drinking age and to accept the game terms.\n\nYou are receiving this single email because {inviterFirstName} entered your address to invite you. Your address is not added to any mailing list.\n\nPlease drink responsibly.",
       "Hola:\n\n{inviterFirstName} ha empezado una partida de ajedrez en el Suze Chess Challenge y te ha invitado a jugar con negras.\n\nAbre la partida aquí: {gameUrl}\n\nAntes de jugar, tendrás que confirmar que tienes la edad legal para beber y aceptar las condiciones del juego.\n\nRecibes este único correo porque {inviterFirstName} ha introducido tu dirección para invitarte. Tu dirección no se añade a ninguna lista de correo.\n\nBebe con responsabilidad.",
       "Bonjour,\n\n{inviterFirstName} a commencé une partie d'échecs dans le Suze Chess Challenge et vous invite à jouer les noirs.\n\nOuvrez la partie ici : {gameUrl}\n\nAvant de jouer, vous devrez confirmer que vous avez l'âge légal pour consommer de l'alcool et accepter les conditions du jeu.\n\nVous recevez cet e-mail unique parce que {inviterFirstName} a saisi votre adresse pour vous inviter. Votre adresse n'est ajoutée à aucune liste de diffusion.\n\nL'abus d'alcool est dangereux pour la santé, à consommer avec modération."
+    ],
+    [
+      "followup-win-subject",
+      "Well played, {firstName}",
+      "Bien jugado, {firstName}",
+      "Bien joué, {firstName}"
+    ],
+    [
+      "followup-win-body",
+      "Hello {firstName},\n\nCheckmate! You won your game against {opponentFirstName} in the Suze Chess Challenge.\n\nReady to defend your title? Start a rematch: {rematchUrl}\n\nWhile you plan your next opening, discover Suze Tonic 0%, the bitter notes of gentian without the alcohol.\n\nPlease drink responsibly.\n\nYou are receiving this email because you agreed to hear from Suze. Unsubscribe: {unsubscribeUrl}",
+      "Hola, {firstName}:\n\n¡Jaque mate! Ganaste tu partida contra {opponentFirstName} en el Suze Chess Challenge.\n\n¿Listo para defender tu título? Empieza una revancha: {rematchUrl}\n\nMientras planeas tu próxima apertura, descubre Suze Tonic 0%: las notas amargas de la genciana, sin alcohol.\n\nBebe con responsabilidad.\n\nRecibes este correo porque aceptaste recibir noticias de Suze. Darte de baja: {unsubscribeUrl}",
+      "Bonjour {firstName},\n\nÉchec et mat ! Vous avez gagné votre partie contre {opponentFirstName} dans le Suze Chess Challenge.\n\nPrêt à défendre votre titre ? Lancez une revanche : {rematchUrl}\n\nPendant que vous préparez votre prochaine ouverture, découvrez Suze Tonic 0% : les notes amères de la gentiane, sans alcool.\n\nL'abus d'alcool est dangereux pour la santé, à consommer avec modération.\n\nVous recevez cet e-mail car vous avez accepté de recevoir des nouvelles de Suze. Se désinscrire : {unsubscribeUrl}"
+    ],
+    [
+      "followup-loss-subject",
+      "A rematch, {firstName}?",
+      "¿Una revancha, {firstName}?",
+      "Une revanche, {firstName} ?"
+    ],
+    [
+      "followup-loss-body",
+      "Hello {firstName},\n\n{opponentFirstName} won this round of the Suze Chess Challenge. A good game is never wasted.\n\nAsk for a rematch: {rematchUrl}\n\nWhile you plan your next opening, discover Suze Tonic 0%, the bitter notes of gentian without the alcohol.\n\nPlease drink responsibly.\n\nYou are receiving this email because you agreed to hear from Suze. Unsubscribe: {unsubscribeUrl}",
+      "Hola, {firstName}:\n\n{opponentFirstName} ganó esta ronda del Suze Chess Challenge. Una buena partida nunca se pierde del todo.\n\nPide la revancha: {rematchUrl}\n\nMientras planeas tu próxima apertura, descubre Suze Tonic 0%: las notas amargas de la genciana, sin alcohol.\n\nBebe con responsabilidad.\n\nRecibes este correo porque aceptaste recibir noticias de Suze. Darte de baja: {unsubscribeUrl}",
+      "Bonjour {firstName},\n\n{opponentFirstName} a remporté cette manche du Suze Chess Challenge. Une belle partie n'est jamais perdue.\n\nDemandez une revanche : {rematchUrl}\n\nPendant que vous préparez votre prochaine ouverture, découvrez Suze Tonic 0% : les notes amères de la gentiane, sans alcool.\n\nL'abus d'alcool est dangereux pour la santé, à consommer avec modération.\n\nVous recevez cet e-mail car vous avez accepté de recevoir des nouvelles de Suze. Se désinscrire : {unsubscribeUrl}"
+    ],
+    [
+      "followup-draw-subject",
+      "An even match, {firstName}",
+      "Fuerzas igualadas, {firstName}",
+      "Égalité parfaite, {firstName}"
+    ],
+    [
+      "followup-draw-body",
+      "Hello {firstName},\n\nYour game against {opponentFirstName} in the Suze Chess Challenge ended in a draw.\n\nSettle it with a rematch: {rematchUrl}\n\nWhile you plan your next opening, discover Suze Tonic 0%, the bitter notes of gentian without the alcohol.\n\nPlease drink responsibly.\n\nYou are receiving this email because you agreed to hear from Suze. Unsubscribe: {unsubscribeUrl}",
+      "Hola, {firstName}:\n\nTu partida contra {opponentFirstName} en el Suze Chess Challenge terminó en tablas.\n\nDesempata con una revancha: {rematchUrl}\n\nMientras planeas tu próxima apertura, descubre Suze Tonic 0%: las notas amargas de la genciana, sin alcohol.\n\nBebe con responsabilidad.\n\nRecibes este correo porque aceptaste recibir noticias de Suze. Darte de baja: {unsubscribeUrl}",
+      "Bonjour {firstName},\n\nVotre partie contre {opponentFirstName} dans le Suze Chess Challenge s'est terminée par un match nul.\n\nDépartagez-vous avec une revanche : {rematchUrl}\n\nPendant que vous préparez votre prochaine ouverture, découvrez Suze Tonic 0% : les notes amères de la gentiane, sans alcool.\n\nL'abus d'alcool est dangereux pour la santé, à consommer avec modération.\n\nVous recevez cet e-mail car vous avez accepté de recevoir des nouvelles de Suze. Se désinscrire : {unsubscribeUrl}"
     ]
   ]
 }

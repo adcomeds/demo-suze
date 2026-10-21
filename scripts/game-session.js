@@ -2,8 +2,8 @@
  * Shared session state and events for the chess challenge blocks.
  * Blocks never import each other; they read state from here and react to events.
  * Only non-personal values are stored: the age gate outcome (never a date of birth),
- * playerId, token, gameId and the player's colour. Everything lives in sessionStorage,
- * so each browser tab is its own player.
+ * playerId, token, the marketing opt-in flag, gameId and the player's colour. Everything
+ * lives in sessionStorage, so each browser tab is its own player.
  */
 import { getLocalePrefix } from './scripts.js';
 
@@ -17,6 +17,8 @@ export const EVENTS = {
   FIRST_MOVE: 'game:first-move',
   OVER: 'game:over',
   INVITE_AVAILABLE: 'game:invite-available',
+  INVITE_SENT: 'game:invite-sent',
+  OPPONENT_JOINED: 'game:opponent-joined',
   INVITE_REQUESTED: 'game:invite-requested',
 };
 
@@ -47,9 +49,17 @@ export function getLocale() {
   return getLocalePrefix().replace(/^\//, '') || 'masters/en';
 }
 
+/* latest game and result of this page view, kept in memory only, for blocks that load late */
+const latest = {};
+
 export function emit(name, detail) {
+  if (name === EVENTS.UPDATED) latest.game = detail.game;
+  if (name === EVENTS.OVER) latest.over = detail;
   document.dispatchEvent(new CustomEvent(name, { detail }));
 }
+
+export const getLatestGame = () => latest.game || null;
+export const getLatestResult = () => latest.over || null;
 
 export function on(name, handler) {
   const listener = (event) => handler(event.detail);
@@ -74,10 +84,13 @@ export function getPlayer() {
   return read('player');
 }
 
-export function setPlayer({ playerId, token }) {
-  write('player', { playerId, token });
-  emit(EVENTS.REGISTERED, { playerId });
+/* marketing: the player's marketing opt-in (a boolean, used to target marketing messages) */
+export function setPlayer({ playerId, token, marketing = false }) {
+  write('player', { playerId, token, marketing: marketing === true });
+  emit(EVENTS.REGISTERED, { playerId, marketing: marketing === true });
 }
+
+export const hasMarketingOptIn = () => getPlayer()?.marketing === true;
 
 /* game */
 export function getGameIdFromUrl() {

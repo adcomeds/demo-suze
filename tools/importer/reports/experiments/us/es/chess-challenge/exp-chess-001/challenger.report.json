@@ -2,7 +2,7 @@
   "status": "success",
   "url": "http://localhost:3000/tools/importer/sources/chess-challenge/us-es.html?variant=challenger",
   "path": "experiments/us/es/chess-challenge/exp-chess-001/challenger",
-  "timestamp": "2026-10-16T13:36:48.610Z",
+  "timestamp": "2026-10-21T09:30:40.224Z",
   "title": "El Suze Chess Challenge",
   "template": "chess-challenge",
   "variant": "challenger",
@@ -10,6 +10,7 @@
     "age-gate",
     "player-registration",
     "chess",
-    "invite"
+    "invite",
+    "player-message"
   ]
 }

@@ -11,3 +11,39 @@ Before you play, you will be asked to confirm that you are of legal drinking age
 You are receiving this single email because {inviterFirstName} entered your address to invite you. Your address is not added to any mailing list.
 
 Please drink responsibly.",""
+"followup-win-subject","Well played, {firstName}",""
+"followup-win-body","Hello {firstName},
+
+Checkmate! You won your game against {opponentFirstName} in the Suze Chess Challenge.
+
+Ready to defend your title? Start a rematch: {rematchUrl}
+
+While you plan your next opening, discover Suze Tonic 0%, the bitter notes of gentian without the alcohol.
+
+Please drink responsibly.
+
+You are receiving this email because you agreed to hear from Suze. Unsubscribe: {unsubscribeUrl}",""
+"followup-loss-subject","A rematch, {firstName}?",""
+"followup-loss-body","Hello {firstName},
+
+{opponentFirstName} won this round of the Suze Chess Challenge. A good game is never wasted.
+
+Ask for a rematch: {rematchUrl}
+
+While you plan your next opening, discover Suze Tonic 0%, the bitter notes of gentian without the alcohol.
+
+Please drink responsibly.
+
+You are receiving this email because you agreed to hear from Suze. Unsubscribe: {unsubscribeUrl}",""
+"followup-draw-subject","An even match, {firstName}",""
+"followup-draw-body","Hello {firstName},
+
+Your game against {opponentFirstName} in the Suze Chess Challenge ended in a draw.
+
+Settle it with a rematch: {rematchUrl}
+
+While you plan your next opening, discover Suze Tonic 0%, the bitter notes of gentian without the alcohol.
+
+Please drink responsibly.
+
+You are receiving this email because you agreed to hear from Suze. Unsubscribe: {unsubscribeUrl}",""

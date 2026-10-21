@@ -29,7 +29,8 @@
       "age-gate",
       "player-registration",
       "chess",
-      "invite"
+      "invite",
+      "player-message"
     ]
   },
   {
@@ -88,6 +89,12 @@
       "image",
       "button",
       "title"
+    ]
+  },
+  {
+    "id": "player-message",
+    "components": [
+      "player-message-item"
     ]
   },
   {

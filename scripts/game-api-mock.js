@@ -98,6 +98,8 @@ function resultAfterMove(chess) {
   return null;
 }
 
+const MAX_EVENTS = 200;
+
 const handlers = {
   registerPlayer({ body = {} }) {
     const firstName = String(body.firstName || '').trim();
@@ -176,6 +178,17 @@ const handlers = {
       : { outcome: 'resign', winner: color === 'w' ? 'b' : 'w' };
     game.status = 'finished';
     return touch(game);
+  },
+
+  /* keeps the latest events in localStorage so the demo can show what the backend receives */
+  recordEvent({ body = {} }, player) {
+    if (!body.type) fail('VALIDATION', 400);
+    const events = load('events') || [];
+    events.push({
+      type: body.type, data: body.data || {}, at: body.at, playerId: player.playerId,
+    });
+    save('events', events.slice(-MAX_EVENTS));
+    return { accepted: true };
   },
 
   sendInvite({ gameId, body = {} }, player) {

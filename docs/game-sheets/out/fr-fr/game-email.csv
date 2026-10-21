@@ -11,3 +11,39 @@ Avant de jouer, vous devrez confirmer que vous avez l'âge légal pour consommer
 Vous recevez cet e-mail unique parce que {inviterFirstName} a saisi votre adresse pour vous inviter. Votre adresse n'est ajoutée à aucune liste de diffusion.
 
 L'abus d'alcool est dangereux pour la santé, à consommer avec modération.","MT: needs review"
+"followup-win-subject","Bien joué, {firstName}","MT: needs review"
+"followup-win-body","Bonjour {firstName},
+
+Échec et mat ! Vous avez gagné votre partie contre {opponentFirstName} dans le Suze Chess Challenge.
+
+Prêt à défendre votre titre ? Lancez une revanche : {rematchUrl}
+
+Pendant que vous préparez votre prochaine ouverture, découvrez Suze Tonic 0% : les notes amères de la gentiane, sans alcool.
+
+L'abus d'alcool est dangereux pour la santé, à consommer avec modération.
+
+Vous recevez cet e-mail car vous avez accepté de recevoir des nouvelles de Suze. Se désinscrire : {unsubscribeUrl}","MT: needs review"
+"followup-loss-subject","Une revanche, {firstName} ?","MT: needs review"
+"followup-loss-body","Bonjour {firstName},
+
+{opponentFirstName} a remporté cette manche du Suze Chess Challenge. Une belle partie n'est jamais perdue.
+
+Demandez une revanche : {rematchUrl}
+
+Pendant que vous préparez votre prochaine ouverture, découvrez Suze Tonic 0% : les notes amères de la gentiane, sans alcool.
+
+L'abus d'alcool est dangereux pour la santé, à consommer avec modération.
+
+Vous recevez cet e-mail car vous avez accepté de recevoir des nouvelles de Suze. Se désinscrire : {unsubscribeUrl}","MT: needs review"
+"followup-draw-subject","Égalité parfaite, {firstName}","MT: needs review"
+"followup-draw-body","Bonjour {firstName},
+
+Votre partie contre {opponentFirstName} dans le Suze Chess Challenge s'est terminée par un match nul.
+
+Départagez-vous avec une revanche : {rematchUrl}
+
+Pendant que vous préparez votre prochaine ouverture, découvrez Suze Tonic 0% : les notes amères de la gentiane, sans alcool.
+
+L'abus d'alcool est dangereux pour la santé, à consommer avec modération.
+
+Vous recevez cet e-mail car vous avez accepté de recevoir des nouvelles de Suze. Se désinscrire : {unsubscribeUrl}","MT: needs review"

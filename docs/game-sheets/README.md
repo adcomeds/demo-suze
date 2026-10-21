@@ -33,6 +33,18 @@ Notes:
   (`paths.json` or the site configuration). Check each "Delivered as" URL on
   `https://main--demo-suze--adcomeds.aem.page/` after publishing.
 
+### Update 2026-10-21: new rows to add
+
+The sheets already exist. Add these rows and publish again (`npm run sheets:build` regenerates
+the CSV files):
+
+| Sheet | New keys |
+|---|---|
+| `placeholders` (each locale) | `player-message-label`, `player-message-close`, `unsubscribed-confirmation` |
+| `game-email` (each locale) | `followup-win-subject`, `followup-win-body`, `followup-loss-subject`, `followup-loss-body`, `followup-draw-subject`, `followup-draw-body` |
+
+The rows are at the end of the matching CSV files in `out/<locale>/`.
+
 ## 2. Pages
 
 The import created six pages with block content and properties already set:
@@ -71,6 +83,12 @@ Block settings per locale:
 
 On the challenger pages the **Chess** block has the option *Show an "Invite a friend" prompt after
 the opening move* switched on. Nothing else differs from the control.
+
+**Player Message block (added 2026-10-21):** each control and challenger page has a
+**Player Message** block after the Chess block, with five **Message** items. Each item has a
+*Show to* value (`registered`, `waiting`, `won`, `lost`, `draw`), the message text (with
+`{firstName}`) and a link to Suze Tonic 0%, Suze L'Originale or the Suze story in the same locale.
+The re-imported AEM versions of the six pages include it.
 
 ## 3. Publish order
 

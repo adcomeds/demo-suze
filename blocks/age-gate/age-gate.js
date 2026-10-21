@@ -1,5 +1,6 @@
 import { fetchPlaceholders } from '../../scripts/placeholders.js';
 import { getAgeGateResult, setAgeGateResult } from '../../scripts/game-session.js';
+import { startGameEvents } from '../../scripts/game-events.js';
 import {
   createField, loadFormStyles, validateForm, wireValidation,
 } from '../../scripts/game-form.js';
@@ -98,6 +99,7 @@ function buildDob(form, t, minimumAge, done) {
  * @param {Element} block The block element
  */
 export default async function decorate(block) {
+  startGameEvents();
   const [t] = await Promise.all([fetchPlaceholders(), loadFormStyles()]);
   const { minimumAge, intro, mode } = readConfig(block);
 
