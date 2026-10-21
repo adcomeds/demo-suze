@@ -135,6 +135,18 @@ To regenerate the pages after changing a source brief, bundle and run the import
 standard bulk importer and `tools/importer/urls-chess-challenge.txt`. Each source is imported twice:
 once as is (control) and once with `?variant=challenger`.
 
+### In the Universal Editor
+
+- **Text:** the page runs on the AEM author host, so the sheets (placeholders, `game-config`) are
+  read through AEM's delivery servlet (`/bin/franklin.delivery/adcomeds/demo-suze/main/...`) with
+  the author's login. Otherwise the blocks would show raw placeholder keys.
+- **Experiment:** it is pinned to `control` (`?experiment=exp-chess-001/control` is added to the
+  editor frame's URL), unless a variant is chosen explicitly. A variant swap replaces `<main>` with
+  HTML that has no editing markup, which empties the content tree. To edit the challenger, open
+  its own page under `/experiments/...`.
+- **Playing:** the game API's CORS allow-list doesn't include the author host, so playing the game
+  inside the editor stops at registration. Test the game on `*.aem.page` or `*.aem.live`.
+
 ### Mock mode and the two-tab demo
 
 The mock is used when `game-api-base` in `/game-config` is empty, or when the URL has `?mock=1`

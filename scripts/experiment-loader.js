@@ -25,6 +25,20 @@ export async function runExperimentation(document, config) {
     return null;
   }
 
+  // In the Universal Editor, authors must edit the page they opened. A variant swap replaces
+  // <main> with fetched HTML that has no editing instrumentation, so the content tree empties.
+  // Unless a variant is chosen explicitly (?experiment=<id>/<variant>, e.g. from the UE
+  // experimentation panel), pin the page-level experiment to its control.
+  const { hostname, search } = window.location;
+  const isAuthor = hostname.startsWith('author-') && hostname.endsWith('.adobeaemcloud.com');
+  const experimentId = document.head.querySelector('meta[name="experiment"]')?.content?.trim();
+  const param = config.experimentsQueryParameter || 'experiment';
+  if (isAuthor && experimentId && !new URLSearchParams(search).has(param)) {
+    const url = new URL(window.location.href);
+    url.searchParams.set(param, `${experimentId}/control`);
+    window.history.replaceState(window.history.state, '', url);
+  }
+
   try {
     const { loadEager } = await import(
       // eslint-disable-next-line import/no-relative-packages
