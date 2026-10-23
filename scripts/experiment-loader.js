@@ -39,6 +39,20 @@ export async function runExperimentation(document, config) {
     window.history.replaceState(window.history.state, '', url);
   }
 
+  // Variant URLs are authored as delivery paths (/experiments/<locale>/...), which don't exist on
+  // the author host, so the UE experimentation panel opened a 404. On author, prefix them with
+  // the site root (/content/<site>) before the plugin reads the metadata; the panel adds .html.
+  const variants = document.head.querySelector('meta[name="experiment-variants"]');
+  const [, root, site] = window.location.pathname.split('/');
+  if (isAuthor && variants && root === 'content' && site) {
+    variants.content = variants.content.split(',').map((value) => {
+      const trimmed = value.trim();
+      if (!trimmed) return trimmed;
+      const { pathname } = new URL(trimmed, window.location.origin);
+      return pathname.startsWith('/content/') ? pathname : `/content/${site}${pathname}`;
+    }).join(', ');
+  }
+
   try {
     const { loadEager } = await import(
       // eslint-disable-next-line import/no-relative-packages
