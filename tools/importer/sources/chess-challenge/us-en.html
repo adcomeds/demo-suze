@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>The Suze Chess Challenge</title>
+  <meta name="description" content="Play a game of chess against a friend in the Suze Chess Challenge. Make your move, invite a friend and see who wins.">
+  <meta name="target-path" content="/us/en/chess-challenge">
+  <!-- the us/en control is an MSM live copy of masters/en: only the challenger is imported -->
+  <meta name="challenger-path" content="/experiments/us/en/chess-challenge/exp-chess-001/challenger">
+  <meta name="experiment" content="exp-chess-001">
+  <meta name="experiment-split" content="50">
+  <meta name="experiment-status" content="Active">
+  <meta name="conversion-element" content="Form">
+</head>
+<body>
+  <main>
+    <section data-section="intro">
+      <h1>The Suze Chess Challenge</h1>
+      <p>Bittersweet strategy, one move at a time. Make your opening move, invite a friend to reply and play the game at your own pace.</p>
+    </section>
+    <section data-section="game">
+      <div data-block="age-gate" data-options="dob" data-minimum-age="21">
+        <p>The Suze Chess Challenge is only open to adults of legal drinking age.</p>
+      </div>
+      <div data-block="player-registration">
+        <div data-field="text"><p>Tell us your first name so your opponent knows who they are playing. We only use your email for the game, unless you choose to hear from Suze.</p></div>
+        <div data-field="termsLink"><a href="/us/en/chess-challenge-terms">/us/en/chess-challenge-terms</a></div>
+      </div>
+      <div data-block="chess" data-options="">
+        <div data-field="resultWin"><p>Well played. Start a new game and defend your title.</p></div>
+        <div data-field="resultLoss"><p>A good game is never wasted. Set up the board again and ask for a rematch.</p></div>
+        <div data-field="resultDraw"><p>Evenly matched. Play again to settle it.</p></div>
+      </div>
+      <div data-block="player-message">
+        <div data-item data-audience="registered">
+          <div data-field="text"><p><strong>Good luck, {firstName}!</strong> Between two moves, discover Suze Tonic 0%: the bitter notes of gentian, without the alcohol.</p></div>
+          <a href="/us/en/product/suze-tonic-0">Discover Suze Tonic 0%</a>
+        </div>
+        <div data-item data-audience="waiting">
+          <div data-field="text"><p><strong>Your move is on the board, {firstName}.</strong> While your friend thinks it over, find out how Suze has been breaking codes since 1889.</p></div>
+          <a href="/us/en/suze-story">Read the Suze story</a>
+        </div>
+        <div data-item data-audience="won">
+          <div data-field="text"><p><strong>Checkmate, {firstName}!</strong> Your next challenge: 130 years of a bold, bitter original. Discover the Suze story.</p></div>
+          <a href="/us/en/suze-story">Read the Suze story</a>
+        </div>
+        <div data-item data-audience="lost">
+          <div data-field="text"><p><strong>So close, {firstName}.</strong> Take a breather and discover Suze Tonic 0%, the alcohol-free way to enjoy Suze.</p></div>
+          <a href="/us/en/product/suze-tonic-0">Discover Suze Tonic 0%</a>
+        </div>
+        <div data-item data-audience="draw">
+          <div data-field="text"><p><strong>An even match, {firstName}.</strong> Settle it with a rematch, and discover Suze L'Originale, the gentian aperitif since 1889.</p></div>
+          <a href="/us/en/product/suze-loriginale">Discover Suze L'Originale</a>
+        </div>
+      </div>
+    </section>
+    <section data-section="invite" data-conversion-name="chess-invite">
+      <div data-block="invite">
+        <p>Send your friend a link to the game. They will play black and reply to your move.</p>
+      </div>
+    </section>
+  </main>
+</body>
+</html>

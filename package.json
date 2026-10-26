@@ -14,7 +14,8 @@
     "build:json:filters": "merge-json-cli -i \"models/_component-filters.json\" -o \"component-filters.json\"",
     "prepare": "husky",
     "sheets:build": "node tools/game-sheets/build.mjs",
-    "sheets:local": "node tools/game-sheets/build.mjs --local"
+    "sheets:local": "node tools/game-sheets/build.mjs --local",
+    "export:clean": "node tools/importer/clean-jcr-export.mjs"
   },
   "repository": {
     "type": "git",

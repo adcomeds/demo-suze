@@ -99,7 +99,8 @@ var CustomImportScript = (() => {
     urls: [
       "http://localhost:3000/tools/importer/sources/chess-challenge/masters-en.html",
       "http://localhost:3000/tools/importer/sources/chess-challenge/us-es.html",
-      "http://localhost:3000/tools/importer/sources/chess-challenge/fr-fr.html"
+      "http://localhost:3000/tools/importer/sources/chess-challenge/fr-fr.html",
+      "http://localhost:3000/tools/importer/sources/chess-challenge/us-en.html?variant=challenger"
     ],
     blocks: [
       { name: "age-gate", instances: ['[data-block="age-gate"]'] },
@@ -153,11 +154,15 @@ var CustomImportScript = (() => {
         Description: meta(document, "description")
       };
       if (!isChallenger) {
-        metadata.experiment = meta(document, "experiment");
-        metadata["experiment-variants"] = meta(document, "challenger-path");
-        metadata["experiment-split"] = meta(document, "experiment-split");
-        metadata["experiment-status"] = meta(document, "experiment-status");
-        metadata["conversion-element"] = meta(document, "conversion-element");
+        if (meta(document, "experiment")) {
+          metadata.experiment = meta(document, "experiment");
+          metadata["experiment-variants"] = meta(document, "challenger-path");
+          metadata["experiment-split"] = meta(document, "experiment-split");
+          metadata["experiment-status"] = meta(document, "experiment-status");
+        }
+        if (meta(document, "conversion-element")) {
+          metadata["conversion-element"] = meta(document, "conversion-element");
+        }
       }
       main.append(document.createElement("hr"));
       main.append(WebImporter.Blocks.getMetadataBlock(document, metadata));

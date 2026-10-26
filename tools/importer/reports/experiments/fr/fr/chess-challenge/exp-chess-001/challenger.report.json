@@ -2,7 +2,7 @@
   "status": "success",
   "url": "http://localhost:3000/tools/importer/sources/chess-challenge/fr-fr.html?variant=challenger",
   "path": "experiments/fr/fr/chess-challenge/exp-chess-001/challenger",
-  "timestamp": "2026-10-21T09:30:44.469Z",
+  "timestamp": "2026-10-26T09:32:48.300Z",
   "title": "Le Suze Chess Challenge",
   "template": "chess-challenge",
   "variant": "challenger",
