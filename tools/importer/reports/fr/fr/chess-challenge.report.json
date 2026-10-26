@@ -2,7 +2,7 @@
   "status": "success",
   "url": "http://localhost:3000/tools/importer/sources/chess-challenge/fr-fr.html",
   "path": "fr/fr/chess-challenge",
-  "timestamp": "2026-10-16T13:36:39.459Z",
+  "timestamp": "2026-10-26T09:32:36.990Z",
   "title": "Le Suze Chess Challenge",
   "template": "chess-challenge",
   "variant": "control",
@@ -10,6 +10,7 @@
     "age-gate",
     "player-registration",
     "chess",
-    "invite"
+    "invite",
+    "player-message"
   ]
 }

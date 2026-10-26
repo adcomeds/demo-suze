@@ -28,20 +28,25 @@ flowchart TB
   end
 
   subgraph Browser["Visitor browser"]
-    Blocks["Blocks<br/>age-gate · player-registration<br/>chess · invite"]
+    Blocks["Blocks<br/>age-gate · player-registration<br/>chess · invite · player-message"]
     Session["game-session.js<br/>sessionStorage + events"]
     Api["game-api.js<br/>single API client"]
     Mock["game-api-mock.js<br/>localStorage + chess.js"]
     Exp["Experimentation plugin<br/>+ rum-conversion"]
+    Events["game-events.js"]
+    DL["window.adobeDataLayer<br/>PII-free game events"]
   end
 
   subgraph AB["Adobe App Builder · project Chess (AGS955)"]
     Action["Web action chess/game-api<br/>chess.js 1.4.0 validation"]
-    State[("aio-lib-state<br/>players · token hashes · games")]
+    State[("aio-lib-state<br/>players + consent records<br/>token hashes · games · events")]
+    Conn["Connectors<br/>log · webhook (HMAC-signed)"]
   end
 
+  Third["Third party (any webhook)<br/>profiles only with marketing consent"]
+
   SMTP["Own SMTP server<br/>(log mode until configured)"]
-  Inbox["Friend's inbox"]
+  Inbox["Inboxes<br/>invite (transactional)<br/>post-game follow-up (opted-in only)"]
   subgraph Obs["Measurement"]
     RUM["RUM / OpTel<br/>no personal data"]
   end
@@ -58,9 +63,15 @@ flowchart TB
   Api -- "HTTPS, Bearer token, CORS" --> Action
   Action --> State
   Action -- "reads game-email.json" --> CDN
-  Action -- "invite email" --> SMTP
+  Action -- "invite + follow-up emails" --> SMTP
   SMTP --> Inbox
   Exp -- "experiment + convert checkpoints" --> RUM
+  Blocks --> Events
+  Events --> DL
+  Events -- "POST /events (registered players)" --> Api
+  Action --> Conn
+  Conn --> Third
+  Inbox -- "unsubscribe link" --> Action
 ```
 
 ## 2. Game flow (host and invited friend)
@@ -100,9 +111,30 @@ sequenceDiagram
   Note over Site,API: Moves continue until checkmate, stalemate, draw or resignation
   Site-->>Host: Result screen + responsible drinking line
   Site-->>Friend: Result screen + responsible drinking line
+  Site->>Site: player-message block shows the result message (opted-in players only)
+  API->>Mail: Post-game follow-up (opted-in players only, copy from game-email)
+  Mail-->>Host: Follow-up with rematch link and unsubscribe link
+  Host->>API: GET /unsubscribe?t=TOKEN (optional)
+  API-->>Host: 302 to /locale/chess-challenge?unsubscribed=1
 ```
 
-## 3. A/B experiment and conversion
+## 3. Consumer data and marketing messaging
+
+```mermaid
+flowchart LR
+  Reg["Registration form<br/>first name, email<br/>terms (required) · marketing (optional)"] --> Profile["Player profile + consent record<br/>granted, timestamp, page, variant"]
+  Game["Game events in the browser"] --> DL["window.adobeDataLayer<br/>no personal data"]
+  Game -- "POST /events" --> Store["App Builder event store"]
+  Profile --> Rules{"Marketing consent?"}
+  Store --> Conn["Connectors: log · webhook"]
+  Rules -- "yes: full profile" --> Conn
+  Rules -- "no: pseudonymous id only" --> Conn
+  Conn --> Third["Third-party system"]
+  Rules -- "yes" --> Follow["Post-game follow-up email<br/>own SMTP · unsubscribe link"]
+  Rules -- "yes" --> OnSite["On-site player-message<br/>current visit only"]
+```
+
+## 4. A/B experiment and conversion
 
 ```mermaid
 flowchart TD

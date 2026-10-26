@@ -5,10 +5,7 @@
   <title>The Suze Chess Challenge</title>
   <meta name="description" content="Play a game of chess against a friend in the Suze Chess Challenge. Make your move, invite a friend and see who wins.">
   <meta name="target-path" content="/masters/en/chess-challenge">
-  <meta name="challenger-path" content="/experiments/masters/en/chess-challenge/exp-chess-001/challenger">
-  <meta name="experiment" content="exp-chess-001">
-  <meta name="experiment-split" content="50">
-  <meta name="experiment-status" content="Active">
+  <!-- MSM blueprint (not published): rolled out to us/en; the experiment is set on the market page -->
   <meta name="conversion-element" content="Form">
 </head>
 <body>
@@ -29,6 +26,28 @@
         <div data-field="resultWin"><p>Well played. Start a new game and defend your title.</p></div>
         <div data-field="resultLoss"><p>A good game is never wasted. Set up the board again and ask for a rematch.</p></div>
         <div data-field="resultDraw"><p>Evenly matched. Play again to settle it.</p></div>
+      </div>
+      <div data-block="player-message">
+        <div data-item data-audience="registered">
+          <div data-field="text"><p><strong>Good luck, {firstName}!</strong> Between two moves, discover Suze Tonic 0%: the bitter notes of gentian, without the alcohol.</p></div>
+          <a href="/masters/en/product/suze-tonic-0">Discover Suze Tonic 0%</a>
+        </div>
+        <div data-item data-audience="waiting">
+          <div data-field="text"><p><strong>Your move is on the board, {firstName}.</strong> While your friend thinks it over, find out how Suze has been breaking codes since 1889.</p></div>
+          <a href="/masters/en/suze-story">Read the Suze story</a>
+        </div>
+        <div data-item data-audience="won">
+          <div data-field="text"><p><strong>Checkmate, {firstName}!</strong> Your next challenge: 130 years of a bold, bitter original. Discover the Suze story.</p></div>
+          <a href="/masters/en/suze-story">Read the Suze story</a>
+        </div>
+        <div data-item data-audience="lost">
+          <div data-field="text"><p><strong>So close, {firstName}.</strong> Take a breather and discover Suze Tonic 0%, the alcohol-free way to enjoy Suze.</p></div>
+          <a href="/masters/en/product/suze-tonic-0">Discover Suze Tonic 0%</a>
+        </div>
+        <div data-item data-audience="draw">
+          <div data-field="text"><p><strong>An even match, {firstName}.</strong> Settle it with a rematch, and discover Suze L'Originale, the gentian aperitif since 1889.</p></div>
+          <a href="/masters/en/product/suze-loriginale">Discover Suze L'Originale</a>
+        </div>
       </div>
     </section>
     <section data-section="invite" data-conversion-name="chess-invite">

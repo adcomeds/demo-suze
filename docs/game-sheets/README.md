@@ -12,10 +12,10 @@ Excel or Numbers and paste the rows, header row included.
 
 | AEM path | Template | Paste from | Delivered as |
 |---|---|---|---|
-| `/content/suze/masters/en/placeholders` | Placeholders | `out/masters-en/placeholders.csv` | `/masters/en/placeholders.json` |
+| `/content/suze/masters/en/placeholders` (blueprint, rolled out to `us/en`) | Placeholders | `out/masters-en/placeholders.csv` | `/us/en/placeholders.json` |
 | `/content/suze/us/es/placeholders` | Placeholders | `out/us-es/placeholders.csv` | `/us/es/placeholders.json` |
 | `/content/suze/fr/fr/placeholders` | Placeholders | `out/fr-fr/placeholders.csv` | `/fr/fr/placeholders.json` |
-| `/content/suze/masters/en/game-email` | Placeholders | `out/masters-en/game-email.csv` | `/masters/en/game-email.json` |
+| `/content/suze/masters/en/game-email` (blueprint, rolled out to `us/en`) | Placeholders | `out/masters-en/game-email.csv` | `/us/en/game-email.json` |
 | `/content/suze/us/es/game-email` | Placeholders | `out/us-es/game-email.csv` | `/us/es/game-email.json` |
 | `/content/suze/fr/fr/game-email` | Placeholders | `out/fr-fr/game-email.csv` | `/fr/fr/game-email.json` |
 | `/content/suze/game-config` | Placeholders | `out/game-config.csv` | `/game-config.json` |
@@ -33,16 +33,29 @@ Notes:
   (`paths.json` or the site configuration). Check each "Delivered as" URL on
   `https://main--demo-suze--adcomeds.aem.page/` after publishing.
 
+### Update 2026-10-21: new rows to add
+
+The sheets already exist. Add these rows and publish again (`npm run sheets:build` regenerates
+the CSV files):
+
+| Sheet | New keys |
+|---|---|
+| `placeholders` (each locale) | `player-message-label`, `player-message-close`, `unsubscribed-confirmation` |
+| `game-email` (each locale) | `followup-win-subject`, `followup-win-body`, `followup-loss-subject`, `followup-loss-body`, `followup-draw-subject`, `followup-draw-body` |
+
+The rows are at the end of the matching CSV files in `out/<locale>/`.
+
 ## 2. Pages
 
 The import created six pages with block content and properties already set:
 
 | Page | Path | Page properties |
 |---|---|---|
-| Control (en) | `/content/suze/masters/en/chess-challenge` | experiment properties below |
+| Blueprint (en) | `/content/suze/masters/en/chess-challenge` | Title, Description only. Not published, no experiment. |
+| Control (en) | `/content/suze/us/en/chess-challenge` (live copy of the blueprint) | experiment properties below, set locally (cancel inheritance) |
 | Control (es) | `/content/suze/us/es/chess-challenge` | experiment properties below |
 | Control (fr) | `/content/suze/fr/fr/chess-challenge` | experiment properties below |
-| Challenger (en) | `/content/suze/experiments/masters/en/chess-challenge/exp-chess-001/challenger` | Title, Description |
+| Challenger (en) | `/content/suze/experiments/us/en/chess-challenge/exp-chess-001/challenger` | Title, Description |
 | Challenger (es) | `/content/suze/experiments/us/es/chess-challenge/exp-chess-001/challenger` | Title, Description |
 | Challenger (fr) | `/content/suze/experiments/fr/fr/chess-challenge/exp-chess-001/challenger` | Title, Description |
 
@@ -65,12 +78,19 @@ Block settings per locale:
 
 | Locale | Age Gate: Age check | Legal drinking age |
 |---|---|---|
-| masters/en | Yes / no confirmation | 18 |
+| masters/en (blueprint) | Yes / no confirmation | 18 |
+| us/en | Date of birth (cancel inheritance on the block) | 21 |
 | us/es | Date of birth | 21 |
 | fr/fr | Yes / no confirmation | 18 |
 
 On the challenger pages the **Chess** block has the option *Show an "Invite a friend" prompt after
 the opening move* switched on. Nothing else differs from the control.
+
+**Player Message block (added 2026-10-21):** each control and challenger page has a
+**Player Message** block after the Chess block, with five **Message** items. Each item has a
+*Show to* value (`registered`, `waiting`, `won`, `lost`, `draw`), the message text (with
+`{firstName}`) and a link to Suze Tonic 0%, Suze L'Originale or the Suze story in the same locale.
+The re-imported AEM versions of the six pages include it.
 
 ## 3. Publish order
 
@@ -81,7 +101,7 @@ the opening move* switched on. Nothing else differs from the control.
 ## 4. Checks after publishing
 
 - Every "Delivered as" URL in section 1 returns JSON with a `data` array.
-- `https://main--demo-suze--adcomeds.aem.page/experiments/masters/en/chess-challenge/exp-chess-001/challenger`
+- `https://main--demo-suze--adcomeds.aem.page/experiments/us/en/chess-challenge/exp-chess-001/challenger`
   is served with `<meta name="robots" content="noindex,nofollow">`.
 - The control page head has `meta name="experiment"` and `meta name="conversion-element"`.
 - `?experiment=exp-chess-001/challenger` on a control page shows the challenger content.

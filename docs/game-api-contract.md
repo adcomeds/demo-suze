@@ -1,6 +1,7 @@
 # Chess Challenge game API contract
 
-Status: **approved**. Shared between the front end (this repo) and the App Builder backend team.
+Status: **approved** (v1.0), with the **v1.1 additions** below for consumer data capture and
+marketing messaging (2026-10-21, to be implemented by the backend). Shared between the front end (this repo) and the App Builder backend team.
 Changes need sign-off from both sides. The front end only talks to this API through
 `scripts/game-api.js`; `scripts/game-api-mock.js` implements the same contract in the browser.
 
@@ -48,10 +49,12 @@ example `error-illegal-move`) and never displays `message`.
 | `makeMove` | `POST /games/{gameId}/moves` | `{ from, to, promotion?, expectedVersion }` | `Game` |
 | `resignGame` | `POST /games/{gameId}/resign` | none | `Game`, `status: "finished"`, `result.outcome: "resign"` |
 | `sendInvite` | `POST /games/{gameId}/invites` | `{ email, locale }` | `{ inviteId, gameUrl }` |
+| `recordEvent` (v1.1) | `POST /events` | `{ type, data, at }` | `202 { accepted: true }` |
 
 Notes:
 
-- `locale` is the site locale path without slashes around it, for example `masters/en`, `us/es`, `fr/fr`.
+- `locale` is the site locale path without slashes around it, for example `us/en`, `us/es`, `fr/fr`. (`masters/<lang>` are MSM blueprints and are not
+  published, so they are not game locales.)
 - `consents.terms` must be `true`; `consents.marketing` is stored as given and is never pre-ticked.
 - `promotion` is one of `q`, `r`, `b`, `n`.
 - **Opening move (change agreed 2026-10-16, backend to confirm):** while a game is
@@ -89,3 +92,71 @@ Notes:
 - `result` is `null` until the game is finished, then
   `{ "outcome": "checkmate | stalemate | draw | resign | abandoned", "winner": "w | b | null" }`.
 - `gameUrl` is always `/<locale>/chess-challenge?game=<gameId>`.
+
+## v1.1 additions: consumer data capture and marketing messaging
+
+All additions are backwards compatible. A v1.0 backend that ignores them keeps the site working.
+
+### `registerPlayer`: consent context
+
+The request may include an optional `context`:
+
+```json
+{ "context": { "page": "/fr/fr/chess-challenge", "experiment": "exp-chess-001", "variant": "challenger-1" } }
+```
+
+The backend stores a consent record for each player:
+
+```json
+{
+  "terms": { "granted": true, "at": "<ISO>", "version": "<termsVersion>" },
+  "marketing": { "granted": false, "at": "<ISO>", "source": "registration", "page": "...", "variant": "..." }
+}
+```
+
+### `recordEvent`: site events
+
+`POST /events` (Bearer token) with `{ type, data, at }`:
+- `type` is one of `registered`, `game-created`, `game-joined`, `first-move`, `invite-sent`,
+  `opponent-joined`, `game-finished`, `message-shown`, `message-clicked` (unknown types: `VALIDATION`).
+- `data` never contains personal data: `gameId`, `outcome`, `result` (`win|loss|draw`),
+  `audience`, `marketingOptIn`, `locale`, `page`, `experiment`, `variant`.
+- The response is `202 { "accepted": true }`. The site sends events fire-and-forget and ignores
+  any failure.
+
+The same events are pushed in the browser to `window.adobeDataLayer` as
+`{ event: "chess:<type>", eventInfo: data }`.
+
+### Connectors (backend only)
+
+Captured profiles and events are passed to pluggable connectors, configured with
+`CONNECTORS=log,webhook`:
+- **`log`:** logs what would be sent, with no personal data in the log line.
+- **`webhook`:** `POST`s a JSON envelope to `WEBHOOK_URL`, signed with an HMAC-SHA256 header
+  (`X-Chess-Signature`) using `WEBHOOK_SECRET`.
+- **Consent rules:**
+  - The profile (first name, email, locale, consents) is forwarded only when `marketing.granted`
+    is `true`.
+  - Events are always forwarded with a pseudonymous `playerId`, and never with an email or name.
+
+### Post-game follow-up email (backend only, marketing)
+
+- **Trigger:** when a game becomes `finished` with `checkmate`, `stalemate`, `draw` or `resign`.
+  An `abandoned` game sends nothing.
+- **Recipients:** each player whose `marketing.granted` is `true`, at most one email per player per
+  game.
+- **Copy:** the `game-email` sheet of the player's locale.
+  - Keys: `followup-win-*`, `followup-loss-*` and `followup-draw-*` (`-subject` / `-body`).
+  - Tokens: `{firstName}`, `{opponentFirstName}`, `{rematchUrl}` (`<SITE_ORIGIN>/<locale>/chess-challenge`)
+    and `{unsubscribeUrl}`.
+- **Delivery:** sent through the same email adapter as the invite. In `log` mode nothing is sent.
+
+### Unsubscribe (backend only)
+
+`GET /unsubscribe?t=<token>`:
+- `t` is an HMAC-signed playerId with no expiry.
+- The backend sets `marketing.granted = false` (keeping the time and source `unsubscribe`), then
+  redirects (302) to `<SITE_ORIGIN>/<locale>/chess-challenge?unsubscribed=1`.
+- The site shows a confirmation there (placeholder `unsubscribed-confirmation`).
+- An invalid token still redirects, with no change.
+

@@ -71,6 +71,27 @@ var CustomImportScript = (() => {
     element.replaceWith(WebImporter.Blocks.createBlock(document, { name: "invite", cells: [[text]] }));
   }
 
+  // tools/importer/parsers/player-message.js
+  function parse5(element, { document }) {
+    const cells = [...element.querySelectorAll(":scope > [data-item]")].map((item) => {
+      const audience = document.createDocumentFragment();
+      audience.appendChild(document.createComment(" field:audience "));
+      audience.appendChild(document.createTextNode(item.dataset.audience || "registered"));
+      const text = document.createDocumentFragment();
+      text.appendChild(document.createComment(" field:text "));
+      const source = item.querySelector('[data-field="text"]');
+      if (source) [...source.childNodes].forEach((node) => text.appendChild(node));
+      const link = document.createDocumentFragment();
+      const a = item.querySelector(":scope > a[href]");
+      if (a) {
+        link.appendChild(document.createComment(" field:link "));
+        link.appendChild(a);
+      }
+      return [audience, text, link];
+    });
+    element.replaceWith(WebImporter.Blocks.createBlock(document, { name: "player-message", cells }));
+  }
+
   // tools/importer/import-chess-challenge.js
   var PAGE_TEMPLATE = {
     name: "chess-challenge",
@@ -78,20 +99,23 @@ var CustomImportScript = (() => {
     urls: [
       "http://localhost:3000/tools/importer/sources/chess-challenge/masters-en.html",
       "http://localhost:3000/tools/importer/sources/chess-challenge/us-es.html",
-      "http://localhost:3000/tools/importer/sources/chess-challenge/fr-fr.html"
+      "http://localhost:3000/tools/importer/sources/chess-challenge/fr-fr.html",
+      "http://localhost:3000/tools/importer/sources/chess-challenge/us-en.html?variant=challenger"
     ],
     blocks: [
       { name: "age-gate", instances: ['[data-block="age-gate"]'] },
       { name: "player-registration", instances: ['[data-block="player-registration"]'] },
       { name: "chess", instances: ['[data-block="chess"]'] },
-      { name: "invite", instances: ['[data-block="invite"]'] }
+      { name: "invite", instances: ['[data-block="invite"]'] },
+      { name: "player-message", instances: ['[data-block="player-message"]'] }
     ]
   };
   var parsers = {
     "age-gate": parse,
     "player-registration": parse2,
     chess: parse3,
-    invite: parse4
+    invite: parse4,
+    "player-message": parse5
   };
   var meta = (document, name) => {
     var _a, _b;
@@ -130,11 +154,15 @@ var CustomImportScript = (() => {
         Description: meta(document, "description")
       };
       if (!isChallenger) {
-        metadata.experiment = meta(document, "experiment");
-        metadata["experiment-variants"] = meta(document, "challenger-path");
-        metadata["experiment-split"] = meta(document, "experiment-split");
-        metadata["experiment-status"] = meta(document, "experiment-status");
-        metadata["conversion-element"] = meta(document, "conversion-element");
+        if (meta(document, "experiment")) {
+          metadata.experiment = meta(document, "experiment");
+          metadata["experiment-variants"] = meta(document, "challenger-path");
+          metadata["experiment-split"] = meta(document, "experiment-split");
+          metadata["experiment-status"] = meta(document, "experiment-status");
+        }
+        if (meta(document, "conversion-element")) {
+          metadata["conversion-element"] = meta(document, "conversion-element");
+        }
       }
       main.append(document.createElement("hr"));
       main.append(WebImporter.Blocks.getMetadataBlock(document, metadata));

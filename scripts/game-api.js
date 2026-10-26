@@ -39,6 +39,7 @@ const ROUTES = {
   makeMove: ({ gameId }) => ['POST', `/games/${encodeURIComponent(gameId)}/moves`],
   resignGame: ({ gameId }) => ['POST', `/games/${encodeURIComponent(gameId)}/resign`],
   sendInvite: ({ gameId }) => ['POST', `/games/${encodeURIComponent(gameId)}/invites`],
+  recordEvent: () => ['POST', '/events'],
 };
 
 function createHttpBackend(base) {
@@ -116,7 +117,8 @@ export async function subscribeToGame(gameId, handler) {
 
 /**
  * @param {{firstName: string, email: string, locale: string,
- *   consents: {terms: boolean, marketing: boolean}, termsVersion: string}} player
+ *   consents: {terms: boolean, marketing: boolean}, termsVersion: string,
+ *   context?: {page: string, experiment?: string, variant?: string}}} player
  * @returns {Promise<{playerId: string, token: string}>}
  */
 export function registerPlayer(player) {
@@ -159,4 +161,15 @@ export function resignGame(gameId) {
  */
 export function sendInvite(gameId, invite) {
   return call('sendInvite', { gameId, body: invite });
+}
+
+/**
+ * Records a site event server side (the backend can forward it to third-party connectors).
+ * Event data never contains personal data.
+ * @param {string} type event name, e.g. "game-finished"
+ * @param {Object} data event details
+ * @returns {Promise<{accepted: boolean}>}
+ */
+export function recordEvent(type, data = {}) {
+  return call('recordEvent', { body: { type, data, at: new Date().toISOString() } });
 }

@@ -1,8 +1,9 @@
 import { fetchPlaceholders } from '../../scripts/placeholders.js';
 import {
-  EVENTS, getInviteGameId, getLocale, getStoredGame, isMockForced, on,
+  EVENTS, emit, getInviteGameId, getLocale, getStoredGame, isMockForced, on,
 } from '../../scripts/game-session.js';
 import { errorKey, isMockMode, sendInvite } from '../../scripts/game-api.js';
+import { startGameEvents } from '../../scripts/game-events.js';
 import {
   createField, createStatus, loadFormStyles, setStatus, validateForm, wireValidation,
 } from '../../scripts/game-form.js';
@@ -79,6 +80,7 @@ function buildLinkPanel(t, link, headingText) {
  * @param {Element} block The block element
  */
 export default async function decorate(block) {
+  startGameEvents();
   const [t] = await Promise.all([fetchPlaceholders(), loadFormStyles()]);
 
   const intro = document.createElement('div');
@@ -133,6 +135,7 @@ export default async function decorate(block) {
         locale: getLocale(),
       });
       form.reset();
+      emit(EVENTS.INVITE_SENT, { gameId });
       const url = new URL(gameUrl, window.location.origin);
       const mock = await isMockMode();
       if (mock && isMockForced()) url.searchParams.set('mock', '1');

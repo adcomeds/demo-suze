@@ -3,7 +3,8 @@
 /**
  * Import script for the chess challenge pages (new content, no legacy source page).
  *
- * Sources are authoring briefs in tools/importer/sources/chess-challenge/<locale>.html,
+ * Sources are authoring briefs in tools/importer/sources/chess-challenge/<locale>.html
+ * (masters-en is the MSM blueprint; for us-en only the challenger is imported),
  * served by the local dev server. Each source produces:
  *   - the control page (target-path), with the experiment and conversion metadata
  *   - the challenger page (challenger-path) when imported with ?variant=challenger:
@@ -15,6 +16,7 @@ import ageGateParser from './parsers/age-gate.js';
 import playerRegistrationParser from './parsers/player-registration.js';
 import chessParser from './parsers/chess.js';
 import inviteParser from './parsers/invite.js';
+import playerMessageParser from './parsers/player-message.js';
 
 const PAGE_TEMPLATE = {
   name: 'chess-challenge',
@@ -23,12 +25,14 @@ const PAGE_TEMPLATE = {
     'http://localhost:3000/tools/importer/sources/chess-challenge/masters-en.html',
     'http://localhost:3000/tools/importer/sources/chess-challenge/us-es.html',
     'http://localhost:3000/tools/importer/sources/chess-challenge/fr-fr.html',
+    'http://localhost:3000/tools/importer/sources/chess-challenge/us-en.html?variant=challenger',
   ],
   blocks: [
     { name: 'age-gate', instances: ['[data-block="age-gate"]'] },
     { name: 'player-registration', instances: ['[data-block="player-registration"]'] },
     { name: 'chess', instances: ['[data-block="chess"]'] },
     { name: 'invite', instances: ['[data-block="invite"]'] },
+    { name: 'player-message', instances: ['[data-block="player-message"]'] },
   ],
 };
 
@@ -37,6 +41,7 @@ const parsers = {
   'player-registration': playerRegistrationParser,
   chess: chessParser,
   invite: inviteParser,
+  'player-message': playerMessageParser,
 };
 
 const meta = (document, name) => document.querySelector(`meta[name="${name}"]`)?.content?.trim() || '';
@@ -80,12 +85,17 @@ export default {
       Description: meta(document, 'description'),
     };
     // keys match the page model field names (models/_page.json) so they map to page properties
+    // only set what the source defines: the masters/en blueprint has no experiment of its own
     if (!isChallenger) {
-      metadata.experiment = meta(document, 'experiment');
-      metadata['experiment-variants'] = meta(document, 'challenger-path');
-      metadata['experiment-split'] = meta(document, 'experiment-split');
-      metadata['experiment-status'] = meta(document, 'experiment-status');
-      metadata['conversion-element'] = meta(document, 'conversion-element');
+      if (meta(document, 'experiment')) {
+        metadata.experiment = meta(document, 'experiment');
+        metadata['experiment-variants'] = meta(document, 'challenger-path');
+        metadata['experiment-split'] = meta(document, 'experiment-split');
+        metadata['experiment-status'] = meta(document, 'experiment-status');
+      }
+      if (meta(document, 'conversion-element')) {
+        metadata['conversion-element'] = meta(document, 'conversion-element');
+      }
     }
     // metadata in its own trailing section, like the site's other import scripts
     main.append(document.createElement('hr'));

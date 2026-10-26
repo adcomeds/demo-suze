@@ -37,6 +37,19 @@ board and a friend invite, A/B tested with the AEM Experimentation plugin. Front
 only. The backend (App Builder) is built separately against
 [`docs/game-api-contract.md`](docs/game-api-contract.md).
 
+### Locales and MSM
+
+- **Game markets:** `us/en`, `us/es` and `fr/fr`.
+- **Blueprints:** `masters/<lang>` are the MSM blueprints the markets inherit from. They are not
+  published, so the chess page and its sheets are authored in `masters/en` and rolled out to `us/en`.
+- **Experiment:** `exp-chess-001` lives in each market.
+  - English control: `us/en/chess-challenge` (a live copy). Its experiment page properties are set
+    locally, with inheritance cancelled.
+  - English challenger: `/experiments/us/en/chess-challenge/exp-chess-001/challenger` (local, not
+    MSM managed).
+- **Age gate:** `us/en` and `us/es` use date of birth with a minimum of 21. `fr/fr` uses yes/no
+  with 18.
+
 ### Architecture
 
 The diagrams are in [`docs/architecture.md`](docs/architecture.md): system overview, game flow,
@@ -59,20 +72,25 @@ flowchart TB
   end
 
   subgraph Browser["Visitor browser"]
-    Blocks["Blocks<br/>age-gate · player-registration<br/>chess · invite"]
+    Blocks["Blocks<br/>age-gate · player-registration<br/>chess · invite · player-message"]
     Session["game-session.js<br/>sessionStorage + events"]
     Api["game-api.js<br/>single API client"]
     Mock["game-api-mock.js<br/>localStorage + chess.js"]
     Exp["Experimentation plugin<br/>+ rum-conversion"]
+    Events["game-events.js"]
+    DL["window.adobeDataLayer<br/>PII-free game events"]
   end
 
   subgraph AB["Adobe App Builder · project Chess (AGS955)"]
     Action["Web action chess/game-api<br/>chess.js 1.4.0 validation"]
-    State[("aio-lib-state<br/>players · token hashes · games")]
+    State[("aio-lib-state<br/>players + consent records<br/>token hashes · games · events")]
+    Conn["Connectors<br/>log · webhook (HMAC-signed)"]
   end
 
+  Third["Third party (any webhook)<br/>profiles only with marketing consent"]
+
   SMTP["Own SMTP server<br/>(log mode until configured)"]
-  Inbox["Friend's inbox"]
+  Inbox["Inboxes<br/>invite (transactional)<br/>post-game follow-up (opted-in only)"]
   subgraph Obs["Measurement"]
     RUM["RUM / OpTel<br/>no personal data"]
   end
@@ -89,9 +107,15 @@ flowchart TB
   Api -- "HTTPS, Bearer token, CORS" --> Action
   Action --> State
   Action -- "reads game-email.json" --> CDN
-  Action -- "invite email" --> SMTP
+  Action -- "invite + follow-up emails" --> SMTP
   SMTP --> Inbox
   Exp -- "experiment + convert checkpoints" --> RUM
+  Blocks --> Events
+  Events --> DL
+  Events -- "POST /events (registered players)" --> Api
+  Action --> Conn
+  Conn --> Third
+  Inbox -- "unsubscribe link" --> Action
 ```
 
 ### What is where
@@ -101,9 +125,11 @@ flowchart TB
 | `blocks/age-gate` | Yes/no or date of birth check (block option), legal age per locale page. Only the outcome is kept, in `sessionStorage`. |
 | `blocks/player-registration` | First name, email, required game terms checkbox and optional marketing checkbox (both unchecked). Calls `registerPlayer`. |
 | `blocks/chess` | Board, rules (chess.js), keyboard play, polling, result screen, challenger option `nudge`. |
+| `blocks/player-message` | On-site marketing message for the current visit: one authored item per audience (opted-in, waiting, won, lost, draw), shown only to players who passed the age gate and opted in. `{firstName}` is personalised from the game data. Also shows the unsubscribe confirmation (`?unsubscribed=1`). |
 | `blocks/invite` | Friend's email, calls `sendInvite`. The send button is `#chess-invite-send` in `#chess-invite-form`. |
 | `scripts/game-api.js` | The only module blocks call: one async function per endpoint. |
 | `scripts/game-api-mock.js` | The full contract in the browser (localStorage, chess.js validation, about 300 ms latency). |
+| `scripts/game-events.js` | Site event layer: pushes PII-free events to `window.adobeDataLayer` and, for registered players, to `POST /events`. |
 | `scripts/game-session.js` | Per-tab session state and the events the blocks use to talk to each other. |
 | `scripts/placeholders.js` | Per-locale `placeholders` sheet and site `game-config` sheet readers. |
 | `scripts/game-form.js`, `styles/game-form.css` | Shared accessible form helpers for the three forms. |
@@ -122,7 +148,7 @@ npm run sheets:local   # local-only copies of the sheets (gitignored, never comm
 aem up --html-folder content
 ```
 
-Then open `http://localhost:3000/content/masters/en/chess-challenge` (or `us/es`, `fr/fr`, and the
+Then open `http://localhost:3000/content/us/es/chess-challenge` (or `fr/fr`, the `masters/en` blueprint, and the
 challengers under `/content/experiments/<locale>/chess-challenge/exp-chess-001/challenger`). The local
 dev server mounts imported pages under `/content`. The locale helpers in `scripts/scripts.js` know about
 this mount on `localhost`.
@@ -134,6 +160,39 @@ URLs (`/experiments/...`) are only served once published. Check the experiment i
 To regenerate the pages after changing a source brief, bundle and run the import script with the
 standard bulk importer and `tools/importer/urls-chess-challenge.txt`. Each source is imported twice:
 once as is (control) and once with `?variant=challenger`.
+
+**After every import, run `npm run export:clean`.** The import rebuilds the AEM export
+(`migration-work/jcr-content`) from every file in `content/`, including July migration leftovers: an empty
+`masters` page, empty `fr/fr` and `fr/en` parents, and France/English snapshots. Pushed to AEM, those
+wipe the blueprints and break MSM live copies. The script keeps only the chess pages and moves the rest to
+`migration-work/jcr-content-quarantine/`.
+
+### Consumer data capture and marketing messaging
+
+AEM and App Builder only. No Adobe Experience Platform, Journey Optimizer or tracking SDK. The
+data can still be passed to a third party through the backend connectors. Contract additions:
+`docs/game-api-contract.md` (v1.1). Backend brief: `docs/backend-marketing-prompt.md`.
+
+- **Data capture:** the registration form sends first name, email, locale, both consents and a
+  `context` (page, experiment, variant). The backend keeps a consent record with timestamps.
+  Only the marketing opt-in flag (a boolean) is kept in the browser session.
+- **Events:** `scripts/game-events.js` pushes
+  `{ event: "chess:<type>", eventInfo }` to `window.adobeDataLayer`.
+  - Types: `age-gate-passed`, `registered`, `game-created`, `game-joined`, `first-move`,
+    `invite-sent`, `opponent-joined`, `game-finished`, `message-shown`, `message-clicked`.
+  - For registered players, each event is also sent to `POST /events` (fire-and-forget).
+  - `eventInfo` carries only the gameId, outcome or result, audience, opt-in flag, locale, page
+    and experiment variant. It never carries names or emails.
+  - Type `adobeDataLayer` in the browser console during the demo to show the events.
+- **Third parties:** backend connectors (`log`, `webhook` with an HMAC signature). The full
+  profile is forwarded only with marketing consent.
+- **Post-game follow-up email:** sent by the backend through the own SMTP server, to opted-in
+  players only, with a rematch link and an unsubscribe link. The copy is in the `game-email`
+  sheets (`followup-win-*`, `followup-loss-*`, `followup-draw-*`).
+- **On-site message:** the `player-message` block, authored per locale page (control and
+  challenger), for the current visit only.
+- **Single opt-in for the demo.** Double opt-in (required in fr/fr), data export and erasure
+  requests are production work.
 
 ### In the Universal Editor
 
