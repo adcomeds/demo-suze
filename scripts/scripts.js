@@ -336,3 +336,29 @@ async function loadPage() {
 }
 
 loadPage();
+
+/*
+ * AEM Sidekick plugins (Experimentation button): sidekick.js is only loaded when the Sidekick is
+ * on the page, so visitors never download it.
+ * See https://www.aem.live/docs/ew/developing/set-up-experimentation
+ */
+function loadSidekick() {
+  if (document.querySelector('aem-sidekick')) {
+    import('./sidekick.js');
+    return;
+  }
+  document.addEventListener('sidekick-ready', () => {
+    import('./sidekick.js');
+  }, { once: true });
+}
+
+loadSidekick();
+
+/* ?daexperiment=... opens the experimentation panel directly (links shared from the panel) */
+(function loadDaExperiment() {
+  const { searchParams } = new URL(window.location.href);
+  if (searchParams.get('daexperiment')) {
+    // eslint-disable-next-line import/no-unresolved
+    import('https://da.live/nx/public/plugins/exp/exp.js');
+  }
+}());
