@@ -136,7 +136,7 @@ Document how to switch it on and off.
   - emit `profile.updated`
   - respond `302 Location: ${SITE_ORIGIN}/${player.locale}/chess-challenge?unsubscribed=1`
 - **Invalid token or unknown player:** respond `302` to
-  `${SITE_ORIGIN}/masters/en/chess-challenge?unsubscribed=1` and change nothing. Don't reveal
+  `${SITE_ORIGIN}/us/en/chess-challenge?unsubscribed=1` and change nothing. Don't reveal
   whether the player exists.
 - **Preflight:** answer `OPTIONS` like the other routes, even though it isn't needed.
 

@@ -53,7 +53,8 @@ example `error-illegal-move`) and never displays `message`.
 
 Notes:
 
-- `locale` is the site locale path without slashes around it, for example `masters/en`, `us/es`, `fr/fr`.
+- `locale` is the site locale path without slashes around it, for example `us/en`, `us/es`, `fr/fr`. (`masters/<lang>` are MSM blueprints and are not
+  published, so they are not game locales.)
 - `consents.terms` must be `true`; `consents.marketing` is stored as given and is never pre-ticked.
 - `promotion` is one of `q`, `r`, `b`, `n`.
 - **Opening move (change agreed 2026-10-16, backend to confirm):** while a game is

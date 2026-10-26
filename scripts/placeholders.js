@@ -26,7 +26,7 @@ function sheetUrl(deliveryPath) {
  * Fetches a key/value spreadsheet and returns it as a plain object.
  * Supports single sheets ({ data }) and the default sheet of a multi-sheet ({ default: { data } }).
  * Column names are matched case-insensitively ("Key"/"key", "Text"/"Value").
- * @param {string} path the sheet's delivery path without extension, e.g. "/masters/en/placeholders"
+ * @param {string} path the sheet's delivery path without extension, e.g. "/us/en/placeholders"
  * @returns {Promise<Object<string, string>>} keys mapped to values, {} if the sheet is missing
  */
 export function fetchSheet(path) {

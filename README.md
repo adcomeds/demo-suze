@@ -37,6 +37,19 @@ board and a friend invite, A/B tested with the AEM Experimentation plugin. Front
 only. The backend (App Builder) is built separately against
 [`docs/game-api-contract.md`](docs/game-api-contract.md).
 
+### Locales and MSM
+
+- **Game markets:** `us/en`, `us/es` and `fr/fr`.
+- **Blueprints:** `masters/<lang>` are the MSM blueprints the markets inherit from. They are not
+  published, so the chess page and its sheets are authored in `masters/en` and rolled out to `us/en`.
+- **Experiment:** `exp-chess-001` lives in each market.
+  - English control: `us/en/chess-challenge` (a live copy). Its experiment page properties are set
+    locally, with inheritance cancelled.
+  - English challenger: `/experiments/us/en/chess-challenge/exp-chess-001/challenger` (local, not
+    MSM managed).
+- **Age gate:** `us/en` and `us/es` use date of birth with a minimum of 21. `fr/fr` uses yes/no
+  with 18.
+
 ### Architecture
 
 The diagrams are in [`docs/architecture.md`](docs/architecture.md): system overview, game flow,
@@ -135,7 +148,7 @@ npm run sheets:local   # local-only copies of the sheets (gitignored, never comm
 aem up --html-folder content
 ```
 
-Then open `http://localhost:3000/content/masters/en/chess-challenge` (or `us/es`, `fr/fr`, and the
+Then open `http://localhost:3000/content/us/es/chess-challenge` (or `fr/fr`, the `masters/en` blueprint, and the
 challengers under `/content/experiments/<locale>/chess-challenge/exp-chess-001/challenger`). The local
 dev server mounts imported pages under `/content`. The locale helpers in `scripts/scripts.js` know about
 this mount on `localhost`.
@@ -147,6 +160,12 @@ URLs (`/experiments/...`) are only served once published. Check the experiment i
 To regenerate the pages after changing a source brief, bundle and run the import script with the
 standard bulk importer and `tools/importer/urls-chess-challenge.txt`. Each source is imported twice:
 once as is (control) and once with `?variant=challenger`.
+
+**After every import, run `npm run export:clean`.** The import rebuilds the AEM export
+(`migration-work/jcr-content`) from every file in `content/`, including July migration leftovers: an empty
+`masters` page, empty `fr/fr` and `fr/en` parents, and France/English snapshots. Pushed to AEM, those
+wipe the blueprints and break MSM live copies. The script keeps only the chess pages and moves the rest to
+`migration-work/jcr-content-quarantine/`.
 
 ### Consumer data capture and marketing messaging
 

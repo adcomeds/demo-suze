@@ -43,10 +43,10 @@ function write(key, value) {
 }
 
 /**
- * @returns {string} the current locale without slashes, e.g. "masters/en"
+ * @returns {string} the current locale without slashes, e.g. "us/en"
  */
 export function getLocale() {
-  return getLocalePrefix().replace(/^\//, '') || 'masters/en';
+  return getLocalePrefix().replace(/^\//, '') || 'us/en';
 }
 
 /* latest game and result of this page view, kept in memory only, for blocks that load late */

@@ -1,0 +1,16 @@
+{
+  "status": "success",
+  "url": "http://localhost:3000/tools/importer/sources/chess-challenge/us-en.html?variant=challenger",
+  "path": "experiments/us/en/chess-challenge/exp-chess-001/challenger",
+  "timestamp": "2026-10-26T09:32:52.621Z",
+  "title": "The Suze Chess Challenge",
+  "template": "chess-challenge",
+  "variant": "challenger",
+  "blocks": [
+    "age-gate",
+    "player-registration",
+    "chess",
+    "invite",
+    "player-message"
+  ]
+}

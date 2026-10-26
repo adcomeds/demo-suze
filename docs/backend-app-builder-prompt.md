@@ -119,7 +119,8 @@ tokens). `players.*` only ever contains `playerId` and `firstName`.
 - **`email`:** must match `^[^\s@]+@[^\s@]+\.[^\s@]+$` and be at most 254 characters.
 - **`consents.terms`:** must be `true`.
 - **`consents.marketing`:** stored as a boolean, defaulting to `false`.
-- **`locale`:** must be one of `masters/en`, `us/es`, `fr/fr`. Make the list configurable.
+- **`locale`:** must be one of `us/en`, `us/es`, `fr/fr`. Make the list configurable (`LOCALES`).
+  `masters/<lang>` are unpublished MSM blueprints, not game locales.
 - **`promotion`:** one of `q`, `r`, `b`, `n`.
 - **`gameId`:** matches `^[\w-]{1,64}$`, otherwise `NOT_FOUND`.
 
